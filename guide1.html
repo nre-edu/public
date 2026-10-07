@@ -1,0 +1,2220 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدليل العلمي المتكامل لأدوات الذكاء الاصطناعي في البحث العلمي</title>
+<style>
+    :root{
+        --primary:#1a365d;
+        --primary-light:#2c5282;
+        --accent:#3182ce;
+        --accent-light:#63b3ed;
+        --bg:#f7fafc;
+        --card:#ffffff;
+        --text:#1a202c;
+        --text-light:#4a5568;
+        --border:#e2e8f0;
+        --success:#38a169;
+        --warning:#d69e2e;
+        --danger:#e53e3e;
+        --shadow:0 4px 6px -1px rgba(0,0,0,0.1),0 2px 4px -1px rgba(0,0,0,0.06);
+        --shadow-lg:0 10px 15px -3px rgba(0,0,0,0.1),0 4px 6px -2px rgba(0,0,0,0.05);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+        font-family:'Segoe UI','Tahoma','Arial',sans-serif;
+        background:var(--bg);
+        color:var(--text);
+        line-height:1.8;
+        direction:rtl;
+    }
+    /* ===== Header ===== */
+    header{
+        background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 50%,var(--accent) 100%);
+        color:#fff;
+        padding:3rem 1.5rem 4rem;
+        position:relative;
+        overflow:hidden;
+    }
+    header::before{
+        content:"";
+        position:absolute;
+        top:-50%;right:-10%;
+        width:500px;height:500px;
+        background:radial-gradient(circle,rgba(255,255,255,0.08) 0%,transparent 70%);
+        border-radius:50%;
+    }
+    header::after{
+        content:"";
+        position:absolute;
+        bottom:-60%;left:-5%;
+        width:400px;height:400px;
+        background:radial-gradient(circle,rgba(255,255,255,0.06) 0%,transparent 70%);
+        border-radius:50%;
+    }
+    .header-content{
+        max-width:1200px;
+        margin:0 auto;
+        position:relative;
+        z-index:2;
+        text-align:center;
+    }
+    header h1{
+        font-size:2.3rem;
+        font-weight:800;
+        margin-bottom:1rem;
+        line-height:1.4;
+        text-shadow:0 2px 10px rgba(0,0,0,0.15);
+    }
+    header p{
+        font-size:1.1rem;
+        opacity:0.95;
+        max-width:800px;
+        margin:0 auto 1.5rem;
+    }
+    .header-badges{
+        display:flex;
+        justify-content:center;
+        gap:0.75rem;
+        flex-wrap:wrap;
+        margin-top:1.5rem;
+    }
+    .badge{
+        background:rgba(255,255,255,0.15);
+        border:1px solid rgba(255,255,255,0.3);
+        padding:0.4rem 1rem;
+        border-radius:50px;
+        font-size:0.85rem;
+        backdrop-filter:blur(10px);
+    }
+
+    /* ===== Nav Bar ===== */
+    nav{
+        background:var(--card);
+        position:sticky;
+        top:0;
+        z-index:100;
+        box-shadow:var(--shadow);
+        border-bottom:1px solid var(--border);
+    }
+    .nav-container{
+        max-width:1200px;
+        margin:0 auto;
+        padding:0.75rem 1.5rem;
+        display:flex;
+        gap:0.5rem;
+        overflow-x:auto;
+        scrollbar-width:thin;
+    }
+    .nav-container::-webkit-scrollbar{height:4px;}
+    .nav-container::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px;}
+    .nav-btn{
+        background:transparent;
+        border:1px solid var(--border);
+        color:var(--text-light);
+        padding:0.5rem 1rem;
+        border-radius:8px;
+        cursor:pointer;
+        font-size:0.9rem;
+        white-space:nowrap;
+        transition:all 0.2s;
+        font-family:inherit;
+        font-weight:600;
+    }
+    .nav-btn:hover{
+        background:var(--accent);
+        color:#fff;
+        border-color:var(--accent);
+        transform:translateY(-1px);
+    }
+    .nav-btn.active{
+        background:var(--primary);
+        color:#fff;
+        border-color:var(--primary);
+    }
+
+    /* ===== Container ===== */
+    .container{
+        max-width:1200px;
+        margin:0 auto;
+        padding:2rem 1.5rem;
+    }
+
+    /* ===== Search ===== */
+    .search-box{
+        background:var(--card);
+        border-radius:14px;
+        padding:1.25rem;
+        box-shadow:var(--shadow);
+        margin-bottom:2rem;
+        display:flex;
+        gap:1rem;
+        align-items:center;
+        flex-wrap:wrap;
+    }
+    .search-box input{
+        flex:1;
+        min-width:250px;
+        padding:0.85rem 1.2rem;
+        border:2px solid var(--border);
+        border-radius:10px;
+        font-size:1rem;
+        font-family:inherit;
+        transition:all 0.2s;
+        background:var(--bg);
+    }
+    .search-box input:focus{
+        outline:none;
+        border-color:var(--accent);
+        background:#fff;
+        box-shadow:0 0 0 3px rgba(49,130,206,0.15);
+    }
+    .filter-select{
+        padding:0.85rem 1.2rem;
+        border:2px solid var(--border);
+        border-radius:10px;
+        font-size:0.95rem;
+        font-family:inherit;
+        background:var(--bg);
+        cursor:pointer;
+        font-weight:600;
+        color:var(--text);
+    }
+    .filter-select:focus{outline:none;border-color:var(--accent);}
+
+    /* ===== Section ===== */
+    .section{
+        display:none;
+        animation:fadeIn 0.4s ease;
+    }
+    .section.active{display:block;}
+    @keyframes fadeIn{
+        from{opacity:0;transform:translateY(10px);}
+        to{opacity:1;transform:translateY(0);}
+    }
+    .section-title{
+        display:flex;
+        align-items:center;
+        gap:1rem;
+        margin-bottom:1.5rem;
+        padding-bottom:1rem;
+        border-bottom:3px solid var(--accent);
+    }
+    .section-num{
+        background:linear-gradient(135deg,var(--primary),var(--accent));
+        color:#fff;
+        width:55px;
+        height:55px;
+        border-radius:14px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:1.5rem;
+        font-weight:800;
+        flex-shrink:0;
+        box-shadow:var(--shadow);
+    }
+    .section-title h2{
+        font-size:1.6rem;
+        color:var(--primary);
+        line-height:1.4;
+    }
+
+    /* ===== Tool Card ===== */
+    .tool-card{
+        background:var(--card);
+        border-radius:16px;
+        margin-bottom:1.25rem;
+        box-shadow:var(--shadow);
+        overflow:hidden;
+        border:1px solid var(--border);
+        transition:all 0.25s;
+    }
+    .tool-card:hover{
+        box-shadow:var(--shadow-lg);
+        transform:translateY(-2px);
+    }
+    .tool-header{
+        padding:1.25rem 1.5rem;
+        cursor:pointer;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:1rem;
+        transition:background 0.2s;
+        user-select:none;
+    }
+    .tool-header:hover{background:#f8fafc;}
+    .tool-header-main{
+        display:flex;
+        align-items:center;
+        gap:1rem;
+        flex:1;
+        min-width:0;
+    }
+    .tool-icon{
+        width:46px;
+        height:46px;
+        border-radius:12px;
+        background:linear-gradient(135deg,var(--accent),var(--accent-light));
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color:#fff;
+        font-size:1.3rem;
+        font-weight:800;
+        flex-shrink:0;
+    }
+    .tool-title{
+        flex:1;
+        min-width:0;
+    }
+    .tool-title h3{
+        font-size:1.15rem;
+        color:var(--primary);
+        margin-bottom:0.2rem;
+    }
+    .tool-title .tool-cat{
+        font-size:0.8rem;
+        color:var(--text-light);
+        background:var(--bg);
+        padding:0.15rem 0.7rem;
+        border-radius:50px;
+        display:inline-block;
+        border:1px solid var(--border);
+    }
+    .tool-toggle{
+        width:32px;
+        height:32px;
+        border-radius:50%;
+        background:var(--bg);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color:var(--accent);
+        font-size:1.2rem;
+        font-weight:700;
+        flex-shrink:0;
+        transition:transform 0.3s, background 0.2s;
+    }
+    .tool-card.open .tool-toggle{
+        transform:rotate(45deg);
+        background:var(--accent);
+        color:#fff;
+    }
+    .tool-body{
+        max-height:0;
+        overflow:hidden;
+        transition:max-height 0.4s ease;
+    }
+    .tool-card.open .tool-body{max-height:2000px;}
+    .tool-body-inner{
+        padding:0 1.5rem 1.5rem;
+        border-top:1px solid var(--border);
+        padding-top:1.25rem;
+    }
+    .tool-grid{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+        gap:1rem;
+        margin-bottom:1rem;
+    }
+    .tool-field{
+        background:var(--bg);
+        padding:0.9rem 1rem;
+        border-radius:10px;
+        border-right:4px solid var(--accent);
+    }
+    .tool-field.full{grid-column:1/-1;border-right-color:var(--primary);}
+    .tool-field.warn{border-right-color:var(--warning);background:#fffbeb;}
+    .tool-field.danger{border-right-color:var(--danger);background:#fef2f2;}
+    .tool-field.success{border-right-color:var(--success);background:#f0fdf4;}
+    .tool-field-label{
+        font-weight:800;
+        font-size:0.85rem;
+        color:var(--primary);
+        margin-bottom:0.4rem;
+        display:flex;
+        align-items:center;
+        gap:0.4rem;
+    }
+    .tool-field.warn .tool-field-label{color:#92400e;}
+    .tool-field.danger .tool-field-label{color:#991b1b;}
+    .tool-field.success .tool-field-label{color:#166534;}
+    .tool-field-content{
+        font-size:0.92rem;
+        color:var(--text);
+        line-height:1.7;
+    }
+    .tool-link{
+        display:inline-flex;
+        align-items:center;
+        gap:0.5rem;
+        background:var(--primary);
+        color:#fff;
+        padding:0.6rem 1.2rem;
+        border-radius:8px;
+        text-decoration:none;
+        font-weight:700;
+        font-size:0.9rem;
+        transition:all 0.2s;
+        margin-top:0.5rem;
+    }
+    .tool-link:hover{
+        background:var(--accent);
+        transform:translateX(-3px);
+    }
+
+    /* ===== Comparison Table ===== */
+    .comparison-box{
+        background:var(--card);
+        border-radius:14px;
+        padding:1.5rem;
+        box-shadow:var(--shadow);
+        margin:1.5rem 0;
+        overflow-x:auto;
+    }
+    .comparison-box h4{
+        color:var(--primary);
+        margin-bottom:1rem;
+        font-size:1.1rem;
+        display:flex;
+        align-items:center;
+        gap:0.5rem;
+    }
+    table{
+        width:100%;
+        border-collapse:collapse;
+        font-size:0.9rem;
+        min-width:500px;
+    }
+    th{
+        background:linear-gradient(135deg,var(--primary),var(--primary-light));
+        color:#fff;
+        padding:0.9rem 1rem;
+        text-align:right;
+        font-weight:700;
+        font-size:0.9rem;
+    }
+    th:first-child{border-top-right-radius:10px;}
+    th:last-child{border-top-left-radius:10px;}
+    td{
+        padding:0.85rem 1rem;
+        border-bottom:1px solid var(--border);
+        color:var(--text);
+    }
+    tr:nth-child(even) td{background:#fafbfc;}
+    tr:hover td{background:#ebf4ff;}
+    td:first-child{font-weight:700;color:var(--primary);}
+
+    /* ===== Ethics Section ===== */
+    .ethics-grid{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+        gap:1.25rem;
+        margin-bottom:1.5rem;
+    }
+    .ethics-card{
+        background:var(--card);
+        border-radius:14px;
+        padding:1.5rem;
+        box-shadow:var(--shadow);
+        border-top:5px solid;
+    }
+    .ethics-card.allow{border-top-color:var(--success);}
+    .ethics-card.deny{border-top-color:var(--danger);}
+    .ethics-card.info{border-top-color:var(--accent);}
+    .ethics-card h4{
+        margin-bottom:1rem;
+        font-size:1.1rem;
+        color:var(--primary);
+        display:flex;
+        align-items:center;
+        gap:0.5rem;
+    }
+    .ethics-card ul{
+        list-style:none;
+        padding:0;
+    }
+    .ethics-card li{
+        padding:0.5rem 0;
+        padding-right:1.75rem;
+        position:relative;
+        font-size:0.92rem;
+        border-bottom:1px dashed var(--border);
+    }
+    .ethics-card li:last-child{border-bottom:none;}
+    .ethics-card.allow li::before{
+        content:"✓";
+        position:absolute;
+        right:0;
+        color:var(--success);
+        font-weight:900;
+        font-size:1.1rem;
+    }
+    .ethics-card.deny li::before{
+        content:"✕";
+        position:absolute;
+        right:0;
+        color:var(--danger);
+        font-weight:900;
+        font-size:1.1rem;
+    }
+    .ethics-card.info li::before{
+        content:"•";
+        position:absolute;
+        right:0;
+        color:var(--accent);
+        font-weight:900;
+        font-size:1.4rem;
+        line-height:1;
+    }
+
+    /* ===== Disclosure Code ===== */
+    .code-block{
+        background:#1a202c;
+        color:#e2e8f0;
+        padding:1.5rem;
+        border-radius:12px;
+        font-family:'Courier New',monospace;
+        font-size:0.85rem;
+        line-height:1.7;
+        overflow-x:auto;
+        direction:ltr;
+        text-align:left;
+        margin-top:1rem;
+        border-left:4px solid var(--accent);
+    }
+    .code-block .key{color:#63b3ed;}
+    .code-block .val{color:#9ae6b4;}
+
+    /* ===== Recommendations ===== */
+    .rec-grid{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+        gap:1.25rem;
+    }
+    .rec-card{
+        background:var(--card);
+        border-radius:16px;
+        padding:1.75rem 1.5rem;
+        box-shadow:var(--shadow);
+        position:relative;
+        overflow:hidden;
+        border:1px solid var(--border);
+        transition:transform 0.2s;
+    }
+    .rec-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+    .rec-card::before{
+        content:"";
+        position:absolute;
+        top:0;right:0;
+        width:100%;height:5px;
+        background:linear-gradient(90deg,var(--accent),var(--accent-light));
+    }
+    .rec-card.master::before{background:linear-gradient(90deg,#805ad5,#b794f4);}
+    .rec-card.phd::before{background:linear-gradient(90deg,#c53030,#fc8181);}
+    .rec-level{
+        display:inline-block;
+        background:var(--bg);
+        color:var(--primary);
+        padding:0.35rem 1rem;
+        border-radius:50px;
+        font-weight:800;
+        font-size:0.85rem;
+        margin-bottom:1rem;
+        border:2px solid var(--accent);
+    }
+    .rec-card.master .rec-level{border-color:#805ad5;color:#805ad5;}
+    .rec-card.phd .rec-level{border-color:#c53030;color:#c53030;}
+    .rec-card h4{color:var(--primary);margin-bottom:1rem;font-size:1.15rem;}
+    .rec-section{margin-bottom:1rem;}
+    .rec-section-title{
+        font-size:0.85rem;
+        font-weight:800;
+        color:var(--text-light);
+        margin-bottom:0.4rem;
+        text-transform:uppercase;
+    }
+    .rec-tags{display:flex;flex-wrap:wrap;gap:0.4rem;}
+    .rec-tag{
+        background:var(--bg);
+        border:1px solid var(--border);
+        padding:0.3rem 0.75rem;
+        border-radius:8px;
+        font-size:0.82rem;
+        color:var(--text);
+        font-weight:600;
+    }
+    .rec-warning{
+        background:#fef2f2;
+        border-right:4px solid var(--danger);
+        padding:0.75rem 1rem;
+        border-radius:8px;
+        font-size:0.85rem;
+        color:#7f1d1d;
+        margin-top:0.75rem;
+    }
+    .rec-warning strong{display:block;margin-bottom:0.2rem;}
+
+    /* ===== Stats ===== */
+    .stats-grid{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+        gap:1rem;
+        margin-bottom:2rem;
+    }
+    .stat-card{
+        background:var(--card);
+        border-radius:12px;
+        padding:1.25rem;
+        text-align:center;
+        box-shadow:var(--shadow);
+        border-bottom:4px solid var(--accent);
+    }
+    .stat-num{
+        font-size:2rem;
+        font-weight:900;
+        color:var(--primary);
+        line-height:1;
+        margin-bottom:0.4rem;
+    }
+    .stat-label{
+        font-size:0.85rem;
+        color:var(--text-light);
+        font-weight:600;
+    }
+
+    /* ===== Back to top ===== */
+    #backTop{
+        position:fixed;
+        bottom:2rem;
+        left:2rem;
+        width:48px;
+        height:48px;
+        border-radius:50%;
+        background:var(--primary);
+        color:#fff;
+        border:none;
+        cursor:pointer;
+        display:none;
+        align-items:center;
+        justify-content:center;
+        font-size:1.4rem;
+        box-shadow:var(--shadow-lg);
+        z-index:99;
+        transition:all 0.2s;
+    }
+    #backTop:hover{background:var(--accent);transform:translateY(-3px);}
+    #backTop.show{display:flex;}
+
+    /* ===== No results ===== */
+    .no-results{
+        text-align:center;
+        padding:3rem 1rem;
+        color:var(--text-light);
+        font-size:1.1rem;
+        background:var(--card);
+        border-radius:14px;
+        box-shadow:var(--shadow);
+    }
+
+    /* ===== Footer ===== */
+    footer{
+        background:var(--primary);
+        color:#cbd5e0;
+        padding:2rem 1.5rem;
+        text-align:center;
+        margin-top:3rem;
+    }
+    footer p{margin-bottom:0.5rem;font-size:0.9rem;}
+    footer .footer-note{
+        font-size:0.82rem;
+        opacity:0.75;
+        margin-top:1rem;
+        border-top:1px solid rgba(255,255,255,0.15);
+        padding-top:1rem;
+        max-width:700px;
+        margin-inline:auto;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width:768px){
+        header h1{font-size:1.5rem;}
+        header p{font-size:0.95rem;}
+        .section-title h2{font-size:1.2rem;}
+        .section-num{width:44px;height:44px;font-size:1.2rem;}
+        .container{padding:1.5rem 1rem;}
+        .tool-grid{grid-template-columns:1fr;}
+        th,td{padding:0.7rem 0.75rem;font-size:0.82rem;}
+        #backTop{bottom:1rem;left:1rem;width:42px;height:42px;}
+    }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+    <div class="header-content">
+        <h1>📚 الدليل العلمي المتكامل<br>لأدوات الذكاء الاصطناعي في البحث العلمي</h1>
+        <p>إطار منهجي لاستخدام أدوات الذكاء الاصطناعي عبر مراحل البحث العلمي، وفق معايير النشر الأكاديمي المعتمدة في قواعد البيانات العالمية (Scopus / Web of Science)</p>
+        <div class="header-badges">
+            <span class="badge">🎓 معايير Scopus</span>
+            <span class="badge">📖 معايير Web of Science</span>
+            <span class="badge">⚖️ أخلاقيات البحث</span>
+            <span class="badge">🔄 آخر تحديث: ديسمبر 2024</span>
+        </div>
+    </div>
+</header>
+
+<!-- ===== NAV ===== -->
+<nav>
+    <div class="nav-container" id="navContainer">
+        <button class="nav-btn active" data-target="overview">📊 نظرة عامة</button>
+        <button class="nav-btn" data-target="stage1">❶ اختيار الموضوع</button>
+        <button class="nav-btn" data-target="stage2">❷ الإطار النظري</button>
+        <button class="nav-btn" data-target="stage3">❸ مراجعة الأدبيات</button>
+        <button class="nav-btn" data-target="stage4">❹ قراءة الأوراق</button>
+        <button class="nav-btn" data-target="stage5">❺ إدارة المراجع</button>
+        <button class="nav-btn" data-target="stage6">❻ الكتابة الأكاديمية</button>
+        <button class="nav-btn" data-target="stage7">❼ الأصالة والانتحال</button>
+        <button class="nav-btn" data-target="stage8">❽ متابعة المستجدات</button>
+        <button class="nav-btn" data-target="ethics">⚖️ الأخلاقيات</button>
+        <button class="nav-btn" data-target="summary">📋 الجدول الإجمالي</button>
+        <button class="nav-btn" data-target="recommendations">🎯 التوصيات</button>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- ===== Search ===== -->
+    <div class="search-box" id="searchBox" style="display:none;">
+        <input type="text" id="searchInput" placeholder="🔍 ابحث عن أداة، وظيفة، أو تخصص..." />
+        <select class="filter-select" id="categoryFilter">
+            <option value="">جميع التصنيفات</option>
+            <option value="بحث">بحث</option>
+            <option value="تحليل">تحليل</option>
+            <option value="كتابة">كتابة</option>
+            <option value="إدارة مراجع">إدارة مراجع</option>
+            <option value="أصالة">أصالة</option>
+            <option value="متابعة">متابعة</option>
+        </select>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- OVERVIEW SECTION -->
+    <!-- ============================================== -->
+    <section class="section active" id="overview">
+        <div class="section-title">
+            <div class="section-num">📊</div>
+            <h2>نظرة عامة على الدليل</h2>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-num" id="statTools">22</div>
+                <div class="stat-label">أداة ومنصة</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">8</div>
+                <div class="stat-label">مراحل بحثية</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">1</div>
+                <div class="stat-label">إطار أخلاقي</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">3</div>
+                <div class="stat-label">مستويات أكاديمية</div>
+            </div>
+        </div>
+
+        <div class="ethics-grid">
+            <div class="ethics-card info">
+                <h4>🎯 أهداف الدليل</h4>
+                <ul>
+                    <li>توفير إطار منهجي لاستخدام الذكاء الاصطناعي في البحث العلمي</li>
+                    <li>ربط الأدوات بمراحل البحث العلمي بشكل تسلسلي منطقي</li>
+                    <li>بيان آلية الاستخدام العملي لكل أداة في كل مرحلة</li>
+                    <li>إبراز القيود والمخاطر الأكاديمية لكل أداة</li>
+                    <li>ترسيخ أخلاقيات البحث والنشر العلمي</li>
+                </ul>
+            </div>
+            <div class="ethics-card info">
+                <h4>📐 المنهجية</h4>
+                <ul>
+                    <li>الاعتماد على أدوات موثقة بمصادر رسمية</li>
+                    <li>التصنيف وفق المرحلة البحثية والوظيفة</li>
+                    <li>المقارنة العلمية بين الأدوات داخل كل مرحلة</li>
+                    <li>الالتزام بمعايير النشر في Scopus وWeb of Science</li>
+                    <li>التحذير الصريح من المخاطر الأكاديمية لكل أداة</li>
+                </ul>
+            </div>
+            <div class="ethics-card info">
+                <h4>🔍 كيفية الاستخدام</h4>
+                <ul>
+                    <li>استخدم شريط التنقل أعلى الصفحة للانتقال بين المراحل</li>
+                    <li>انقر على أي أداة لعرض تفاصيلها الكاملة</li>
+                    <li>استخدم مربع البحث للعثور على أداة محددة</li>
+                    <li>راجع قسم الأخلاقيات قبل البدء بأي استخدام</li>
+                    <li>اطلع على التوصيات حسب مستواك الأكاديمي</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- STAGE 1 -->
+    <!-- ============================================== -->
+    <section class="section" id="stage1">
+        <div class="section-title">
+            <div class="section-num">❶</div>
+            <h2>اختيار الموضوع وصياغة مشكلة البحث</h2>
+        </div>
+
+        <!-- Consensus -->
+        <div class="tool-card" data-category="بحث" data-keywords="consensus استكشاف موضوعي محرك بحث">
+            <div class="tool-header">
+                <div class="tool-header-main">
+                    <div class="tool-icon">🔍</div>
+                    <div class="tool-title">
+                        <h3>Consensus</h3>
+                        <span class="tool-cat">بحث – استكشاف موضوعي</span>
+                    </div>
+                </div>
+                <div class="tool-toggle">+</div>
+            </div>
+            <div class="tool-body">
+                <div class="tool-body-inner">
+                    <div class="tool-grid">
+                        <div class="tool-field">
+                            <div class="tool-field-label">⚙️ آلية العمل</div>
+                            <div class="tool-field-content">محرك بحث يعتمد على نماذج لغة كبيرة متخصصة في استخراج الإجابات مباشرة من الأوراق العلمية المنشورة في قواعد بيانات موثوقة، مع عرض نسبة الإجماع العلمي حول السؤال.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🛠️ الاستخدام العملي في هذه المرحلة</div>
+                            <div class="tool-field-content">كتابة سؤال بحثي عام للحصول على نظرة شاملة عن حالة المعرفة الحالية، وتحديد الإجماعات العلمية والفجوات البحثية الأولية.</div>
+                        </div>
+                        <div class="tool-field success">
+                            <div class="tool-field-label">💡 مثال تطبيقي</div>
+                            <div class="tool-field-content">باحث يكتب "ما فعالية العلاج المعرفي السلوكي للاكتئاب المقاوم؟" لاستخراج نتائج الدراسات المنهجية ذات التصنيف العالي وتحديد حجم الأثر العلمي.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🎓 التخصصات العلمية</div>
+                            <div class="tool-field-content">العلوم الطبية، النفسية، الاجتماعية، التربوية، علوم الرياضة.</div>
+                        </div>
+                        <div class="tool-field warn">
+                            <div class="tool-field-label">⚠️ القيود العلمية</div>
+                            <div class="tool-field-content">محدودية التغطية الزمنية، الاعتماد على جودة بيانات المصدر، قد يغفل الدراسات باللغات غير الإنجليزية.</div>
+                        </div>
+                        <div class="tool-field danger">
+                            <div class="tool-field-label">🚨 المخاطر الأكاديمية</div>
+                            <div class="tool-field-content">الاعتماد الكلي على ملخصاته دون الرجوع للأوراق الأصلية قد يؤدي إلى تحريف النتائج أو تجاهل السياق المنهجي.</div>
+                        </div>
+                    </div>
+                    <a href="https://consensus.app" target="_blank" rel="noopener" class="tool-link">🔗 consensus.app ←</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Elicit -->
+        <div class="tool-card" data-category="بحث" data-keywords="elicit أفكار بحثية فجوات">
+            <div class="tool-header">
+                <div class="tool-header-main">
+                    <div class="tool-icon">💡</div>
+                    <div class="tool-title">
+                        <h3>Elicit</h3>
+                        <span class="tool-cat">بحث – توليد أفكار وفجوات</span>
+                    </div>
+                </div>
+                <div class="tool-toggle">+</div>
+            </div>
+            <div class="tool-body">
+                <div class="tool-body-inner">
+                    <div class="tool-grid">
+                        <div class="tool-field">
+                            <div class="tool-field-label">⚙️ آلية العمل</div>
+                            <div class="tool-field-content">يستخدم تقنيات معالجة اللغة الطبيعية لتلخيص الاستنتاجات العلمية وتحديد الفجوات البحثية، مع بناء مصفوفات استخراج منهجية من الأوراق.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🛠️ الاستخدام العملي في هذه المرحلة</div>
+                            <div class="tool-field-content">تحديد العلاقات بين المتغيرات البحثية واقتراح فرضيات محتملة بناءً على تحليل منهجي للأدبيات ذات الصلة.</div>
+                        </div>
+                        <div class="tool-field success">
+                            <div class="tool-field-label">💡 مثال تطبيقي</div>
+                            <div class="tool-field-content">باحث يكتب "العلاقة بين النوم وجودة الحياة" لاستكشاف المتغيرات الوسيطة والمعدلة المدروسة سابقاً واقتراح متغيرات جديدة.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🎓 التخصصات العلمية</div>
+                            <div class="tool-field-content">متعدد التخصصات مع تركيز على العلوم الاجتماعية والصحية والسلوكية.</div>
+                        </div>
+                        <div class="tool-field warn">
+                            <div class="tool-field-label">⚠️ القيود العلمية</div>
+                            <div class="tool-field-content">قد يغفل الدراسات غير المنشورة باللغة الإنجليزية، وقد ينتج استنتاجات غير مثبتة تجريبياً.</div>
+                        </div>
+                        <div class="tool-field danger">
+                            <div class="tool-field-label">🚨 المخاطر الأكاديمية</div>
+                            <div class="tool-field-content">تضييق نطاق التفكير البحثي إلى ما تمت معالجته آلياً فقط، مما يحد من الإبداع العلمي الأصيل.</div>
+                        </div>
+                    </div>
+                    <a href="https://elicit.org" target="_blank" rel="noopener" class="tool-link">🔗 elicit.org ←</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison -->
+        <div class="comparison-box">
+            <h4>⚖️ مقارنة علمية بين أدوات المرحلة الأولى</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>الأداة</th>
+                        <th>نقاط القوة</th>
+                        <th>نقاط الضعف</th>
+                        <th>التخصص الأمثل</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Consensus</td>
+                        <td>دقة في الاستشهاد، ارتباط مباشر بالأوراق الأصلية، عرض نسبة الإجماع</td>
+                        <td>محدودية في التجريد النظري، التغطية الزمنية المحدودة</td>
+                        <td>العلوم الصحية والتجريبية</td>
+                    </tr>
+                    <tr>
+                        <td>Elicit</td>
+                        <td>قدرة تحليلية عالية، توليد فرضيات، مصفوفات منهجية</td>
+                        <td>قد ينتج علاقات غير مثبتة تجريبياً</td>
+                        <td>العلوم النظرية والاجتماعية</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="comparison-box">
+            <h4>📋 جدول ملخص المرحلة الأولى</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>المرحلة</th>
+                        <th>الأداة</th>
+                        <th>الوظيفة الرئيسية</th>
+                        <th>الرابط</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>اختيار الموضوع</td>
+                        <td>Consensus</td>
+                        <td>استخراج الإجابات من الأوراق العلمية</td>
+                        <td><a href="https://consensus.app" target="_blank" style="color:var(--accent);">consensus.app</a></td>
+                    </tr>
+                    <tr>
+                        <td>اختيار الموضوع</td>
+                        <td>Elicit</td>
+                        <td>توليد أفكار وفجوات بحثية</td>
+                        <td><a href="https://elicit.org" target="_blank" style="color:var(--accent);">elicit.org</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- STAGE 2 -->
+    <!-- ============================================== -->
+    <section class="section" id="stage2">
+        <div class="section-title">
+            <div class="section-num">❷</div>
+            <h2>بناء الإطار النظري وصياغة الأسئلة/الفرضيات</h2>
+        </div>
+
+        <!-- Scite.ai -->
+        <div class="tool-card" data-category="تحليل" data-keywords="scite تحليل سياق استشهادات">
+            <div class="tool-header">
+                <div class="tool-header-main">
+                    <div class="tool-icon">📊</div>
+                    <div class="tool-title">
+                        <h3>Scite.ai</h3>
+                        <span class="tool-cat">تحليل – سياق الاستشهادات</span>
+                    </div>
+                </div>
+                <div class="tool-toggle">+</div>
+            </div>
+            <div class="tool-body">
+                <div class="tool-body-inner">
+                    <div class="tool-grid">
+                        <div class="tool-field">
+                            <div class="tool-field-label">⚙️ آلية العمل</div>
+                            <div class="tool-field-content">يستخدم الذكاء الاصطناعي لفهم سياق الاقتباس (داعم، معارض، محايد) بدلاً من مجرد عدّ الاستشهادات، مما يوفر تحليلاً كيفياً عميقاً.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🛠️ الاستخدام العملي في هذه المرحلة</div>
+                            <div class="tool-field-content">تقييم قوة الدليل النظري من خلال تحليل كيفية استشهاد الأوراق اللاحقة بالنظرية أو النموذج النظري المستخدم في البحث.</div>
+                        </div>
+                        <div class="tool-field success">
+                            <div class="tool-field-label">💡 مثال تطبيقي</div>
+                            <div class="tool-field-content">تقييم مدى قبول "نظرية التحديد الذاتي" في علم النفس من خلال تحليل سياق 5000 استشهاد بها وتصنيفها إلى داعمة ومعارضة.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🎓 التخصصات العلمية</div>
+                            <div class="tool-field-content">جميع التخصصات النظرية خاصة الفلسفة، علم النفس، الاجتماع، والعلوم السياسية.</div>
+                        </div>
+                        <div class="tool-field warn">
+                            <div class="tool-field-label">⚠️ القيود العلمية</div>
+                            <div class="tool-field-content">قد يخطئ في تصنيف السياق في الاقتباسات المعقدة أو الساخرة أو المزدوجة المعنى.</div>
+                        </div>
+                        <div class="tool-field danger">
+                            <div class="tool-field-label">🚨 المخاطر الأكاديمية</div>
+                            <div class="tool-field-content">المبالغة في تفسير التحليل الكمي للسياق الاستشهادي دون مراجعة نوعية للاقتباسات الأصلية.</div>
+                        </div>
+                    </div>
+                    <a href="https://scite.ai" target="_blank" rel="noopener" class="tool-link">🔗 scite.ai ←</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Connected Papers -->
+        <div class="tool-card" data-category="تحليل" data-keywords="connected papers خرائط تطور نظري">
+            <div class="tool-header">
+                <div class="tool-header-main">
+                    <div class="tool-icon">🕸️</div>
+                    <div class="tool-title">
+                        <h3>Connected Papers</h3>
+                        <span class="tool-cat">تحليل – البنية النظرية</span>
+                    </div>
+                </div>
+                <div class="tool-toggle">+</div>
+            </div>
+            <div class="tool-body">
+                <div class="tool-body-inner">
+                    <div class="tool-grid">
+                        <div class="tool-field">
+                            <div class="tool-field-label">⚙️ آلية العمل</div>
+                            <div class="tool-field-content">خوارزمية لبناء خرائط بصرية للأوراق المرتبطة نظرياً وزمنياً بناءً على تحليل الاستشهادات والمشتركات المنهجية.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🛠️ الاستخدام العملي في هذه المرحلة</div>
+                            <div class="tool-field-content">تتبع تطور المفهوم النظري عبر الزمن وتحديد الأوراق المؤسسة والمتفرعة وبناء إطار نظري متسلسل.</div>
+                        </div>
+                        <div class="tool-field success">
+                            <div class="tool-field-label">💡 مثال تطبيقي</div>
+                            <div class="tool-field-content">رسم خريطة لتطور مفهوم "الذكاء الاصطناعي التفسيري" من 2010 إلى 2024 وتحديد الأوراق المؤسسة والمتفرعة.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🎓 التخصصات العلمية</div>
+                            <div class="tool-field-content">جميع التخصصات خاصة ذات الأطر النظرية المعقدة والمتعددة المدارس.</div>
+                        </div>
+                        <div class="tool-field warn">
+                            <div class="tool-field-label">⚠️ القيود العلمية</div>
+                            <div class="tool-field-content">يعتمد على بيانات الاستشهادات والتي قد تكون غير مكتملة، وقد يهمل الأعمال المؤثرة غير المشمولة في قواعد الاستشهاد.</div>
+                        </div>
+                        <div class="tool-field danger">
+                            <div class="tool-field-label">🚨 المخاطر الأكاديمية</div>
+                            <div class="tool-field-content">تجاهل الأعمال المؤثرة غير المشمولة في خريطة الاستشهادات مما يؤدي إلى إطار نظري منقوص.</div>
+                        </div>
+                    </div>
+                    <a href="https://www.connectedpapers.com" target="_blank" rel="noopener" class="tool-link">🔗 connectedpapers.com ←</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-box">
+            <h4>📋 جدول ملخص المرحلة الثانية</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>المرحلة</th>
+                        <th>الأداة</th>
+                        <th>الوظيفة الرئيسية</th>
+                        <th>الرابط</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>الإطار النظري</td>
+                        <td>Scite.ai</td>
+                        <td>تحليل سياق الاستشهادات</td>
+                        <td><a href="https://scite.ai" target="_blank" style="color:var(--accent);">scite.ai</a></td>
+                    </tr>
+                    <tr>
+                        <td>الإطار النظري</td>
+                        <td>Connected Papers</td>
+                        <td>رسم خرائط التطور النظري</td>
+                        <td><a href="https://www.connectedpapers.com" target="_blank" style="color:var(--accent);">connectedpapers.com</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- STAGE 3 -->
+    <!-- ============================================== -->
+    <section class="section" id="stage3">
+        <div class="section-title">
+            <div class="section-num">❸</div>
+            <h2>مراجعة الأدبيات والدراسات السابقة</h2>
+        </div>
+
+        <!-- ResearchRabbit -->
+        <div class="tool-card" data-category="بحث" data-keywords="researchrabbit توصية أوراق">
+            <div class="tool-header">
+                <div class="tool-header-main">
+                    <div class="tool-icon">🐰</div>
+                    <div class="tool-title">
+                        <h3>ResearchRabbit</h3>
+                        <span class="tool-cat">بحث – توصية ذكية</span>
+                    </div>
+                </div>
+                <div class="tool-toggle">+</div>
+            </div>
+            <div class="tool-body">
+                <div class="tool-body-inner">
+                    <div class="tool-grid">
+                        <div class="tool-field">
+                            <div class="tool-field-label">⚙️ آلية العمل</div>
+                            <div class="tool-field-content">يعتمد على خوارزميات التوصية القائمة على المحتوى والاستشهادات لاقتراح أوراق علمية بناءً على تفضيلات الباحث ومكتبته.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🛠️ الاستخدام العملي في هذه المرحلة</div>
+                            <div class="tool-field-content">بناء مجموعات مرجعية (Collections) وتلقي توصيات بأوراق جديدة ذات صلة، مع تتبع التطورات في المجال.</div>
+                        </div>
+                        <div class="tool-field success">
+                            <div class="tool-field-label">💡 مثال تطبيقي</div>
+                            <div class="tool-field-content">باحث في التعلم العميق يبدأ بمجموعة من 5 أوراق مؤسسة، فتقترح الأداة 50 ورقة ذات صلة عالية للاستعراض المنهجي.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🎓 التخصصات العلمية</div>
+                            <div class="tool-field-content">جميع التخصصات العلمية، مع فعالية عالية في علوم الحاسوب والطب.</div>
+                        </div>
+                        <div class="tool-field warn">
+                            <div class="tool-field-label">⚠️ القيود العلمية</div>
+                            <div class="tool-field-content">يعتمد على بيانات Semantic Scholar التي قد تفتقر لبعض الأوراق في تخصصات معينة.</div>
+                        </div>
+                        <div class="tool-field danger">
+                            <div class="tool-field-label">🚨 المخاطر الأكاديمية</div>
+                            <div class="tool-field-content">الاعتماد الحصري على التوصيات الآلية قد يؤدي إلى فقاعة معرفية (Filter Bubble) وإغفال أعمال مؤسسة.</div>
+                        </div>
+                    </div>
+                    <a href="https://www.researchrabbit.ai" target="_blank" rel="noopener" class="tool-link">🔗 researchrabbit.ai ←</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Litmaps -->
+        <div class="tool-card" data-category="تحليل" data-keywords="litmaps زخم بحثي خرائط">
+            <div class="tool-header">
+                <div class="tool-header-main">
+                    <div class="tool-icon">🗺️</div>
+                    <div class="tool-title">
+                        <h3>Litmaps</h3>
+                        <span class="tool-cat">تحليل – الزخم البحثي</span>
+                    </div>
+                </div>
+                <div class="tool-toggle">+</div>
+            </div>
+            <div class="tool-body">
+                <div class="tool-body-inner">
+                    <div class="tool-grid">
+                        <div class="tool-field">
+                            <div class="tool-field-label">⚙️ آلية العمل</div>
+                            <div class="tool-field-content">يستخدم خوارزميات لتحليل الاستشهادات والزخم البحثي (Momentum) لتحديد الأوراق المؤثرة والناشئة في المجال.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🛠️ الاستخدام العملي في هذه المرحلة</div>
+                            <div class="tool-field-content">تحديد الأوراق الأكثر تأثيراً والأوراق الناشئة (Emerging Papers) لبناء مراجعة أدبيات محدثة وشاملة.</div>
+                        </div>
+                        <div class="tool-field success">
+                            <div class="tool-field-label">💡 مثال تطبيقي</div>
+                            <div class="tool-field-content">مراجعة أدبيات حول "الذكاء الاصطناعي التوليدي في التعليم" مع تحديد الأوراق الناشئة في 2024.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🎓 التخصصات العلمية</div>
+                            <div class="tool-field-content">جميع التخصصات، مع فعالية خاصة في المجالات سريعة التطور.</div>
+                        </div>
+                        <div class="tool-field warn">
+                            <div class="tool-field-label">⚠️ القيود العلمية</div>
+                            <div class="tool-field-content">قد يبالغ في تقدير الأوراق الحديثة بسبب مؤشر الزخم، وقد يغفل أعمالاً مؤسسة أقدم.</div>
+                        </div>
+                        <div class="tool-field danger">
+                            <div class="tool-field-label">🚨 المخاطر الأكاديمية</div>
+                            <div class="tool-field-content">الانحياز للأوراق الحديثة على حساب الأعمال المؤسسة قد يضعف العمق النظري للمراجعة.</div>
+                        </div>
+                    </div>
+                    <a href="https://www.litmaps.com" target="_blank" rel="noopener" class="tool-link">🔗 litmaps.com ←</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-box">
+            <h4>📋 جدول ملخص المرحلة الثالثة</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>المرحلة</th>
+                        <th>الأداة</th>
+                        <th>الوظيفة الرئيسية</th>
+                        <th>الرابط</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>مراجعة الأدبيات</td>
+                        <td>ResearchRabbit</td>
+                        <td>توصية أوراق بناءً على التفضيلات</td>
+                        <td><a href="https://www.researchrabbit.ai" target="_blank" style="color:var(--accent);">researchrabbit.ai</a></td>
+                    </tr>
+                    <tr>
+                        <td>مراجعة الأدبيات</td>
+                        <td>Litmaps</td>
+                        <td>تحليل الزخم البحثي</td>
+                        <td><a href="https://www.litmaps.com" target="_blank" style="color:var(--accent);">litmaps.com</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- STAGE 4 -->
+    <!-- ============================================== -->
+    <section class="section" id="stage4">
+        <div class="section-title">
+            <div class="section-num">❹</div>
+            <h2>قراءة وتحليل الأوراق العلمية</h2>
+        </div>
+
+        <!-- Scholarcy -->
+        <div class="tool-card" data-category="تحليل" data-keywords="scholarcy تلخيص أوراق">
+            <div class="tool-header">
+                <div class="tool-header-main">
+                    <div class="tool-icon">📝</div>
+                    <div class="tool-title">
+                        <h3>Scholarcy</h3>
+                        <span class="tool-cat">تحليل – تلخيص علمي</span>
+                    </div>
+                </div>
+                <div class="tool-toggle">+</div>
+            </div>
+            <div class="tool-body">
+                <div class="tool-body-inner">
+                    <div class="tool-grid">
+                        <div class="tool-field">
+                            <div class="tool-field-label">⚙️ آلية العمل</div>
+                            <div class="tool-field-content">يستخدم تقنيات استخراج المعلومات لإنشاء ملخصات تفاعلية للأوراق العلمية، مع استخراج النقاط الرئيسية والمنهجية والنتائج.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🛠️ الاستخدام العملي في هذه المرحلة</div>
+                            <div class="tool-field-content">تسريع قراءة الأوراق العلمية من خلال ملخصات منظمة، واستخراج المعلومات المنهجية والنتائج الرئيسية لمقارنتها.</div>
+                        </div>
+                        <div class="tool-field success">
+                            <div class="tool-field-label">💡 مثال تطبيقي</div>
+                            <div class="tool-field-content">باحث يراجع 100 ورقة حول "الشبكات العصبية التلافيفية" فيستخرج ملخصاتها ويقارن بينهما خلال ساعات بدل أسابيع.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🎓 التخصصات العلمية</div>
+                            <div class="tool-field-content">جميع التخصصات العلمية، مع فعالية عالية في العلوم التجريبية والطبية.</div>
+                        </div>
+                        <div class="tool-field warn">
+                            <div class="tool-field-label">⚠️ القيود العلمية</div>
+                            <div class="tool-field-content">قد يخطئ في تلخيص الأوراق ذات البنية غير التقليدية أو ذات المحتوى الرياضي المعقد.</div>
+                        </div>
+                        <div class="tool-field danger">
+                            <div class="tool-field-label">🚨 المخاطر الأكاديمية</div>
+                            <div class="tool-field-content">الاعتماد على التلخيص الآلي دون قراءة الورقة الأصلية قد يؤدي إلى فهم ناقص أو تحريف للنتائج.</div>
+                        </div>
+                    </div>
+                    <a href="https://www.scholarcy.com" target="_blank" rel="noopener" class="tool-link">🔗 scholarcy.com ←</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Iris.ai -->
+        <div class="tool-card" data-category="تحليل" data-keywords="iris استخراج مفاهيم">
+            <div class="tool-header">
+                <div class="tool-header-main">
+                    <div class="tool-icon">🔬</div>
+                    <div class="tool-title">
+                        <h3>Iris.ai</h3>
+                        <span class="tool-cat">تحليل – استخراج المفاهيم</span>
+                    </div>
+                </div>
+                <div class="tool-toggle">+</div>
+            </div>
+            <div class="tool-body">
+                <div class="tool-body-inner">
+                    <div class="tool-grid">
+                        <div class="tool-field">
+                            <div class="tool-field-label">⚙️ آلية العمل</div>
+                            <div class="tool-field-content">منصة متخصصة في تحليل الأوراق العلمية واستخراج المفاهيم والعلاقات بينها، مع دعم تحليل النصوص العلمية المعقدة.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🛠️ الاستخدام العملي في هذه المرحلة</div>
+                            <div class="tool-field-content">استخراج المفاهيم الأساسية والعلاقات المنهجية من مجموعة أوراق علمية لبناء مراجعة منهجية منظمة.</div>
+                        </div>
+                        <div class="tool-field success">
+                            <div class="tool-field-label">💡 مثال تطبيقي</div>
+                            <div class="tool-field-content">استخراج جميع المفاهيم والعلاقات من 200 ورقة حول "تغير المناخ" لبناء خريطة مفاهيمية شاملة.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🎓 التخصصات العلمية</div>
+                            <div class="tool-field-content">العلوم الطبيعية، الهندسية، الطبية، مع دعم للتخصصات البينية.</div>
+                        </div>
+                        <div class="tool-field warn">
+                            <div class="tool-field-label">⚠️ القيود العلمية</div>
+                            <div class="tool-field-content">التركيز على اللغة الإنجليزية، وقد يواجه صعوبات في استخراج المفاهيم من التخصصات الإنسانية ذات اللغة المجازية.</div>
+                        </div>
+                        <div class="tool-field danger">
+                            <div class="tool-field-label">🚨 المخاطر الأكاديمية</div>
+                            <div class="tool-field-content">قد يؤدي الاستخراج الآلي للمفاهيم إلى إغفال العلاقات الدقيقة أو السياقات المنهجية المهمة.</div>
+                        </div>
+                    </div>
+                    <a href="https://iris.ai" target="_blank" rel="noopener" class="tool-link">🔗 iris.ai ←</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-box">
+            <h4>📋 جدول ملخص المرحلة الرابعة</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>المرحلة</th>
+                        <th>الأداة</th>
+                        <th>الوظيفة الرئيسية</th>
+                        <th>الرابط</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>قراءة الأوراق</td>
+                        <td>Scholarcy</td>
+                        <td>تلخيص الأوراق العلمية</td>
+                        <td><a href="https://www.scholarcy.com" target="_blank" style="color:var(--accent);">scholarcy.com</a></td>
+                    </tr>
+                    <tr>
+                        <td>قراءة الأوراق</td>
+                        <td>Iris.ai</td>
+                        <td>استخراج المفاهيم الرئيسية</td>
+                        <td><a href="https://iris.ai" target="_blank" style="color:var(--accent);">iris.ai</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- STAGE 5 -->
+    <!-- ============================================== -->
+    <section class="section" id="stage5">
+        <div class="section-title">
+            <div class="section-num">❺</div>
+            <h2>تنظيم وإدارة المراجع العلمية</h2>
+        </div>
+
+        <!-- Zotero -->
+        <div class="tool-card" data-category="إدارة مراجع" data-keywords="zotero تنظيم مراجع">
+            <div class="tool-header">
+                <div class="tool-header-main">
+                    <div class="tool-icon">📚</div>
+                    <div class="tool-title">
+                        <h3>Zotero + إضافات الذكاء الاصطناعي</h3>
+                        <span class="tool-cat">إدارة مراجع – تنظيم ذكي</span>
+                    </div>
+                </div>
+                <div class="tool-toggle">+</div>
+            </div>
+            <div class="tool-body">
+                <div class="tool-body-inner">
+                    <div class="tool-grid">
+                        <div class="tool-field">
+                            <div class="tool-field-label">⚙️ آلية العمل</div>
+                            <div class="tool-field-content">مدير مراجع مفتوح المصدر، يمكن تعزيزه بإضافات ذكاء اصطناعي مثل Zotero GPT و Aria لتصنيف المراجع وتلخيصها تلقائياً.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🛠️ الاستخدام العملي في هذه المرحلة</div>
+                            <div class="tool-field-content">جمع المراجع تلقائياً من المتصفح، تنظيمها في مجموعات، إنشاء الاستشهادات والببليوغرافيا بصيغ متعددة.</div>
+                        </div>
+                        <div class="tool-field success">
+                            <div class="tool-field-label">💡 مثال تطبيقي</div>
+                            <div class="tool-field-content">باحث يجمع 500 مرجع في مكتبة Zotero وينشئ ببليوغرافيا بصيغة APA خلال دقائق بدل ساعات.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🎓 التخصصات العلمية</div>
+                            <div class="tool-field-content">جميع التخصصات الأكاديمية.</div>
+                        </div>
+                        <div class="tool-field warn">
+                            <div class="tool-field-label">⚠️ القيود العلمية</div>
+                            <div class="tool-field-content">يحتاج وقتاً للتعلم، وقد تحدث أخطاء في الاستشهادات الآلية تستوجب المراجعة اليدوية.</div>
+                        </div>
+                        <div class="tool-field danger">
+                            <div class="tool-field-label">🚨 المخاطر الأكاديمية</div>
+                            <div class="tool-field-content">الاعتماد الكلي على الاستشهادات الآلية دون التحقق قد يؤدي إلى أخطاء في التوثيق تعتبر انتحالاً غير مقصود.</div>
+                        </div>
+                    </div>
+                    <a href="https://www.zotero.org" target="_blank" rel="noopener" class="tool-link">🔗 zotero.org ←</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mendeley -->
+        <div class="tool-card" data-category="إدارة مراجع" data-keywords="mendeley اقتراح مراجع">
+            <div class="tool-header">
+                <div class="tool-header-main">
+                    <div class="tool-icon">🔗</div>
+                    <div class="tool-title">
+                        <h3>Mendeley Suggest</h3>
+                        <span class="tool-cat">إدارة مراجع – اقتراح ذكي</span>
+                    </div>
+                </div>
+                <div class="tool-toggle">+</div>
+            </div>
+            <div class="tool-body">
+                <div class="tool-body-inner">
+                    <div class="tool-grid">
+                        <div class="tool-field">
+                            <div class="tool-field-label">⚙️ آلية العمل</div>
+                            <div class="tool-field-content">مدير مراجع تابع لـ Elsevier، يقدم ميزة الاقتراح الذكي للأوراق ذات الصلة بناءً على مكتبة الباحث.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🛠️ الاستخدام العملي في هذه المرحلة</div>
+                            <div class="tool-field-content">إدارة المراجع مع الاستفادة من التوصيات الذكية والتحليل الإحصائي للباحثين والمجلات.</div>
+                        </div>
+                        <div class="tool-field success">
+                            <div class="tool-field-label">💡 مثال تطبيقي</div>
+                            <div class="tool-field-content">باحث في الطب يستخدم Mendeley لتلقي توصيات بأوراق حديثة حول موضوع بحثه مباشرة في مكتبته.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🎓 التخصصات العلمية</div>
+                            <div class="tool-field-content">جميع التخصصات، مع فعالية خاصة في العلوم الطبية.</div>
+                        </div>
+                        <div class="tool-field warn">
+                            <div class="tool-field-label">⚠️ القيود العلمية</div>
+                            <div class="tool-field-content">التوصيات مرتبطة بمحتوى Elsevier، مما قد يحد من تنوع المصادر.</div>
+                        </div>
+                        <div class="tool-field danger">
+                            <div class="tool-field-label">🚨 المخاطر الأكاديمية</div>
+                            <div class="tool-field-content">قد يؤدي الاعتماد على منصة تجارية إلى انحياز لمراجع ناشر معين دون الآخر.</div>
+                        </div>
+                    </div>
+                    <a href="https://www.mendeley.com" target="_blank" rel="noopener" class="tool-link">🔗 mendeley.com ←</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-box">
+            <h4>📋 جدول ملخص المرحلة الخامسة</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>المرحلة</th>
+                        <th>الأداة</th>
+                        <th>الوظيفة الرئيسية</th>
+                        <th>الرابط</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>إدارة المراجع</td>
+                        <td>Zotero + AI Plugins</td>
+                        <td>تنظيم ذكي للمراجع</td>
+                        <td><a href="https://www.zotero.org" target="_blank" style="color:var(--accent);">zotero.org</a></td>
+                    </tr>
+                    <tr>
+                        <td>إدارة المراجع</td>
+                        <td>Mendeley Suggest</td>
+                        <td>اقتراح مراجع ذكي</td>
+                        <td><a href="https://www.mendeley.com" target="_blank" style="color:var(--accent);">mendeley.com</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- STAGE 6 -->
+    <!-- ============================================== -->
+    <section class="section" id="stage6">
+        <div class="section-title">
+            <div class="section-num">❻</div>
+            <h2>كتابة البحث الأكاديمي (المسودة – المراجعة – التحرير)</h2>
+        </div>
+
+        <!-- Grammarly -->
+        <div class="tool-card" data-category="كتابة" data-keywords="grammarly صياغة تحرير">
+            <div class="tool-header">
+                <div class="tool-header-main">
+                    <div class="tool-icon">✍️</div>
+                    <div class="tool-title">
+                        <h3>Grammarly Premium</h3>
+                        <span class="tool-cat">كتابة – تحسين الصياغة</span>
+                    </div>
+                </div>
+                <div class="tool-toggle">+</div>
+            </div>
+            <div class="tool-body">
+                <div class="tool-body-inner">
+                    <div class="tool-grid">
+                        <div class="tool-field">
+                            <div class="tool-field-label">⚙️ آلية العمل</div>
+                            <div class="tool-field-content">يستخدم الذكاء الاصطناعي لتحليل النص وتصحيح الأخطاء النحوية والإملائية، وتحسين الأسلوب الأكاديمي والوضوح.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🛠️ الاستخدام العملي في هذه المرحلة</div>
+                            <div class="tool-field-content">مراجعة المسودة النهائية للبحث من حيث الصياغة اللغوية، الوضوح، والاتساق الأكاديمي.</div>
+                        </div>
+                        <div class="tool-field success">
+                            <div class="tool-field-label">💡 مثال تطبيقي</div>
+                            <div class="tool-field-content">باحث غير ناطق بالإنجليزية يستخدم Grammarly لتحسين جودة مخطوطته قبل الإرسال لمجلة دولية.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🎓 التخصصات العلمية</div>
+                            <div class="tool-field-content">جميع التخصصات، مع فعالية عالية لمن يكتبون بالإنجليزية كلغة ثانية.</div>
+                        </div>
+                        <div class="tool-field warn">
+                            <div class="tool-field-label">⚠️ القيود العلمية</div>
+                            <div class="tool-field-content">قد لا يفهم بعض المصطلحات التخصصية الدقيقة أو السياقات الأكاديمية المعقدة.</div>
+                        </div>
+                        <div class="tool-field danger">
+                            <div class="tool-field-label">🚨 المخاطر الأكاديمية</div>
+                            <div class="tool-field-content">الاعتماد الكلي على التصحيح الآلي قد يؤدي إلى توحيد الأسلوب وفقدان الصوت البحثي المميز.</div>
+                        </div>
+                    </div>
+                    <a href="https://www.grammarly.com" target="_blank" rel="noopener" class="tool-link">🔗 grammarly.com ←</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Writefull -->
+        <div class="tool-card" data-category="كتابة" data-keywords="writefull كتابة أكاديمية">
+            <div class="tool-header">
+                <div class="tool-header-main">
+                    <div class="tool-icon">📖</div>
+                    <div class="tool-title">
+                        <h3>Writefull</h3>
+                        <span class="tool-cat">كتابة – أكاديمية متخصصة</span>
+                    </div>
+                </div>
+                <div class="tool-toggle">+</div>
+            </div>
+            <div class="tool-body">
+                <div class="tool-body-inner">
+                    <div class="tool-grid">
+                        <div class="tool-field">
+                            <div class="tool-field-label">⚙️ آلية العمل</div>
+                            <div class="tool-field-content">يعتمد على قاعدة بيانات ضخمة من النصوص الأكاديمية لتحسين الصياغة العلمية واقتراح عبارات أكاديمية دقيقة.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🛠️ الاستخدام العملي في هذه المرحلة</div>
+                            <div class="tool-field-content">كتابة المقاطع الأكاديمية بلغة علمية دقيقة، وتحسين الصياغات لتتوافق مع أسلوب المجلات العلمية.</div>
+                        </div>
+                        <div class="tool-field success">
+                            <div class="tool-field-label">💡 مثال تطبيقي</div>
+                            <div class="tool-field-content">باحث يستخدم Writefull لصياغة الملخص (Abstract) وفق المعايير الأكاديمية المتعارف عليها.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🎓 التخصصات العلمية</div>
+                            <div class="tool-field-content">جميع التخصصات، مع فعالية عالية في العلوم الطبيعية والهندسية.</div>
+                        </div>
+                        <div class="tool-field warn">
+                            <div class="tool-field-label">⚠️ القيود العلمية</div>
+                            <div class="tool-field-content">يقدم اقتراحات قد لا تتناسب دائماً مع السياق التخصصي الدقيق.</div>
+                        </div>
+                        <div class="tool-field danger">
+                            <div class="tool-field-label">🚨 المخاطر الأكاديمية</div>
+                            <div class="tool-field-content">قد يقترح عبارات جاهزة تفقد النص أصالته وأسلوبه الشخصي.</div>
+                        </div>
+                    </div>
+                    <a href="https://www.writefull.com" target="_blank" rel="noopener" class="tool-link">🔗 writefull.com ←</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-box">
+            <h4>📋 جدول ملخص المرحلة السادسة</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>المرحلة</th>
+                        <th>الأداة</th>
+                        <th>الوظيفة الرئيسية</th>
+                        <th>الرابط</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>الكتابة الأكاديمية</td>
+                        <td>Grammarly Premium</td>
+                        <td>تحسين الصياغة الأكاديمية</td>
+                        <td><a href="https://www.grammarly.com" target="_blank" style="color:var(--accent);">grammarly.com</a></td>
+                    </tr>
+                    <tr>
+                        <td>الكتابة الأكاديمية</td>
+                        <td>Writefull</td>
+                        <td>كتابة مقاطع أكاديمية</td>
+                        <td><a href="https://www.writefull.com" target="_blank" style="color:var(--accent);">writefull.com</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- STAGE 7 -->
+    <!-- ============================================== -->
+    <section class="section" id="stage7">
+        <div class="section-title">
+            <div class="section-num">❼</div>
+            <h2>التحقق من الأصالة والانتحال العلمي</h2>
+        </div>
+
+        <!-- Turnitin -->
+        <div class="tool-card" data-category="أصالة" data-keywords="turnitin كشف كتابة آلية">
+            <div class="tool-header">
+                <div class="tool-header-main">
+                    <div class="tool-icon">🛡️</div>
+                    <div class="tool-title">
+                        <h3>Turnitin (AI Detection)</h3>
+                        <span class="tool-cat">أصالة – كشف الكتابة الآلية</span>
+                    </div>
+                </div>
+                <div class="tool-toggle">+</div>
+            </div>
+            <div class="tool-body">
+                <div class="tool-body-inner">
+                    <div class="tool-grid">
+                        <div class="tool-field">
+                            <div class="tool-field-label">⚙️ آلية العمل</div>
+                            <div class="tool-field-content">يستخدم خوارزميات متقدمة لمقارنة النص بقاعدة بيانات ضخمة من الأبحاث والمصادر الرقمية، مع ميزة كشف الكتابة الآلية.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🛠️ الاستخدام العملي في هذه المرحلة</div>
+                            <div class="tool-field-content">فحص المخطوطة قبل الإرسال للنشر للتأكد من عدم وجود انتحال غير مقصود أو كتابة آلية.</div>
+                        </div>
+                        <div class="tool-field success">
+                            <div class="tool-field-label">💡 مثال تطبيقي</div>
+                            <div class="tool-field-content">فحص رسالة ماجستير قبل التقديم للتأكد من خلوها من الانتحال، مع الحصول على تقرير تشابه مفصل.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🎓 التخصصات العلمية</div>
+                            <div class="tool-field-content">جميع التخصصات، معترف به عالمياً في المؤسسات الأكاديمية.</div>
+                        </div>
+                        <div class="tool-field warn">
+                            <div class="tool-field-label">⚠️ القيود العلمية</div>
+                            <div class="tool-field-content">قد يخطئ في كشف الكتابة الآلية في النصوص الأكاديمية الرسمية أو النصوص المترجمة.</div>
+                        </div>
+                        <div class="tool-field danger">
+                            <div class="tool-field-label">🚨 المخاطر الأكاديمية</div>
+                            <div class="tool-field-content">الاعتماد الكلي على نتائج الكشف الآلي قد يؤدي إلى اتهامات خاطئة تتطلب مراجعة بشرية.</div>
+                        </div>
+                    </div>
+                    <a href="https://www.turnitin.com" target="_blank" rel="noopener" class="tool-link">🔗 turnitin.com ←</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- iThenticate -->
+        <div class="tool-card" data-category="أصالة" data-keywords="ithenticate انتحال ناشري">
+            <div class="tool-header">
+                <div class="tool-header-main">
+                    <div class="tool-icon">🔒</div>
+                    <div class="tool-title">
+                        <h3>iThenticate</h3>
+                        <span class="tool-cat">أصالة – فحص الناشرين</span>
+                    </div>
+                </div>
+                <div class="tool-toggle">+</div>
+            </div>
+            <div class="tool-body">
+                <div class="tool-body-inner">
+                    <div class="tool-grid">
+                        <div class="tool-field">
+                            <div class="tool-field-label">⚙️ آلية العمل</div>
+                            <div class="tool-field-content">منصة متخصصة للناشرين والباحثين لفحص الانتحال ضد أكبر قاعدة بيانات أكاديمية في العالم.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🛠️ الاستخدام العملي في هذه المرحلة</div>
+                            <div class="tool-field-content">فحص المقال قبل الإرسال للمجلات العلمية المحكمة، وهي الأداة المعيارية للناشرين الدوليين.</div>
+                        </div>
+                        <div class="tool-field success">
+                            <div class="tool-field-label">💡 مثال تطبيقي</div>
+                            <div class="tool-field-content">باحث يفحص مقالاً قبل إرساله لمجلة Scopus للتأكد من نسبة التشابه المقبولة (أقل من 15%).</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🎓 التخصصات العلمية</div>
+                            <div class="tool-field-content">جميع التخصصات، معترف بها من قبل كبرى دور النشر (Elsevier, Springer, IEEE).</div>
+                        </div>
+                        <div class="tool-field warn">
+                            <div class="tool-field-label">⚠️ القيود العلمية</div>
+                            <div class="tool-field-content">لا تكشف الكتابة الآلية بشكل كامل، وتركز بشكل أساسي على التشابه النصي.</div>
+                        </div>
+                        <div class="tool-field danger">
+                            <div class="tool-field-label">🚨 المخاطر الأكاديمية</div>
+                            <div class="tool-field-content">الاعتماد الحصري عليه دون مراجعة بشرية قد يغفل أنواعاً أخرى من الانتحال (كالفكري أو الترجمة).</div>
+                        </div>
+                    </div>
+                    <a href="https://www.ithenticate.com" target="_blank" rel="noopener" class="tool-link">🔗 ithenticate.com ←</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-box">
+            <h4>📋 جدول ملخص المرحلة السابعة</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>المرحلة</th>
+                        <th>الأداة</th>
+                        <th>الوظيفة الرئيسية</th>
+                        <th>الرابط</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>التحقق من الأصالة</td>
+                        <td>Turnitin (AI Detection)</td>
+                        <td>كشف الكتابة الآلية</td>
+                        <td><a href="https://www.turnitin.com" target="_blank" style="color:var(--accent);">turnitin.com</a></td>
+                    </tr>
+                    <tr>
+                        <td>التحقق من الأصالة</td>
+                        <td>iThenticate</td>
+                        <td>فحص الانتحال للمجلات</td>
+                        <td><a href="https://www.ithenticate.com" target="_blank" style="color:var(--accent);">ithenticate.com</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- STAGE 8 -->
+    <!-- ============================================== -->
+    <section class="section" id="stage8">
+        <div class="section-title">
+            <div class="section-num">❽</div>
+            <h2>متابعة المستجدات والاتجاهات البحثية الحديثة</h2>
+        </div>
+
+        <!-- arXiv Sanity -->
+        <div class="tool-card" data-category="متابعة" data-keywords="arxiv sanity أوراق جديدة">
+            <div class="tool-header">
+                <div class="tool-header-main">
+                    <div class="tool-icon">📡</div>
+                    <div class="tool-title">
+                        <h3>arXiv Sanity Preserver</h3>
+                        <span class="tool-cat">متابعة – اكتشاف الأوراق</span>
+                    </div>
+                </div>
+                <div class="tool-toggle">+</div>
+            </div>
+            <div class="tool-body">
+                <div class="tool-body-inner">
+                    <div class="tool-grid">
+                        <div class="tool-field">
+                            <div class="tool-field-label">⚙️ آلية العمل</div>
+                            <div class="tool-field-content">واجهة ذكية لأرشيف arXiv تتيح متابعة الأوراق الحديثة وتصنيفها حسب الاهتمامات باستخدام التعلم الآلي.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🛠️ الاستخدام العملي في هذه المرحلة</div>
+                            <div class="tool-field-content">متابعة يومية للأوراق الجديدة في التخصص الدقيق واكتشاف الأوراق المؤثرة قبل انتشارها.</div>
+                        </div>
+                        <div class="tool-field success">
+                            <div class="tool-field-label">💡 مثال تطبيقي</div>
+                            <div class="tool-field-content">باحث في التعلم العميق يتابع الأوراق الجديدة في cs.LG يومياً ويحدد الأوراق الأكثر تأثيراً.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🎓 التخصصات العلمية</div>
+                            <div class="tool-field-content">علوم الحاسوب، الفيزياء، الرياضيات، الإحصاء، والأحياء الحاسوبية.</div>
+                        </div>
+                        <div class="tool-field warn">
+                            <div class="tool-field-label">⚠️ القيود العلمية</div>
+                            <div class="tool-field-content">يغطي أرشيف arXiv فقط، ولا يشمل الأوراق المنشورة في المجلات فقط.</div>
+                        </div>
+                        <div class="tool-field danger">
+                            <div class="tool-field-label">🚨 المخاطر الأكاديمية</div>
+                            <div class="tool-field-content">الاعتماد على الأوراق الأولية (Preprints) دون مراجعة الأقران قد يضلل الباحث في نتائج غير محكمة.</div>
+                        </div>
+                    </div>
+                    <a href="https://arxiv-sanity-lite.com" target="_blank" rel="noopener" class="tool-link">🔗 arxiv-sanity-lite.com ←</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Papers with Code -->
+        <div class="tool-card" data-category="متابعة" data-keywords="papers with code نماذج تطبيقات">
+            <div class="tool-header">
+                <div class="tool-header-main">
+                    <div class="tool-icon">💻</div>
+                    <div class="tool-title">
+                        <h3>Papers with Code</h3>
+                        <span class="tool-cat">متابعة – النماذج والتطبيقات</span>
+                    </div>
+                </div>
+                <div class="tool-toggle">+</div>
+            </div>
+            <div class="tool-body">
+                <div class="tool-body-inner">
+                    <div class="tool-grid">
+                        <div class="tool-field">
+                            <div class="tool-field-label">⚙️ آلية العمل</div>
+                            <div class="tool-field-content">منصة تربط الأوراق العلمية بالتنفيذ البرمجي (الكود) وتصنف الأداء على مجموعات البيانات القياسية.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🛠️ الاستخدام العملي في هذه المرحلة</div>
+                            <div class="tool-field-content">متابعة أحدث النماذج والخوارزميات، ومقارنة أدائها على مهام محددة، والوصول لكود التنفيذ مباشرة.</div>
+                        </div>
+                        <div class="tool-field success">
+                            <div class="tool-field-label">💡 مثال تطبيقي</div>
+                            <div class="tool-field-content">باحث يتابع أحدث نماذج تصنيف الصور ويقارن دقتها على مجموعة بيانات ImageNet مع الوصول للكود.</div>
+                        </div>
+                        <div class="tool-field">
+                            <div class="tool-field-label">🎓 التخصصات العلمية</div>
+                            <div class="tool-field-content">علوم الحاسوب، الذكاء الاصطناعي، الرؤية الحاسوبية، معالجة اللغة الطبيعية.</div>
+                        </div>
+                        <div class="tool-field warn">
+                            <div class="tool-field-label">⚠️ القيود العلمية</div>
+                            <div class="tool-field-content">يغطي بشكل أساسي المجالات التي تعتمد على الكود، ويقل التركيز فيه على التخصصات النظرية.</div>
+                        </div>
+                        <div class="tool-field danger">
+                            <div class="tool-field-label">🚨 المخاطر الأكاديمية</div>
+                            <div class="tool-field-content">مقارنة الأداء الرقمي فقط دون فهم السياق المنهجي قد يؤدي إلى استنتاجات سطحية.</div>
+                        </div>
+                    </div>
+                    <a href="https://paperswithcode.com" target="_blank" rel="noopener" class="tool-link">🔗 paperswithcode.com ←</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-box">
+            <h4>📋 جدول ملخص المرحلة الثامنة</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>المرحلة</th>
+                        <th>الأداة</th>
+                        <th>الوظيفة الرئيسية</th>
+                        <th>الرابط</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>المتابعة البحثية</td>
+                        <td>arXiv Sanity Preserver</td>
+                        <td>اكتشاف أوراق جديدة</td>
+                        <td><a href="https://arxiv-sanity-lite.com" target="_blank" style="color:var(--accent);">arxiv-sanity-lite.com</a></td>
+                    </tr>
+                    <tr>
+                        <td>المتابعة البحثية</td>
+                        <td>Papers with Code</td>
+                        <td>متابعة النماذج والتطبيقات</td>
+                        <td><a href="https://paperswithcode.com" target="_blank" style="color:var(--accent);">paperswithcode.com</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- ETHICS SECTION -->
+    <!-- ============================================== -->
+    <section class="section" id="ethics">
+        <div class="section-title">
+            <div class="section-num">⚖️</div>
+            <h2>أخلاقيات البحث العلمي والذكاء الاصطناعي</h2>
+        </div>
+
+        <div class="ethics-grid">
+            <div class="ethics-card allow">
+                <h4>✅ ما يُسمح به أكاديمياً</h4>
+                <ul>
+                    <li><strong>كمساعد بحثي:</strong> للاستكشاف الأولي، توليد الأفكار، وتنظيم المعلومات.</li>
+                    <li><strong>كأداة تحليلية:</strong> لمعالجة كميات كبيرة من البيانات النصية ضمن إطار منهجي واضح.</li>
+                    <li><strong>كمساعد كتابة:</strong> لتحسين الصياغة اللغوية، تصحيح الأخطاء النحوية، وضبط التنسيق.</li>
+                    <li><strong>كأداة اكتشاف:</strong> لمتابعة الاتجاهات البحثية والاستشهادات الحديثة.</li>
+                </ul>
+            </div>
+            <div class="ethics-card deny">
+                <h4>🚫 ما لا يُسمح به أكاديمياً</h4>
+                <ul>
+                    <li><strong>التأليف الكامل:</strong> لا يمكن اعتبار أدوات الذكاء الاصطناعي مؤلفاً أو مشاركاً في البحث.</li>
+                    <li><strong>توليد بيانات وهمية:</strong> تحريم مطلق لتوليد أو تزييف البيانات البحثية.</li>
+                    <li><strong>الاستبدال الفكري:</strong> لا يجوز استبدال التحليل النقدي والتفكير الإبداعي البشري بالتحليل الآلي.</li>
+                    <li><strong>الإحالة غير الشفافة:</strong> يجب الإفصاح عن استخدام الذكاء الاصطناعي عند طلب الناشر.</li>
+                </ul>
+            </div>
+            <div class="ethics-card info">
+                <h4>🏛️ إرشادات الجامعات الرائدة (2024)</h4>
+                <ul>
+                    <li><strong>جامعة هارفارد:</strong> تسمح باستخدام الذكاء الاصطناعي مع الإفصاح الكامل ومسؤولية الباحث عن المحتوى.</li>
+                    <li><strong>جامعة ستانفورد:</strong> تشترط التدقيق البشري لكل مخرج من مخرجات الذكاء الاصطناعي.</li>
+                    <li><strong>MIT:</strong> تنص على أن استخدام الذكاء الاصطناعي لا يعفي الباحث من فهم المحتوى المقدم.</li>
+                </ul>
+            </div>
+            <div class="ethics-card info">
+                <h4>📰 إرشادات المجلات العلمية المرموقة</h4>
+                <ul>
+                    <li><strong>Nature:</strong> تتطلب إقراراً مفصلاً عن استخدام الذكاء الاصطناعي في قسم "المنهجية".</li>
+                    <li><strong>Science:</strong> تمنع استخدام الذكاء الاصطناعي في التحليل الإحصائي دون التحقق البشري.</li>
+                    <li><strong>IEEE:</strong> تفرض توثيقاً دقيقاً للأدوات والإصدارات والمعلمات المستخدمة.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="ethics-card info" style="margin-top:1.5rem;">
+            <h4>📝 نموذج مقترح للإفصاح عن استخدام الذكاء الاصطناعي</h4>
+            <p style="color:var(--text-light);font-size:0.9rem;margin-bottom:0.5rem;">يُدرج هذا البيان في قسم "المنهجية" أو في قسم مستقل قبل قائمة المراجع، وفقاً لمتطلبات المجلة المستهدفة.</p>
+            <div class="code-block">
+<span class="key">بيان استخدام الذكاء الاصطناعي:</span><br><br>
+<span class="key">1. الأداة المستخدمة:</span> <span class="val">[اسم الأداة والإصدار]</span><br>
+<span class="key">2. الغرض من الاستخدام:</span> <span class="val">[مثال: تحليل أولي للأدبيات]</span><br>
+<span class="key">3. المدخلات:</span> <span class="val">[وصف البيانات المقدمة للأداة]</span><br>
+<span class="key">4. نطاق الاستخدام:</span> <span class="val">[النسبة المئوية للمساهمة في البحث]</span><br>
+<span class="key">5. التدقيق البشري:</span> <span class="val">[آليات التحقق المتبعة]</span><br>
+<span class="key">6. التاريخ:</span> <span class="val">[تاريخ الاستخدام]</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SUMMARY SECTION -->
+    <!-- ============================================== -->
+    <section class="section" id="summary">
+        <div class="section-title">
+            <div class="section-num">📋</div>
+            <h2>الجدول الإجمالي للأدوات حسب مراحل البحث</h2>
+        </div>
+
+        <div class="comparison-box">
+            <table>
+                <thead>
+                    <tr>
+                        <th>المرحلة البحثية</th>
+                        <th>الأداة</th>
+                        <th>الوظيفة</th>
+                        <th>الرابط الرسمي</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>اختيار الموضوع</td>
+                        <td>Consensus</td>
+                        <td>استخراج إجابات من أوراق علمية</td>
+                        <td><a href="https://consensus.app" target="_blank" style="color:var(--accent);">consensus.app</a></td>
+                    </tr>
+                    <tr>
+                        <td>اختيار الموضوع</td>
+                        <td>Elicit</td>
+                        <td>توليد أفكار بحثية</td>
+                        <td><a href="https://elicit.org" target="_blank" style="color:var(--accent);">elicit.org</a></td>
+                    </tr>
+                    <tr>
+                        <td>الإطار النظري</td>
+                        <td>Scite.ai</td>
+                        <td>تحليل سياق الاستشهادات</td>
+                        <td><a href="https://scite.ai" target="_blank" style="color:var(--accent);">scite.ai</a></td>
+                    </tr>
+                    <tr>
+                        <td>الإطار النظري</td>
+                        <td>Connected Papers</td>
+                        <td>رسم خرائط التطور النظري</td>
+                        <td><a href="https://www.connectedpapers.com" target="_blank" style="color:var(--accent);">connectedpapers.com</a></td>
+                    </tr>
+                    <tr>
+                        <td>مراجعة الأدبيات</td>
+                        <td>ResearchRabbit</td>
+                        <td>توصية أوراق بناءً على التفضيلات</td>
+                        <td><a href="https://www.researchrabbit.ai" target="_blank" style="color:var(--accent);">researchrabbit.ai</a></td>
+                    </tr>
+                    <tr>
+                        <td>مراجعة الأدبيات</td>
+                        <td>Litmaps</td>
+                        <td>تحليل الزخم البحثي</td>
+                        <td><a href="https://www.litmaps.com" target="_blank" style="color:var(--accent);">litmaps.com</a></td>
+                    </tr>
+                    <tr>
+                        <td>قراءة الأوراق</td>
+                        <td>Scholarcy</td>
+                        <td>تلخيص الأوراق العلمية</td>
+                        <td><a href="https://www.scholarcy.com" target="_blank" style="color:var(--accent);">scholarcy.com</a></td>
+                    </tr>
+                    <tr>
+                        <td>قراءة الأوراق</td>
+                        <td>Iris.ai</td>
+                        <td>استخراج المفاهيم الرئيسية</td>
+                        <td><a href="https://iris.ai" target="_blank" style="color:var(--accent);">iris.ai</a></td>
+                    </tr>
+                    <tr>
+                        <td>إدارة المراجع</td>
+                        <td>Zotero + AI Plugins</td>
+                        <td>تنظيم ذكي للمراجع</td>
+                        <td><a href="https://www.zotero.org" target="_blank" style="color:var(--accent);">zotero.org</a></td>
+                    </tr>
+                    <tr>
+                        <td>إدارة المراجع</td>
+                        <td>Mendeley Suggest</td>
+                        <td>اقتراح مراجع ذكي</td>
+                        <td><a href="https://www.mendeley.com" target="_blank" style="color:var(--accent);">mendeley.com</a></td>
+                    </tr>
+                    <tr>
+                        <td>الكتابة الأكاديمية</td>
+                        <td>Grammarly Premium</td>
+                        <td>تحسين الصياغة الأكاديمية</td>
+                        <td><a href="https://www.grammarly.com" target="_blank" style="color:var(--accent);">grammarly.com</a></td>
+                    </tr>
+                    <tr>
+                        <td>الكتابة الأكاديمية</td>
+                        <td>Writefull</td>
+                        <td>كتابة مقاطع أكاديمية</td>
+                        <td><a href="https://www.writefull.com" target="_blank" style="color:var(--accent);">writefull.com</a></td>
+                    </tr>
+                    <tr>
+                        <td>التحقق من الأصالة</td>
+                        <td>Turnitin (AI Detection)</td>
+                        <td>كشف الكتابة الآلية</td>
+                        <td><a href="https://www.turnitin.com" target="_blank" style="color:var(--accent);">turnitin.com</a></td>
+                    </tr>
+                    <tr>
+                        <td>التحقق من الأصالة</td>
+                        <td>iThenticate</td>
+                        <td>فحص الانتحال للمجلات</td>
+                        <td><a href="https://www.ithenticate.com" target="_blank" style="color:var(--accent);">ithenticate.com</a></td>
+                    </tr>
+                    <tr>
+                        <td>المتابعة البحثية</td>
+                        <td>arXiv Sanity Preserver</td>
+                        <td>اكتشاف أوراق جديدة</td>
+                        <td><a href="https://arxiv-sanity-lite.com" target="_blank" style="color:var(--accent);">arxiv-sanity-lite.com</a></td>
+                    </tr>
+                    <tr>
+                        <td>المتابعة البحثية</td>
+                        <td>Papers with Code</td>
+                        <td>متابعة النماذج والتطبيقات</td>
+                        <td><a href="https://paperswithcode.com" target="_blank" style="color:var(--accent);">paperswithcode.com</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- RECOMMENDATIONS SECTION -->
+    <!-- ============================================== -->
+    <section class="section" id="recommendations">
+        <div class="section-title">
+            <div class="section-num">🎯</div>
+            <h2>توصيات عملية حسب المستوى الأكاديمي</h2>
+        </div>
+
+        <div class="rec-grid">
+            <!-- Bachelor -->
+            <div class="rec-card">
+                <span class="rec-level">🎓 بكالوريوس</span>
+                <h4>طالب المرحلة الجامعية الأولى</h4>
+                <div class="rec-section">
+                    <div class="rec-section-title">الأدوات الموصى بها</div>
+                    <div class="rec-tags">
+                        <span class="rec-tag">Grammarly</span>
+                        <span class="rec-tag">Zotero</span>
+                        <span class="rec-tag">Connected Papers</span>
+                        <span class="rec-tag">Consensus</span>
+                    </div>
+                </div>
+                <div class="rec-section">
+                    <div class="rec-section-title">الهدف</div>
+                    <p style="font-size:0.9rem;color:var(--text-light);">تطوير مهارات البحث الأساسية والكتابة الأكاديمية السليمة، والبدء في بناء عادات توثيق سليمة.</p>
+                </div>
+                <div class="rec-warning">
+                    <strong>⚠️ تحذير:</strong> عدم استخدام أدوات التلخيص الآلي كبديل للقراءة الكاملة للأوراق العلمية.
+                </div>
+            </div>
+
+            <!-- Master -->
+            <div class="rec-card master">
+                <span class="rec-level">🎓 ماجستير</span>
+                <h4>طالب الدراسات العليا</h4>
+                <div class="rec-section">
+                    <div class="rec-section-title">الأدوات الموصى بها</div>
+                    <div class="rec-tags">
+                        <span class="rec-tag">Scite.ai</span>
+                        <span class="rec-tag">ResearchRabbit</span>
+                        <span class="rec-tag">Scholarcy</span>
+                        <span class="rec-tag">Litmaps</span>
+                        <span class="rec-tag">Turnitin</span>
+                    </div>
+                </div>
+                <div class="rec-section">
+                    <div class="rec-section-title">الهدف</div>
+                    <p style="font-size:0.9rem;color:var(--text-light);">تعميق التحليل النقدي، فهم البنية الاستشهادية، وبناء إطار نظري متين للرسالة.</p>
+                </div>
+                <div class="rec-warning">
+                    <strong>⚠️ تحذير:</strong> ضرورة التحقق من جميع المخرجات الآلية بمصادر أولية، والالتزام بمعايير النزاهة الأكاديمية.
+                </div>
+            </div>
+
+            <!-- PhD -->
+            <div class="rec-card phd">
+                <span class="rec-level">🎓 دكتوراه</span>
+                <h4>الباحث وطالب الدكتوراه</h4>
+                <div class="rec-section">
+                    <div class="rec-section-title">الأدوات الموصى بها</div>
+                    <div class="rec-tags">
+                        <span class="rec-tag">Iris.ai</span>
+                        <span class="rec-tag">Elicit</span>
+                        <span class="rec-tag">Papers with Code</span>
+                        <span class="rec-tag">iThenticate</span>
+                        <span class="rec-tag">Writefull</span>
+                    </div>
+                </div>
+                <div class="rec-section">
+                    <div class="rec-section-title">الهدف</div>
+                    <p style="font-size:0.9rem;color:var(--text-light);">تحديد فجوات بحثية حقيقية وبناء إسهامات معرفية أصيلة قابلة للنشر في مجلات Scopus وWeb of Science.</p>
+                </div>
+                <div class="rec-warning">
+                    <strong>⚠️ تحذير:</strong> الالتزام الصارم بإرشادات النشر الخاصة بكل مجلة فيما يخص الإفصاح عن استخدام الذكاء الاصطناعي.
+                </div>
+            </div>
+        </div>
+
+        <!-- Closing note -->
+        <div class="ethics-card info" style="margin-top:2rem;">
+            <h4>🎯 خاتمة</h4>
+            <p style="font-size:0.95rem;line-height:1.9;">
+                يشكل الذكاء الاصطناعي أداة تحولية في البحث العلمي عند استخدامه ضمن أطر أخلاقية ومنهجية واضحة. يعتمد الفائدة البحثية الحقيقية على التوازن بين الاستفادة من كفاءة هذه الأدوات والحفاظ على الحكم النقدي والإبداع البشري. يظل الباحث مسؤولاً عن جميع محتويات بحثه بغض النظر عن درجة الاعتماد على الأدوات المساعدة.
+            </p>
+            <p style="margin-top:1rem;font-weight:700;color:var(--danger);font-size:0.95rem;">
+                المرجعية الأخلاقية النهائية: إذا شككت في أخلاقية استخدام أداة ما، توقف عن استخدامها واستشر مشرفك البحثي أو لجنة الأخلاقيات في مؤسستك.
+            </p>
+        </div>
+    </section>
+
+</div>
+
+<!-- ===== BACK TO TOP ===== -->
+<button id="backTop" aria-label="العودة للأعلى">↑</button>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+    <p><strong>الدليل العلمي المتكامل لأدوات الذكاء الاصطناعي في البحث العلمي</strong></p>
+    <p>إعداد: خبير أكاديمي متخصص في ذكاء اصطناعي البحث العلمي</p>
+    <div class="footer-note">
+        آخر تحديث: ديسمبر 2024 · المرجعية: معايير Scopus / Web of Science للنشر الأكاديمي · جميع الأدوات المذكورة لها روابط رسمية مباشرة وقابلة للتحقق.
+    </div>
+</footer>
+
+<script>
+(function(){
+    'use strict';
+
+    // ===== Tab Navigation =====
+    const navBtns = document.querySelectorAll('.nav-btn');
+    const sections = document.querySelectorAll('.section');
+    const searchBox = document.getElementById('searchBox');
+
+    navBtns.forEach(btn=>{
+        btn.addEventListener('click',()=>{
+            const target = btn.dataset.target;
+            navBtns.forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            sections.forEach(s=>s.classList.remove('active'));
+            const targetSection = document.getElementById(target);
+            if(targetSection){targetSection.classList.add('active');}
+            window.scrollTo({top:0,behavior:'smooth'});
+            // show search only on stage sections
+            if(target.startsWith('stage')){
+                searchBox.style.display='flex';
+            } else {
+                searchBox.style.display='none';
+            }
+        });
+    });
+
+    // ===== Accordion =====
+    document.querySelectorAll('.tool-header').forEach(header=>{
+        header.addEventListener('click',()=>{
+            const card = header.closest('.tool-card');
+            card.classList.toggle('open');
+        });
+    });
+
+    // ===== Search & Filter =====
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+
+    function filterTools(){
+        const q = searchInput.value.trim().toLowerCase();
+        const cat = categoryFilter.value;
+        const activeSection = document.querySelector('.section.active');
+        if(!activeSection) return;
+
+        const cards = activeSection.querySelectorAll('.tool-card');
+        let visibleCount = 0;
+
+        cards.forEach(card=>{
+            const keywords = (card.dataset.keywords||'').toLowerCase();
+            const text = card.textContent.toLowerCase();
+            const cardCat = card.dataset.category||'';
+            const matchQ = !q || text.includes(q) || keywords.includes(q);
+            const matchCat = !cat || cardCat === cat;
+            if(matchQ && matchCat){
+                card.style.display='';
+                visibleCount++;
+            } else {
+                card.style.display='none';
+            }
+        });
+
+        // handle no results
+        let noResultsEl = activeSection.querySelector('.no-results');
+        const comparisonBoxes = activeSection.querySelectorAll('.comparison-box');
+        if(visibleCount===0){
+            comparisonBoxes.forEach(b=>b.style.display='none');
+            if(!noResultsEl){
+                noResultsEl = document.createElement('div');
+                noResultsEl.className='no-results';
+                noResultsEl.textContent='🔍 لا توجد نتائج مطابقة لبحثك في هذه المرحلة.';
+                const lastCard = activeSection.querySelector('.tool-card:last-of-type');
+                if(lastCard){lastCard.after(noResultsEl);}
+            }
+        } else {
+            comparisonBoxes.forEach(b=>b.style.display='');
+            if(noResultsEl){noResultsEl.remove();}
+        }
+    }
+
+    if(searchInput){searchInput.addEventListener('input',filterTools);}
+    if(categoryFilter){categoryFilter.addEventListener('change',filterTools);}
+
+    // ===== Back to Top =====
+    const backTop = document.getElementById('backTop');
+    window.addEventListener('scroll',()=>{
+        if(window.scrollY>400){backTop.classList.add('show');}
+        else{backTop.classList.remove('show');}
+    });
+    backTop.addEventListener('click',()=>{
+        window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    // ===== Open first tool in each stage by default =====
+    document.querySelectorAll('.section').forEach(sec=>{
+        if(sec.id.startsWith('stage')){
+            const firstCard = sec.querySelector('.tool-card');
+            if(firstCard){firstCard.classList.add('open');}
+        }
+    });
+
+    // ===== Update stat counter =====
+    const statTools = document.getElementById('statTools');
+    if(statTools){
+        const total = document.querySelectorAll('.tool-card').length;
+        statTools.textContent = total;
+    }
+
+})();
+</script>
+
+</body>
+</html>
