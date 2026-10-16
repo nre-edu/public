@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>بوابة تهيئة أعضاء هيئة التدريس الجدد - كلية الشمال للتمريض الأهلية</title>
+  <link rel="icon" type="image/png" href="https://nre-nec.com/mo/logo.png" />
+  <link rel="apple-touch-icon" href="https://nre-nec.com/mo/logo.png" />
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-purple: #745A84;
+      --brand-purple-dark: #5e476b;
+      --brand-purple-light: #f4f1f6;
+      --brand-olive: #B7BB34;
+      --brand-olive-light: #f7f8ec;
+      --bg-main: #F9FAFB;
+      --surface-white: #FFFFFF;
+      --border-color: #E5E7EB;
+      --text-primary: #111827;
+      --text-secondary: #6B7280;
+    }
+    body {
+      font-family: 'Almarai', 'Inter', sans-serif;
+      background-color: #F9FAFB;
+      color: #111827;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4 {
+      color: #745A84;
+    }
+    .step-transition {
+      transition: all 0.25s ease-in-out;
+    }
+    .logo-white {
+      filter: brightness(0) invert(1);
+    }
+    input[type="checkbox"], input[type="radio"] {
+      accent-color: #745A84;
+    }
+    /* Print Styling for Official A4 Evidence Document */
+    @media print {
+      body {
+        background: #FFFFFF !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-only-container {
+        display: block !important;
+        box-shadow: none !important;
+        border: 1px solid #E5E7EB !important;
+        margin: 0 !important;
+        padding: 20px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#F9FAFB] text-[#111827]">
+
+  <!-- Top Navigation & Mode Switcher (Dark Purple #745A84 Header with White Logo) -->
+  <header class="bg-[#745A84] text-white shadow-sm border-b border-[#E5E7EB]/20 no-print sticky top-0 z-30">
+    <div class="max-w-6xl mx-auto px-4 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3.5">
+        <div class="flex items-center justify-center px-2 py-1 rounded-xl bg-white/10 border border-white/15">
+          <img src="https://nre-nec.com/mo/logo-p.png" alt="شعار كلية الشمال للتمريض الأهلية" class="h-10 w-auto object-contain logo-white" />
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-extrabold text-base sm:text-lg leading-tight !text-white">بوابة تهيئة أعضاء هيئة التدريس الجدد</h1>
+            <span class="text-xs bg-[#B7BB34]/25 text-white border border-[#B7BB34]/60 px-2.5 py-0.5 rounded-full font-bold">نموذج Workflow تفاعلي</span>
+          </div>
+          <p class="text-xs text-white/80 mt-0.5">محاكاة رحلة العضو الجديد من المباشرة وحتى إصدار وثيقة الشاهد الرسمية للجودة</p>
+        </div>
+      </div>
+
+      <!-- View Switcher Tabs -->
+      <div class="flex items-center bg-[#5e476b] p-1 rounded-xl border border-white/15 text-xs sm:text-sm">
+        <button id="tab-workflow" type="button" class="px-3.5 py-1.5 rounded-lg font-bold bg-white text-[#745A84] shadow-xs transition flex items-center gap-1.5">
+          <span>1. رحلة العضو (Workflow)</span>
+        </button>
+        <button id="tab-certificate" type="button" class="px-3.5 py-1.5 rounded-lg font-medium text-white/85 hover:text-white transition flex items-center gap-1.5">
+          <span>2. وثيقة الإقرار (الشاهد A4)</span>
+        </button>
+        <button id="tab-admin" type="button" class="px-3.5 py-1.5 rounded-lg font-medium text-white/85 hover:text-white transition flex items-center gap-1.5">
+          <span>3. لوحة شواهد الجودة</span>
+          <span id="admin-count-badge" class="bg-[#B7BB34] text-[#111827] px-1.5 py-0.2 rounded-full text-xs font-extrabold">4</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Demo Control Bar (Helps User Explore Prototype Fast) -->
+  <div class="bg-[#FFFFFF] border-b border-[#E5E7EB] no-print">
+    <div class="max-w-6xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm">
+      <div class="flex items-center gap-2 text-[#111827]">
+        <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#B7BB34] text-[#111827] font-extrabold text-xs">!</span>
+        <span><strong class="text-[#745A84]">شريط التحكم بالمحاكاة:</strong> <span class="text-[#6B7280]">يمكنك تجربة الخطوات بالتسلسل كعضو جديد، أو استخدام الأزرار السريعة لاستعراض الفكرة فوراً.</span></span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="btn-autofill-all" type="button" class="px-3.5 py-1.5 bg-[#745A84] hover:bg-[#5e476b] text-white rounded-lg font-bold transition shadow-xs">
+          تعبئة بيانات تجريبية كاملة والانتقال للإقرار
+        </button>
+        <button id="btn-toggle-free-nav" type="button" class="px-3 py-1.5 bg-[#F9FAFB] hover:bg-[#f4f1f6] text-[#111827] border border-[#E5E7EB] rounded-lg font-medium transition">
+          فتح التنقل الحر بين المحطات: <span id="free-nav-status" class="font-bold text-[#745A84]">مفعّل للمعاينة</span>
+        </button>
+        <button id="btn-reset-demo" type="button" class="px-2.5 py-1.5 text-[#6B7280] hover:text-[#745A84] hover:bg-[#F9FAFB] rounded-lg transition">
+          إعادة ضبط
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-box" class="fixed bottom-5 left-5 z-50 hidden max-w-sm bg-[#745A84] text-white px-4 py-3 rounded-xl shadow-lg border border-[#E5E7EB]/20 flex items-center gap-3 no-print">
+    <span id="toast-icon" class="w-2.5 h-2.5 rounded-full bg-[#B7BB34] shrink-0"></span>
+    <p id="toast-text" class="text-sm font-medium"></p>
+  </div>
+
+  <!-- Guide Preview Modal -->
+  <div id="guide-modal" class="fixed inset-0 bg-[#111827]/50 backdrop-blur-xs z-50 hidden items-center justify-center p-4 no-print">
+    <div class="bg-[#FFFFFF] rounded-2xl max-w-lg w-full shadow-xl border border-[#E5E7EB] overflow-hidden">
+      <div class="bg-[#745A84] text-white px-5 py-4 flex items-center justify-between">
+        <h3 id="modal-guide-title" class="font-bold text-base !text-white">معاينة الدليل</h3>
+        <button id="btn-close-modal" type="button" class="text-white/80 hover:text-white text-sm px-2 py-1 rounded">إغلاق ✕</button>
+      </div>
+      <div class="p-5 space-y-3 text-sm text-[#111827] leading-relaxed">
+        <div class="bg-[#F9FAFB] p-3 rounded-xl border border-[#E5E7EB] text-xs text-[#6B7280] flex justify-between">
+          <span id="modal-guide-code">الرمز الوثائقي: QMS-GD-01</span>
+          <span id="modal-guide-pages">عدد الصفحات: 28 صفحة</span>
+        </div>
+        <p id="modal-guide-desc" class="font-medium text-[#111827]"></p>
+        <div class="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-3.5 text-xs text-[#111827]">
+          <strong class="text-[#745A84]">أهم البنود التي يغطيها الدليل:</strong>
+          <ul id="modal-guide-bullets" class="list-disc list-inside mt-1.5 space-y-1 text-[#6B7280]"></ul>
+        </div>
+      </div>
+      <div class="px-5 py-3 bg-[#F9FAFB] border-t border-[#E5E7EB] flex justify-end gap-2">
+        <button id="btn-modal-confirm-read" type="button" class="px-4 py-2 bg-[#745A84] hover:bg-[#5e476b] text-white text-sm font-bold rounded-xl transition">
+          تأكيد الاطلاع على هذا الدليل ✓
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT AREA -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-7">
+
+    <!-- ==================== VIEW 1: WORKFLOW WIZARD ==================== -->
+    <section id="view-workflow" class="space-y-6">
+
+      <!-- Workflow Diagram / Stepper Header -->
+      <div class="bg-[#FFFFFF] rounded-2xl p-5 sm:p-6 shadow-xs border border-[#E5E7EB]">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-5">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-[#745A84] bg-[#f4f1f6] px-2.5 py-1 rounded-md border border-[#E5E7EB]">مسار التهيئة القياسي (6 محطات)</span>
+            <h2 class="text-base sm:text-lg font-extrabold text-[#745A84] mt-1.5">خريطة تدفق تهيئة عضو هيئة التدريس الجديد</h2>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="text-left">
+              <div class="text-xs text-[#6B7280]">نسبة إتمام التهيئة</div>
+              <div id="progress-percent-text" class="text-sm font-extrabold text-[#745A84]">15% (المحطة 1 من 6)</div>
+            </div>
+            <div class="w-28 sm:w-36 h-2.5 bg-[#F9FAFB] rounded-full overflow-hidden border border-[#E5E7EB]">
+              <div id="progress-bar-fill" class="h-full bg-[#745A84] transition-all duration-300" style="width: 16%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 Stations Visual Stepper -->
+        <div id="stepper-container" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+          <!-- Rendered dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Active Station Card + Side Summary -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+
+        <!-- Left/Main 2 Columns: Active Step Content -->
+        <div class="lg:col-span-2 bg-[#FFFFFF] rounded-2xl shadow-xs border border-[#E5E7EB] overflow-hidden">
+
+          <!-- STEP 1: Basic Info -->
+          <div id="step-panel-1" class="p-6 sm:p-7 space-y-5">
+            <div class="flex items-start justify-between gap-3 border-b border-[#E5E7EB] pb-4">
+              <div>
+                <span class="text-xs font-bold text-[#745A84] flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-[#B7BB34]"></span>
+                  المحطة الأولى • نقطة البداية
+                </span>
+                <h3 class="text-lg font-extrabold text-[#745A84] mt-0.5">تسجيل البيانات الأساسية لعضو هيئة التدريس</h3>
+                <p class="text-xs sm:text-sm text-[#6B7280] mt-0.5">تُستخدم هذه البيانات تلقائياً في إنشاء سجل التهيئة وإصدار وثيقة الإقرار النهائية.</p>
+              </div>
+              <button id="btn-fill-step1" type="button" class="text-xs bg-[#F9FAFB] hover:bg-[#f4f1f6] text-[#745A84] border border-[#E5E7EB] px-3 py-1.5 rounded-lg font-bold shrink-0 transition">
+                ملء بيانات افتراضية
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-[#111827] mb-1.5">الاسم الرباعي (كما يظهر في الوثائق الرسمية) *</label>
+                <input id="inp-name" type="text" placeholder="مثال: د. عبدالمجيد بن صالح العتيبي" class="w-full px-3.5 py-2.5 rounded-xl border border-[#E5E7EB] bg-[#FFFFFF] text-[#111827] text-sm focus:outline-none focus:border-[#745A84]" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-[#111827] mb-1.5">الرقم الوظيفي / الأكاديمي *</label>
+                <input id="inp-empid" type="text" placeholder="مثال: 4410982" class="w-full px-3.5 py-2.5 rounded-xl border border-[#E5E7EB] bg-[#FFFFFF] text-[#111827] text-sm focus:outline-none focus:border-[#745A84]" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-[#111827] mb-1.5">القسم العلمي *</label>
+                <select id="inp-dept" class="w-full px-3.5 py-2.5 rounded-xl border border-[#E5E7EB] text-sm bg-[#FFFFFF] text-[#111827] focus:outline-none focus:border-[#745A84]">
+                  <option value="">-- اختر القسم العلمي --</option>
+                  <option value="قسم علوم الحاسب">قسم علوم الحاسب</option>
+                  <option value="قسم نظم المعلومات">قسم نظم المعلومات</option>
+                  <option value="قسم هندسة البرمجيات">قسم هندسة البرمجيات</option>
+                  <option value="قسم الأمن السيبراني">قسم الأمن السيبراني</option>
+                  <option value="قسم الذكاء الاصطناعي">قسم الذكاء الاصطناعي</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-[#111827] mb-1.5">الرتبة الأكاديمية *</label>
+                <select id="inp-rank" class="w-full px-3.5 py-2.5 rounded-xl border border-[#E5E7EB] text-sm bg-[#FFFFFF] text-[#111827] focus:outline-none focus:border-[#745A84]">
+                  <option value="">-- اختر الرتبة الأكاديمية --</option>
+                  <option value="أستاذ">أستاذ</option>
+                  <option value="أستاذ مشارك">أستاذ مشارك</option>
+                  <option value="أستاذ مساعد">أستاذ مساعد</option>
+                  <option value="محاضر">محاضر</option>
+                  <option value="معيد">معيد</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-[#111827] mb-1.5">تاريخ المباشرة بالكلية *</label>
+                <input id="inp-date" type="date" class="w-full px-3.5 py-2.5 rounded-xl border border-[#E5E7EB] bg-[#FFFFFF] text-[#111827] text-sm focus:outline-none focus:border-[#745A84]" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-[#111827] mb-1.5">البريد الجامعي الرسمي *</label>
+                <input id="inp-email" type="email" placeholder="name@university.edu.sa" class="w-full px-3.5 py-2.5 rounded-xl border border-[#E5E7EB] bg-[#FFFFFF] text-[#111827] text-sm focus:outline-none focus:border-[#745A84]" />
+              </div>
+            </div>
+
+            <div class="bg-[#F9FAFB] p-4 rounded-xl border border-[#E5E7EB] text-xs text-[#6B7280] flex items-center gap-2.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#B7BB34] shrink-0"></span>
+              <span><strong class="text-[#745A84]">فكرة الـ Workflow هنا:</strong> بمجرد إدخال العضو لبياناته، يربط النظام كل خطوة تالية بهويته بحيث لا يحتاج لإعادة كتابة اسمه عند استخراج شهادة الإقرار.</span>
+            </div>
+          </div>
+
+          <!-- STEP 2: College & Organizational Structure -->
+          <div id="step-panel-2" class="p-6 sm:p-7 space-y-5 hidden">
+            <div class="border-b border-[#E5E7EB] pb-4">
+              <span class="text-xs font-bold text-[#745A84] flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-[#B7BB34]"></span>
+                المحطة الثانية • الهوية المؤسسية
+              </span>
+              <h3 class="text-lg font-extrabold text-[#745A84] mt-0.5">التعريف بالكلية والهيكل التنظيمي</h3>
+              <p class="text-xs sm:text-sm text-[#6B7280] mt-0.5">يتعرف العضو الجديد في هذه المحطة على رسالة الكلية، وارتباطه الإداري والأكاديمي داخل الهيكل التنظيمي.</p>
+            </div>
+
+            <!-- Vision & Mission Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div class="p-4 rounded-xl bg-[#F9FAFB] border border-[#E5E7EB]">
+                <div class="text-xs font-extrabold text-[#745A84] mb-1 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-[#B7BB34]"></span>
+                  رؤية الكلية
+                </div>
+                <p class="text-xs sm:text-sm text-[#111827] leading-relaxed">الريادة والتميز في التعليم والبحث العلمي وخدمة المجتمع محلياً وإقليمياً بما يحقق مستهدفات التنمية الوطنية.</p>
+              </div>
+              <div class="p-4 rounded-xl bg-[#F9FAFB] border border-[#E5E7EB]">
+                <div class="text-xs font-extrabold text-[#745A84] mb-1 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-[#745A84]"></span>
+                  رسالة الكلية
+                </div>
+                <p class="text-xs sm:text-sm text-[#111827] leading-relaxed">إعداد كفاءات مؤهلة علمياً ومهنياً، وإنتاج بحوث علمية مبتكرة في بيئة أكاديمية محفزة تلتزم بمعايير الجودة والاعتماد.</p>
+              </div>
+            </div>
+
+            <!-- Interactive Mini Org Chart -->
+            <div class="bg-[#F9FAFB] rounded-xl p-4 border border-[#E5E7EB] space-y-3">
+              <div class="text-xs font-bold text-[#745A84] text-center">الهيكل التنظيمي العام للكلية (انقر على أي مستوى لاستعراض مهامه للعضو الجديد)</div>
+              <div class="flex flex-col items-center space-y-2">
+                <button type="button" data-org="dean" class="org-node-btn px-5 py-2 bg-[#745A84] text-white rounded-xl text-xs font-bold shadow-xs hover:bg-[#5e476b] transition">
+                  عميد الكلية ومجلس الكلية
+                </button>
+                <div class="h-3 w-0.5 bg-[#E5E7EB]"></div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full">
+                  <button type="button" data-org="academic" class="org-node-btn p-2.5 bg-[#FFFFFF] border border-[#E5E7EB] hover:border-[#745A84] rounded-xl text-xs font-bold text-[#111827] text-center transition">
+                    وكالة الشؤون التعليمية والأكاديمية
+                  </button>
+                  <button type="button" data-org="quality" class="org-node-btn p-2.5 bg-[#FFFFFF] border border-[#E5E7EB] hover:border-[#745A84] rounded-xl text-xs font-bold text-[#111827] text-center transition">
+                    وكالة الجودة والتطوير
+                  </button>
+                  <button type="button" data-org="research" class="org-node-btn p-2.5 bg-[#FFFFFF] border border-[#E5E7EB] hover:border-[#745A84] rounded-xl text-xs font-bold text-[#111827] text-center transition">
+                    وكالة الدراسات العليا والبحث العلمي
+                  </button>
+                </div>
+                <div class="h-3 w-0.5 bg-[#E5E7EB]"></div>
+                <button type="button" data-org="dept" class="org-node-btn w-full p-2.5 bg-[#f4f1f6] border border-[#745A84]/40 rounded-xl text-xs font-bold text-[#745A84] text-center transition">
+                  الأقسام العلمية ومجالس الأقسام (المرجع المباشر لعضو هيئة التدريس)
+                </button>
+              </div>
+              <div id="org-detail-box" class="bg-[#FFFFFF] p-3.5 rounded-lg border border-[#E5E7EB] text-xs text-[#111827] leading-relaxed">
+                <strong>الأقسام العلمية:</strong> هي المرجع المباشر لعضو هيئة التدريس في إسناد الجداول الدراسية، تشكيل لجان الإرشاد، اعتماد ملفات المقررات، والرفع بالمواضيع لمجلس الكلية.
+              </div>
+            </div>
+
+            <!-- Checkboxes for Step 2 -->
+            <div class="space-y-2.5 pt-2">
+              <label class="flex items-center gap-3 p-3.5 rounded-xl border border-[#E5E7EB] hover:bg-[#F9FAFB] cursor-pointer transition">
+                <input id="chk-vision" type="checkbox" class="w-4 h-4 rounded" />
+                <span class="text-xs sm:text-sm font-medium text-[#111827]">اطلعت على رؤية الكلية ورسالتها وأهدافها الاستراتيجية.</span>
+              </label>
+              <label class="flex items-center gap-3 p-3.5 rounded-xl border border-[#E5E7EB] hover:bg-[#F9FAFB] cursor-pointer transition">
+                <input id="chk-org" type="checkbox" class="w-4 h-4 rounded" />
+                <span class="text-xs sm:text-sm font-medium text-[#111827]">تعرفت على الهيكل التنظيمي للكلية وخطوط الارتباط الإداري والأكاديمي للقسم العلمي.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- STEP 3: Units & Supporting Committees -->
+          <div id="step-panel-3" class="p-6 sm:p-7 space-y-5 hidden">
+            <div class="flex items-start justify-between gap-3 border-b border-[#E5E7EB] pb-4">
+              <div>
+                <span class="text-xs font-bold text-[#745A84] flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-[#B7BB34]"></span>
+                  المحطة الثالثة • منظومة العمل الداخلي
+                </span>
+                <h3 class="text-lg font-extrabold text-[#745A84] mt-0.5">التعرف على الوحدات واللجان المساندة بالكلية</h3>
+                <p class="text-xs sm:text-sm text-[#6B7280] mt-0.5">يستعرض العضو مهام الوحدات التي سيتعامل معها يومياً ويؤكد معرفته بقنوات التواصل معها.</p>
+              </div>
+              <button id="btn-check-all-units" type="button" class="text-xs bg-[#f4f1f6] hover:bg-[#745A84] hover:text-white text-[#745A84] border border-[#E5E7EB] px-3 py-1.5 rounded-lg font-bold shrink-0 transition">
+                تأكيد جميع الوحدات ✓
+              </button>
+            </div>
+
+            <div id="units-list-container" class="space-y-3">
+              <!-- Populated dynamically via JS -->
+            </div>
+          </div>
+
+          <!-- STEP 4: Guides & Regulations -->
+          <div id="step-panel-4" class="p-6 sm:p-7 space-y-5 hidden">
+            <div class="flex items-start justify-between gap-3 border-b border-[#E5E7EB] pb-4">
+              <div>
+                <span class="text-xs font-bold text-[#745A84] flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-[#B7BB34]"></span>
+                  المحطة الرابعة • الحقيبة المرجعية (حل مشكلة تبعثر الملفات)
+                </span>
+                <h3 class="text-lg font-extrabold text-[#745A84] mt-0.5">الأدلة واللوائح الإرشادية لعضو هيئة التدريس</h3>
+                <p class="text-xs sm:text-sm text-[#6B7280] mt-0.5">تجمع هذه المحطة كافة الأدلة المعتمدة في مكان واحد، مع توثيق استلام واطلاع العضو على كل دليل.</p>
+              </div>
+              <button id="btn-check-all-guides" type="button" class="text-xs bg-[#f4f1f6] hover:bg-[#745A84] hover:text-white text-[#745A84] border border-[#E5E7EB] px-3 py-1.5 rounded-lg font-bold shrink-0 transition">
+                تأكيد الاطلاع على الكل ✓
+              </button>
+            </div>
+
+            <div id="guides-list-container" class="space-y-3">
+              <!-- Populated dynamically via JS -->
+            </div>
+          </div>
+
+          <!-- STEP 5: Quick Verification & Satisfaction Survey -->
+          <div id="step-panel-5" class="p-6 sm:p-7 space-y-5 hidden">
+            <div class="border-b border-[#E5E7EB] pb-4">
+              <span class="text-xs font-bold text-[#745A84] flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-[#B7BB34]"></span>
+                المحطة الخامسة • التحقق وقياس الأثر (شاهد إضافي للجودة)
+              </span>
+              <h3 class="text-lg font-extrabold text-[#745A84] mt-0.5">التحقق السريع وتقييم برنامج التهيئة</h3>
+              <p class="text-xs sm:text-sm text-[#6B7280] mt-0.5">دمج سؤالين للتحقق مع استبانة رضا قصيرة يمنح لجنة الجودة شاهداً مباشراً على "قياس فعالية التهيئة".</p>
+            </div>
+
+            <!-- Mini Knowledge Check -->
+            <div class="space-y-4 bg-[#F9FAFB] p-4 rounded-xl border border-[#E5E7EB]">
+              <div class="text-xs font-bold text-[#745A84]">أولاً: تحقق سريع من الإجراءات الأساسية</div>
+
+              <div class="space-y-1.5">
+                <p class="text-xs sm:text-sm font-medium text-[#111827]">1. في حال رغبة عضو هيئة التدريس بتسليم توصيف وتقرير المقرر نهاية الفصل، فإنه ينسق مباشرة مع:</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                  <label class="flex items-center gap-2 p-2.5 bg-[#FFFFFF] rounded-lg border border-[#E5E7EB] cursor-pointer">
+                    <input type="radio" name="q1" value="correct" />
+                    <span class="text-[#111827]">منسق الجودة بالقسم ووحدة الجودة والاعتماد</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2.5 bg-[#FFFFFF] rounded-lg border border-[#E5E7EB] cursor-pointer">
+                    <input type="radio" name="q1" value="wrong" />
+                    <span class="text-[#6B7280]">عمادة القبول والتسجيل مباشرة دون الرجوع للقسم</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="space-y-1.5">
+                <p class="text-xs sm:text-sm font-medium text-[#111827]">2. الحد الأدنى للساعات المكتبية المعتمدة لإرشاد الطلبة يتم الإعلان عنه في:</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                  <label class="flex items-center gap-2 p-2.5 bg-[#FFFFFF] rounded-lg border border-[#E5E7EB] cursor-pointer">
+                    <input type="radio" name="q2" value="correct" />
+                    <span class="text-[#111827]">صفحة المقرر على نظام التعلم ولوحة المكتب ووحدة الإرشاد</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2.5 bg-[#FFFFFF] rounded-lg border border-[#E5E7EB] cursor-pointer">
+                    <input type="radio" name="q2" value="wrong" />
+                    <span class="text-[#6B7280]">نهاية العام الدراسي فقط عند طلب التقرير</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Satisfaction Rating -->
+            <div class="space-y-3 bg-[#F9FAFB] p-4 rounded-xl border border-[#E5E7EB]">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-[#745A84]">ثانياً: تقييمك لوضوح برنامج التهيئة الرقمي وتنظيم الأدلة</span>
+                <span id="rating-label" class="text-xs font-bold text-[#745A84] bg-[#FFFFFF] px-2.5 py-0.5 rounded-full border border-[#E5E7EB]">5 / 5 (ممتاز)</span>
+              </div>
+              <div class="flex items-center gap-2" id="rating-buttons">
+                <button type="button" data-rate="1" class="rate-btn flex-1 py-2 rounded-lg border text-xs font-bold transition">1 - ضعيف</button>
+                <button type="button" data-rate="2" class="rate-btn flex-1 py-2 rounded-lg border text-xs font-bold transition">2 - مقبول</button>
+                <button type="button" data-rate="3" class="rate-btn flex-1 py-2 rounded-lg border text-xs font-bold transition">3 - جيد</button>
+                <button type="button" data-rate="4" class="rate-btn flex-1 py-2 rounded-lg border text-xs font-bold transition">4 - جيد جداً</button>
+                <button type="button" data-rate="5" class="rate-btn flex-1 py-2 rounded-lg border text-xs font-bold transition bg-[#745A84] text-white border-[#745A84]">5 - ممتاز</button>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-[#111827] mb-1">ملاحظات أو احتياجات تدريبية مقترحة (اختياري):</label>
+                <input id="inp-notes" type="text" placeholder="مثال: أرغب في ورشة عمل تطبيقية حول بناء ملف المقرر..." class="w-full px-3.5 py-2 rounded-lg border border-[#E5E7EB] text-xs bg-[#FFFFFF] text-[#111827] focus:outline-none focus:border-[#745A84]" />
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 6: Final Acknowledgment & Evidence Generation -->
+          <div id="step-panel-6" class="p-6 sm:p-7 space-y-5 hidden">
+            <div class="border-b border-[#E5E7EB] pb-4">
+              <span class="text-xs font-bold text-[#745A84] flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-[#B7BB34]"></span>
+                المحطة السادسة والأخيرة • التوثيق وإصدار الشاهد
+              </span>
+              <h3 class="text-lg font-extrabold text-[#745A84] mt-0.5">الإقرار الرسمي وإصدار وثيقة إتمام التهيئة</h3>
+              <p class="text-xs sm:text-sm text-[#6B7280] mt-0.5">عند اعتماد هذا الإقرار، يُصدر النظام وثيقة رسمية برقم مرجعي وتُحفظ تلقائياً في سجل شواهد الجودة.</p>
+            </div>
+
+            <!-- Formal Pledge Text -->
+            <div class="bg-[#F9FAFB] p-4 rounded-xl border border-[#E5E7EB] space-y-2 text-xs sm:text-sm leading-relaxed text-[#111827]">
+              <div class="font-bold text-[#745A84]">نص الإقرار الرسمي لعضو هيئة التدريس:</div>
+              <p>
+                أقر أنا الموقع أدناه (<strong id="pledge-preview-name" class="text-[#745A84]">غير محدد بعد</strong>) بأنني قد أتممت برنامج التهيئة الإلكترونية لأعضاء هيئة التدريس الجدد، واطلعت على رؤية الكلية ورسالتها وهيكلها التنظيمي، وتعرفت على مهام الوحدات واللجان المساندة، واستلمت نسخاً رقمية من الأدلة واللوائح المرجعية المعتمدة، وألتزم بالعمل بموجبها ضمن مهامي الأكاديمية والتدريسية والإرشادية.
+              </p>
+            </div>
+
+            <label class="flex items-center gap-3 p-3.5 rounded-xl bg-[#f4f1f6] border border-[#745A84]/30 cursor-pointer">
+              <input id="chk-final-pledge" type="checkbox" class="w-4 h-4 rounded" />
+              <span class="text-xs sm:text-sm font-bold text-[#111827]">أقر بصحة البيانات أعلاه وأوافق على تسجيل هذه الوثيقة كشاهد رسمي لإتمام برنامج التهيئة.</span>
+            </label>
+
+            <div>
+              <label class="block text-xs font-bold text-[#111827] mb-1.5">التوقيع الرقمي (اكتب اسمك الثلاثي للتوقيع والاعتماد الإلكتروني) *</label>
+              <input id="inp-signature" type="text" placeholder="اكتب اسمك هنا كإمضاء إلكتروني معتمد..." class="w-full px-3.5 py-2.5 rounded-xl border border-[#E5E7EB] text-sm font-bold text-[#745A84] bg-[#FFFFFF] focus:outline-none focus:border-[#745A84]" />
+            </div>
+
+            <div class="pt-2">
+              <button id="btn-generate-evidence" type="button" class="w-full py-3 px-4 bg-[#745A84] hover:bg-[#5e476b] text-white font-bold rounded-xl shadow-sm transition flex items-center justify-center gap-2 text-sm sm:text-base">
+                <span>اعتماد الإقرار وتوليد وثيقة الشاهد الرسمية (A4)</span>
+                <span>←</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Footer Navigation Inside Active Card -->
+          <div class="px-6 py-4 bg-[#F9FAFB] border-t border-[#E5E7EB] flex items-center justify-between">
+            <button id="btn-prev-step" type="button" class="px-4 py-2 rounded-xl border border-[#E5E7EB] bg-[#FFFFFF] hover:bg-[#f4f1f6] text-[#111827] text-xs sm:text-sm font-bold transition disabled:opacity-40">
+              → المحطة السابقة
+            </button>
+            <span id="step-footer-indicator" class="text-xs text-[#6B7280] font-medium">المحطة 1 من 6</span>
+            <button id="btn-next-step" type="button" class="px-5 py-2 rounded-xl bg-[#745A84] hover:bg-[#5e476b] text-white text-xs sm:text-sm font-bold transition">
+              المحطة التالية ←
+            </button>
+          </div>
+        </div>
+
+        <!-- Right 1 Column: Live Evidence Checklist Tracker (How Workflow Builds the Evidence) -->
+        <aside class="bg-[#FFFFFF] rounded-2xl shadow-xs border border-[#E5E7EB] p-5 space-y-4">
+          <div class="border-b border-[#E5E7EB] pb-3">
+            <span class="text-xs font-bold text-[#6B7280] flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-[#B7BB34]"></span>
+              معاينة حية لبناء الشاهد
+            </span>
+            <h4 class="font-extrabold text-sm sm:text-base text-[#745A84] mt-0.5">ملخص ملف تهيئة العضو الحالي</h4>
+            <p class="text-xs text-[#6B7280] mt-0.5">كل خطوة ينجزها العضو تتحول فوراً إلى بند موثق داخل وثيقة الإقرار النهائية:</p>
+          </div>
+
+          <div class="space-y-2.5 text-xs">
+            <div class="p-3.5 rounded-xl bg-[#F9FAFB] border border-[#E5E7EB] space-y-1.5">
+              <div class="flex justify-between">
+                <span class="text-[#6B7280]">اسم العضو:</span>
+                <span id="side-name" class="font-bold text-[#111827]">لم يُدخل بعد</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-[#6B7280]">القسم العلمي:</span>
+                <span id="side-dept" class="font-medium text-[#111827]">--</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-[#6B7280]">الرتبة وتاريخ المباشرة:</span>
+                <span id="side-rank-date" class="font-medium text-[#111827]">--</span>
+              </div>
+            </div>
+
+            <!-- Live Checklist Status -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between p-2 rounded-lg border border-[#E5E7EB]">
+                <span class="text-[#111827]">1. البيانات الأساسية</span>
+                <span id="badge-s1" class="px-2 py-0.5 rounded-full text-[11px] bg-[#F9FAFB] text-[#6B7280] font-bold">قيد الإدخال</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-lg border border-[#E5E7EB]">
+                <span class="text-[#111827]">2. الهيكل التنظيمي والرؤية</span>
+                <span id="badge-s2" class="px-2 py-0.5 rounded-full text-[11px] bg-[#F9FAFB] text-[#6B7280] font-bold">0 / 2</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-lg border border-[#E5E7EB]">
+                <span class="text-[#111827]">3. الوحدات المساندة</span>
+                <span id="badge-s3" class="px-2 py-0.5 rounded-full text-[11px] bg-[#F9FAFB] text-[#6B7280] font-bold">0 / 5 وحدات</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-lg border border-[#E5E7EB]">
+                <span class="text-[#111827]">4. الأدلة واللوائح المرجعية</span>
+                <span id="badge-s4" class="px-2 py-0.5 rounded-full text-[11px] bg-[#F9FAFB] text-[#6B7280] font-bold">0 / 5 أدلة</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-lg border border-[#E5E7EB]">
+                <span class="text-[#111827]">5. التحقق واستبانة الرضا</span>
+                <span id="badge-s5" class="px-2 py-0.5 rounded-full text-[11px] bg-[#F9FAFB] text-[#6B7280] font-bold">قيد الإكمال</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-lg border border-[#E5E7EB]">
+                <span class="text-[#111827]">6. توقيع الإقرار النهائي</span>
+                <span id="badge-s6" class="px-2 py-0.5 rounded-full text-[11px] bg-[#F9FAFB] text-[#6B7280] font-bold">بانتظار الاعتماد</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-[#E5E7EB]">
+            <button id="btn-jump-certificate" type="button" class="w-full py-2.5 px-3 rounded-xl bg-[#F9FAFB] hover:bg-[#f4f1f6] text-[#745A84] border border-[#E5E7EB] text-xs font-bold transition">
+              معاينة شكل وثيقة الإقرار (A4) الآن ←
+            </button>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 2: OFFICIAL A4 EVIDENCE CERTIFICATE ==================== -->
+    <section id="view-certificate" class="space-y-4 hidden">
+      <div class="bg-[#FFFFFF] rounded-2xl p-4 sm:p-5 shadow-xs border border-[#E5E7EB] flex flex-wrap items-center justify-between gap-3 no-print">
+        <div>
+          <h2 class="font-extrabold text-base text-[#745A84]">معاينة الشاهد الفردي: وثيقة إقرار إتمام التهيئة (نموذج رسمي A4)</h2>
+          <p class="text-xs text-[#6B7280]">هذه الوثيقة هي المخرج النهائي الذي يُحفظ في ملف العضو وملف شواهد معيار هيئة التدريس بالجودة.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="btn-back-to-workflow" type="button" class="px-3.5 py-2 rounded-xl border border-[#E5E7EB] text-xs font-bold text-[#111827] hover:bg-[#F9FAFB] transition">
+            → العودة لمسار التهيئة
+          </button>
+          <button id="btn-print-doc" type="button" class="px-4 py-2 rounded-xl bg-[#745A84] hover:bg-[#5e476b] text-white text-xs sm:text-sm font-bold shadow-xs transition flex items-center gap-1.5">
+            <span>طباعة / حفظ كملف PDF معتمد</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Printable A4 Sheet -->
+      <div class="print-only-container bg-[#FFFFFF] max-w-4xl mx-auto rounded-2xl shadow-sm border border-[#E5E7EB] p-6 sm:p-10 space-y-6 text-[#111827]">
+        <!-- Official Header -->
+        <div class="border-b-2 border-[#745A84] pb-4 flex flex-wrap items-center justify-between gap-4">
+          <div class="space-y-0.5 text-xs sm:text-sm">
+            <div class="font-extrabold text-[#745A84]">المملكة العربية السعودية - وزارة التعليم</div>
+            <div class="font-bold text-[#111827]">كلية الشمال للتمريض الأهلية</div>
+            <div class="text-[#6B7280] text-xs">وكالة الكلية للجودة والتطوير - برنامج تهيئة أعضاء هيئة التدريس الجدد</div>
+          </div>
+          <div class="text-center">
+            <img src="https://nre-nec.com/mo/logo-p.png" alt="شعار كلية الشمال للتمريض الأهلية" class="h-14 w-auto object-contain mx-auto" />
+          </div>
+          <div class="text-xs space-y-1 text-left bg-[#F9FAFB] p-2.5 rounded-xl border border-[#E5E7EB]">
+            <div><span class="text-[#6B7280]">رقم الشاهد المرجعي:</span> <strong id="cert-ref-id" class="font-mono text-[#745A84]">ONB-2026-8841</strong></div>
+            <div><span class="text-[#6B7280]">تاريخ الإصدار:</span> <strong id="cert-issue-date" class="text-[#111827]">2026-10-16</strong></div>
+            <div><span class="text-[#6B7280]">رمز النموذج:</span> <strong class="text-[#111827]">QF-FAC-04</strong></div>
+          </div>
+        </div>
+
+        <!-- Document Title -->
+        <div class="text-center py-2.5 bg-[#F9FAFB] rounded-xl border border-[#E5E7EB]">
+          <h3 class="text-base sm:text-xl font-extrabold text-[#745A84]">وثيقة إقرار إتمام برنامج التهيئة لعضو هيئة التدريس الجديد</h3>
+          <p class="text-xs text-[#6B7280] mt-0.5">شاهد رسمي معتمد لأغراض الجودة والاعتماد الأكاديمي (معيار هيئة التدريس)</p>
+        </div>
+
+        <!-- Section 1: Faculty Metadata Table -->
+        <div class="space-y-2">
+          <h4 class="text-xs sm:text-sm font-extrabold text-[#745A84] border-r-4 border-[#B7BB34] pr-2">أولاً: البيانات الأساسية لعضو هيئة التدريس</h4>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs border border-[#E5E7EB] rounded-xl p-3.5 bg-[#F9FAFB]">
+            <div><span class="text-[#6B7280] block">الاسم الرباعي:</span> <strong id="cert-name" class="text-[#111827]">--</strong></div>
+            <div><span class="text-[#6B7280] block">الرقم الوظيفي:</span> <strong id="cert-empid" class="text-[#111827]">--</strong></div>
+            <div><span class="text-[#6B7280] block">القسم العلمي:</span> <strong id="cert-dept" class="text-[#111827]">--</strong></div>
+            <div><span class="text-[#6B7280] block">الرتبة الأكاديمية:</span> <strong id="cert-rank" class="text-[#111827]">--</strong></div>
+            <div><span class="text-[#6B7280] block">تاريخ المباشرة:</span> <strong id="cert-date" class="text-[#111827]">--</strong></div>
+            <div><span class="text-[#6B7280] block">البريد الجامعي:</span> <strong id="cert-email" class="text-[#111827]">--</strong></div>
+          </div>
+        </div>
+
+        <!-- Section 2: Completed Stations & Reviewed Guides Table -->
+        <div class="space-y-2">
+          <h4 class="text-xs sm:text-sm font-extrabold text-[#745A84] border-r-4 border-[#B7BB34] pr-2">ثانياً: بيان المحطات والأدلة والوحدات التي تم الاطلاع عليها واستلامها رقمياً</h4>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs border-collapse border border-[#E5E7EB]">
+              <thead>
+                <tr class="bg-[#F9FAFB] text-[#745A84]">
+                  <th class="border border-[#E5E7EB] px-3 py-2 text-right">محور التهيئة</th>
+                  <th class="border border-[#E5E7EB] px-3 py-2 text-right">التفاصيل والوثائق المرجعية المشمولة</th>
+                  <th class="border border-[#E5E7EB] px-3 py-2 text-center w-28">حالة الإتمام</th>
+                </tr>
+              </thead>
+              <tbody id="cert-checklist-tbody">
+                <!-- Populated dynamically via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section 3: Evaluation & Verification Summary -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div class="p-3 rounded-xl border border-[#E5E7EB] bg-[#F9FAFB]">
+            <span class="text-[#6B7280] block">نتيجة التحقق المعرفي السريع:</span>
+            <strong id="cert-quiz-score" class="text-[#745A84]">مكتمل بنجاح (100%)</strong>
+          </div>
+          <div class="p-3 rounded-xl border border-[#E5E7EB] bg-[#F9FAFB]">
+            <span class="text-[#6B7280] block">تقييم رضا العضو عن برنامج التهيئة:</span>
+            <strong id="cert-rating-val" class="text-[#745A84]">5 / 5 (ممتاز)</strong>
+          </div>
+        </div>
+
+        <!-- Section 4: Formal Pledge & Signature Block -->
+        <div class="p-4 rounded-xl border-2 border-[#745A84] bg-[#F9FAFB] space-y-3 text-xs sm:text-sm">
+          <div class="font-extrabold text-[#745A84]">ثالثاً: نص الإقرار والتوقيع المعتمد</div>
+          <p class="leading-relaxed text-[#111827]">
+            أقر أنا عضو هيئة التدريس الموضحة بياناتي أعلاه بأنني قد أتممت كافة متطلبات برنامج التهيئة لأعضاء هيئة التدريس الجدد عبر البوابة الرسمية للكلية، واطلعت على الهيكل التنظيمي ومهام الوحدات المساندة، واستلمت نسخاً إلكترونية من الأدلة واللوائح المرجعية المدرجة في هذه الوثيقة، وألتزم بالعمل بمقتضاها.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-3 border-t border-[#E5E7EB]">
+            <div>
+              <span class="text-[#6B7280] text-xs block">الاسم والتوقيع الرقمي لعضو هيئة التدريس:</span>
+              <strong id="cert-sig-name" class="text-[#745A84] font-extrabold text-sm">لم يُوقّع بعد</strong>
+            </div>
+            <div>
+              <span class="text-[#6B7280] text-xs block">ختم التحقق الإلكتروني للبوابة:</span>
+              <span id="cert-status-stamp" class="inline-block mt-0.5 px-2.5 py-0.5 rounded bg-[#f4f1f6] text-[#745A84] font-bold text-xs border border-[#745A84]/30">موثق إلكترونياً ✓</span>
+            </div>
+            <div>
+              <span class="text-[#6B7280] text-xs block">اعتماد وكالة الكلية للجودة والتطوير:</span>
+              <strong class="text-[#111827] text-xs">يُحفظ في ملف شواهد المعيار (4)</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 3: QUALITY ADMIN DASHBOARD (EVIDENCE REPOSITORY) ==================== -->
+    <section id="view-admin" class="space-y-6 hidden">
+      <div class="bg-[#FFFFFF] rounded-2xl p-5 shadow-xs border border-[#E5E7EB] flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <span class="text-xs font-bold text-[#745A84] bg-[#f4f1f6] px-2.5 py-1 rounded-md border border-[#E5E7EB]">واجهة منسق الجودة / رئيس القسم</span>
+          <h2 class="text-base sm:text-lg font-extrabold text-[#745A84] mt-1">السجل المركزي لشواهد تهيئة أعضاء هيئة التدريس الجدد</h2>
+          <p class="text-xs text-[#6B7280]">بدلاً من تشتت الملفات، تتجمع هنا تلقائياً جميع إقرارات الأعضاء الجدد مع إمكانية استعراض وثيقة كل عضو أو تصدير الكشف للجان الاعتماد.</p>
+        </div>
+        <button id="btn-export-csv" type="button" class="px-4 py-2 bg-[#745A84] hover:bg-[#5e476b] text-white rounded-xl text-xs font-bold transition shadow-xs">
+          تصدير سجل الشواهد (CSV / Excel) ⬇
+        </button>
+      </div>
+
+      <!-- KPI Summary Cards for Accreditation Evidence -->
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <div class="bg-[#FFFFFF] p-4 rounded-2xl border border-[#E5E7EB] shadow-xs">
+          <div class="text-xs text-[#6B7280]">إجمالي الأعضاء المسجلين بالسجل</div>
+          <div id="kpi-total" class="text-2xl font-extrabold text-[#745A84] mt-1">4</div>
+          <div class="text-[11px] text-[#6B7280] font-medium mt-1">العام الجامعي 1448هـ / 2026م</div>
+        </div>
+        <div class="bg-[#FFFFFF] p-4 rounded-2xl border border-[#E5E7EB] shadow-xs">
+          <div class="text-xs text-[#6B7280]">وثائق الإقرار المكتملة (الشواهد الجاهزة)</div>
+          <div id="kpi-completed" class="text-2xl font-extrabold text-[#745A84] mt-1">100%</div>
+          <div class="text-[11px] text-[#6B7280] mt-1">جميع الأدلة مستلمة وموقعة</div>
+        </div>
+        <div class="bg-[#FFFFFF] p-4 rounded-2xl border border-[#E5E7EB] shadow-xs">
+          <div class="text-xs text-[#6B7280]">متوسط الرضا عن برنامج التهيئة</div>
+          <div id="kpi-satisfaction" class="text-2xl font-extrabold text-[#745A84] mt-1">4.8 / 5</div>
+          <div class="text-[11px] text-[#6B7280] mt-1">مؤشر قياس الأثر (لملف الجودة)</div>
+        </div>
+        <div class="bg-[#FFFFFF] p-4 rounded-2xl border border-[#E5E7EB] shadow-xs">
+          <div class="text-xs text-[#6B7280]">عدد الأدلة المرجعية الموحدة بالبوابة</div>
+          <div class="text-2xl font-extrabold text-[#745A84] mt-1">5 أدلة</div>
+          <div class="text-[11px] text-[#6B7280] mt-1">محدثة ومعتمدة من مجلس الكلية</div>
+        </div>
+      </div>
+
+      <!-- Table of Onboarded Faculty Records -->
+      <div class="bg-[#FFFFFF] rounded-2xl shadow-xs border border-[#E5E7EB] overflow-hidden">
+        <div class="p-4 border-b border-[#E5E7EB] flex flex-wrap items-center justify-between gap-2">
+          <h3 class="font-bold text-sm text-[#745A84]">قائمة الأعضاء الذين أتموا التهيئة وصدرت لهم وثيقة إقرار</h3>
+          <input id="inp-search-records" type="text" placeholder="بحث بالاسم أو القسم العلمي..." class="px-3 py-1.5 rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] text-[#111827] text-xs w-60 focus:outline-none focus:border-[#745A84]" />
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-right">
+            <thead class="bg-[#F9FAFB] text-[#6B7280] border-b border-[#E5E7EB]">
+              <tr>
+                <th class="px-4 py-3">رقم الشاهد</th>
+                <th class="px-4 py-3">اسم عضو هيئة التدريس</th>
+                <th class="px-4 py-3">القسم العلمي</th>
+                <th class="px-4 py-3">الرتبة</th>
+                <th class="px-4 py-3">تاريخ المباشرة</th>
+                <th class="px-4 py-3">الأدلة المستلمة</th>
+                <th class="px-4 py-3">تقييم الرضا</th>
+                <th class="px-4 py-3 text-center">إجراء الشاهد</th>
+              </tr>
+            </thead>
+            <tbody id="admin-records-tbody" class="divide-y divide-[#E5E7EB]">
+              <!-- Populated dynamically via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // ==================== STATE & DATA ====================
+    const STATIONS = [
+      { id: 1, title: 'البيانات الأساسية', subtitle: 'تعريف العضو الجديد' },
+      { id: 2, title: 'الكلية والهيكل', subtitle: 'الرؤية والارتباط الإداري' },
+      { id: 3, title: 'الوحدات المساندة', subtitle: 'مهام الوحدات والتواصل' },
+      { id: 4, title: 'الأدلة واللوائح', subtitle: 'استلام الحقيبة المرجعية' },
+      { id: 5, title: 'التحقق والتقييم', subtitle: 'اختبار سريع ورضا العضو' },
+      { id: 6, title: 'الإقرار والشاهد', subtitle: 'التوقيع وإصدار الوثيقة' }
+    ];
+
+    const UNITS_DATA = [
+      {
+        id: 'u1',
+        name: 'وحدة الجودة والاعتماد الأكاديمي',
+        role: 'متابعة توصيفات وتقارير المقررات، ملفات المقررات، واستيفاء معايير الاعتماد البرامجي والمؤسسي.',
+        contact: 'مكتب رقم (204) - تحويلة 1120 - quality@college.edu.sa',
+        checked: false
+      },
+      {
+        id: 'u2',
+        name: 'وحدة الإرشاد الأكاديمي والطلابي',
+        role: 'توزيع قوائم الطلبة المرشدين، متابعة الساعات المكتبية، ومعالجة حالات التعثر والحذف والإضافة.',
+        contact: 'مكتب رقم (108) - تحويلة 1145 - advising@college.edu.sa',
+        checked: false
+      },
+      {
+        id: 'u3',
+        name: 'وحدة التعليم الإلكتروني والتحول الرقمي',
+        role: 'تفعيل المقررات على نظام إدارة التعلم (Blackboard)، والدعم الفني للاختبارات والفصول الافتراضية.',
+        contact: 'مكتب رقم (115) - تحويلة 1180 - elearning@college.edu.sa',
+        checked: false
+      },
+      {
+        id: 'u4',
+        name: 'وحدة البحث العلمي والدراسات العليا',
+        role: 'دعم النشر العلمي، المجموعات البحثية، وأخلاقيات البحث العلمي والتمويل المؤسسي.',
+        contact: 'مكتب رقم (302) - تحويلة 1210 - research@college.edu.sa',
+        checked: false
+      },
+      {
+        id: 'u5',
+        name: 'لجنة الجداول والاختبارات المركزية',
+        role: 'تنظيم القاعات الدراسية، ضوابط الورقة الامتحانية، لجان المراقبة، ورصد الدرجات النهائية.',
+        contact: 'مكتب رقم (102) - تحويلة 1105 - exams@college.edu.sa',
+        checked: false
+      }
+    ];
+
+    const GUIDES_DATA = [
+      {
+        id: 'g1',
+        code: 'QMS-GD-01',
+        title: 'دليل عضو هيئة التدريس الجديد الشامل',
+        pages: '36 صفحة',
+        summary: 'المرجع الأساسي لحقوق وواجبات عضو هيئة التدريس، الإجراءات الأكاديمية والإدارية منذ يوم المباشرة الأول وحتى نهاية الفصل الدراسي.',
+        bullets: ['إجراءات المباشرة واستلام المكتب والبطاقة الجامعية', 'سياسة النصاب التدريسي والساعات المكتبية', 'آليات التقييم السنوي والترقيات العلمية'],
+        checked: false
+      },
+      {
+        id: 'g2',
+        code: 'QMS-GD-02',
+        title: 'لائحة الدراسة والاختبارات للمرحلة الجامعية والقواعد التنفيذية',
+        pages: '42 صفحة',
+        summary: 'الضوابط النظامية المعتمدة للحضور والغياب، الحرمان، الأعذار الطبية، توزيع درجات الأعمال الفصلية، وضوابط الاختبارات النهائية.',
+        bullets: ['نسب الحضور والغياب المسموح بها نظاماً', 'ضوابط الاختبارات البديلة وإعادة التصحيح', 'توزيع الدرجات الفصلية والنهائية'],
+        checked: false
+      },
+      {
+        id: 'g3',
+        code: 'QMS-GD-03',
+        title: 'دليل الإرشاد الأكاديمي والساعات المكتبية',
+        pages: '22 صفحة',
+        summary: 'يوضح مهام المرشد الأكاديمي، آلية توثيق الجلسات الإرشادية، وخطة التعامل مع الطلبة المتعثرين والمتفوقين.',
+        bullets: ['نماذج توثيق اللقاءات الإرشادية الفردية والجماعية', 'آلية قراءة الخطة الدراسية وتوجيه الطالب أثناء التسجيل', 'إجراءات إحالة الحالات الخاصة لوحدة التوجيه'],
+        checked: false
+      },
+      {
+        id: 'g4',
+        code: 'QMS-GD-04',
+        title: 'دليل إعداد ملف المقرر وتوصيفه وتقريره (نماذج هيئة تقويم التعليم)',
+        pages: '28 صفحة',
+        summary: 'شرح تطبيقي لإعداد ملف المقرر الدراسي وقياس مخرجات التعلم (CLOs) وفق نماذج الاعتماد الأكاديمي.',
+        bullets: ['مكونات ملف المقرر القياسي (Course Portfolio)', 'طريقة حساب قياس مخرجات التعلم المباشر وغير المباشر', 'كتابة خطة التحسين في تقرير المقرر الفصلي'],
+        checked: false
+      },
+      {
+        id: 'g5',
+        code: 'QMS-GD-05',
+        title: 'ميثاق أخلاقيات المهنة الجامعية والبحث العلمي',
+        pages: '18 صفحة',
+        summary: 'المبادئ الأخلاقية الحاكمة للعلاقة مع الطلبة والزملاء والمجتمع، وضوابط النزاهة العلمية والملكية الفكرية.',
+        bullets: ['العدالة والشفافية في تقييم الطلبة', 'الالتزام بالنزاهة العلمية وتجنب تضارب المصالح', 'المحافظة على سرية البيانات الأكاديمية'],
+        checked: false
+      }
+    ];
+
+    const ORG_DETAILS = {
+      dean: '<strong>عميد الكلية ومجلس الكلية:</strong> السلطة الأكاديمية والإدارية العليا بالكلية، يعتمد الخطط التشغيلية، وتوصيات مجالس الأقسام العلمية، ونتائج المقررات والتقارير السنوية.',
+      academic: '<strong>وكالة الشؤون التعليمية والأكاديمية:</strong> تشرف مباشرة على الجداول الدراسية، الاختبارات، الإرشاد الأكاديمي، شؤون الطلبة، ووحدة التعليم الإلكتروني.',
+      quality: '<strong>وكالة الجودة والتطوير:</strong> تشرف على برنامج تهيئة أعضاء هيئة التدريس الجدد، ملفات المقررات، استبانات التقويم، ومعايير الاعتماد الأكاديمي.',
+      research: '<strong>وكالة الدراسات العليا والبحث العلمي:</strong> تشرف على برامج الدراسات العليا، المشاريع البحثية، الابتعاث، والتعاون البحثي.',
+      dept: '<strong>الأقسام العلمية ومجالس الأقسام:</strong> هي المرجع المباشر لعضو هيئة التدريس في إسناد الجداول الدراسية، تشكيل لجان الإرشاد، اعتماد ملفات المقررات، والرفع بالمواضيع لمجلس الكلية.'
+    };
+
+    let state = {
+      currentStep: 1,
+      freeNav: true,
+      activeModalGuideId: null,
+      faculty: {
+        name: '',
+        empid: '',
+        dept: '',
+        rank: '',
+        date: '2026-10-16',
+        email: '',
+        visionRead: false,
+        orgRead: false,
+        q1: '',
+        q2: '',
+        rating: 5,
+        notes: '',
+        pledgeChecked: false,
+        signature: '',
+        refId: 'ONB-2026-8841',
+        issueDate: '2026-10-16'
+      },
+      records: [
+        {
+          refId: 'ONB-2026-8810',
+          name: 'د. سارة بنت عبدالرحمن القحطاني',
+          empid: '4410215',
+          dept: 'قسم علوم الحاسب',
+          rank: 'أستاذ مساعد',
+          date: '2026-09-01',
+          email: 's.alqahtani@university.edu.sa',
+          guidesCount: '5 / 5',
+          rating: 5
+        },
+        {
+          refId: 'ONB-2026-8819',
+          name: 'د. محمد بن فهد الدوسري',
+          empid: '4410389',
+          dept: 'قسم الأمن السيبراني',
+          rank: 'أستاذ مساعد',
+          date: '2026-09-03',
+          email: 'm.aldosari@university.edu.sa',
+          guidesCount: '5 / 5',
+          rating: 5
+        },
+        {
+          refId: 'ONB-2026-8827',
+          name: 'أ. ريم بنت خالد الحربي',
+          empid: '4410502',
+          dept: 'قسم نظم المعلومات',
+          rank: 'محاضر',
+          date: '2026-09-10',
+          email: 'r.alharbi@university.edu.sa',
+          guidesCount: '5 / 5',
+          rating: 4
+        },
+        {
+          refId: 'ONB-2026-8834',
+          name: 'د. طارق بن عبدالعزيز السليم',
+          empid: '4410670',
+          dept: 'قسم الذكاء الاصطناعي',
+          rank: 'أستاذ مشارك',
+          date: '2026-09-15',
+          email: 't.alsulaim@university.edu.sa',
+          guidesCount: '5 / 5',
+          rating: 5
+        }
+      ]
+    };
+
+    // ==================== HELPER FUNCTIONS ====================
+    function showToast(msg, type = 'success') {
+      const box = document.getElementById('toast-box');
+      const txt = document.getElementById('toast-text');
+      const icon = document.getElementById('toast-icon');
+      txt.textContent = msg;
+      icon.className = 'w-2.5 h-2.5 rounded-full shrink-0 ' + (type === 'warn' ? 'bg-[#B7BB34]' : 'bg-[#B7BB34]');
+      box.classList.remove('hidden');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => {
+        box.classList.add('hidden');
+      }, 3200);
+    }
+
+    function isStepComplete(stepNum) {
+      const f = state.faculty;
+      if (stepNum === 1) {
+        return Boolean(f.name.trim() && f.empid.trim() && f.dept && f.rank && f.date);
+      }
+      if (stepNum === 2) {
+        return Boolean(f.visionRead && f.orgRead);
+      }
+      if (stepNum === 3) {
+        return UNITS_DATA.every(u => u.checked);
+      }
+      if (stepNum === 4) {
+        return GUIDES_DATA.every(g => g.checked);
+      }
+      if (stepNum === 5) {
+        return Boolean(f.q1 === 'correct' && f.q2 === 'correct' && f.rating >= 1);
+      }
+      if (stepNum === 6) {
+        return Boolean(f.pledgeChecked && f.signature.trim());
+      }
+      return false;
+    }
+
+    function calculateOverallProgress() {
+      let completed = 0;
+      for (let i = 1; i <= 6; i++) {
+        if (isStepComplete(i)) completed++;
+      }
+      const pct = Math.max(15, Math.round((completed / 6) * 100));
+      return { completed, pct };
+    }
+
+    // ==================== RENDER FUNCTIONS ====================
+    function renderStepper() {
+      const container = document.getElementById('stepper-container');
+      container.innerHTML = STATIONS.map(st => {
+        const active = state.currentStep === st.id;
+        const done = isStepComplete(st.id);
+        let bgClass = 'bg-[#F9FAFB] border-[#E5E7EB] text-[#111827] hover:border-[#745A84]/40';
+        let badgeClass = 'bg-[#E5E7EB] text-[#6B7280]';
+
+        if (active) {
+          bgClass = 'bg-[#f4f1f6] border-[#745A84] text-[#745A84] ring-2 ring-[#745A84]/15';
+          badgeClass = 'bg-[#745A84] text-white';
+        } else if (done) {
+          bgClass = 'bg-[#FFFFFF] border-[#745A84]/50 text-[#745A84]';
+          badgeClass = 'bg-[#B7BB34] text-[#111827]';
+        }
+
+        return `
+          <button type="button" data-step="${st.id}" class="step-nav-btn text-right p-2.5 rounded-xl border transition flex items-start gap-2.5 ${bgClass}">
+            <span class="w-6 h-6 rounded-lg text-xs font-extrabold flex items-center justify-center shrink-0 mt-0.5 ${badgeClass}">
+              ${done ? '✓' : st.id}
+            </span>
+            <div class="min-w-0">
+              <div class="text-xs font-bold truncate">${st.title}</div>
+              <div class="text-[11px] text-[#6B7280] truncate">${st.subtitle}</div>
+            </div>
+          </button>
+        `;
+      }).join('');
+
+      document.querySelectorAll('.step-nav-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = parseInt(btn.getAttribute('data-step'), 10);
+          goToStep(target);
+        });
+      });
+
+      const { pct } = calculateOverallProgress();
+      document.getElementById('progress-percent-text').textContent = `${pct}% (المحطة ${state.currentStep} من 6)`;
+      document.getElementById('progress-bar-fill').style.width = `${pct}%`;
+    }
+
+    function renderUnitsList() {
+      const container = document.getElementById('units-list-container');
+      container.innerHTML = UNITS_DATA.map(u => `
+        <label class="flex items-start gap-3 p-3.5 rounded-xl border ${u.checked ? 'bg-[#f4f1f6]/70 border-[#745A84]' : 'bg-[#FFFFFF] border-[#E5E7EB]'} hover:border-[#745A84] cursor-pointer transition">
+          <input type="checkbox" data-unit-id="${u.id}" class="unit-chk mt-1 w-4 h-4 rounded shrink-0" ${u.checked ? 'checked' : ''} />
+          <div class="flex-1 space-y-1">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="text-xs sm:text-sm font-bold text-[#745A84]">${u.name}</span>
+              <span class="text-[11px] px-2 py-0.5 rounded-md bg-[#F9FAFB] border border-[#E5E7EB] text-[#6B7280] font-medium">${u.contact}</span>
+            </div>
+            <p class="text-xs text-[#6B7280] leading-relaxed">${u.role}</p>
+          </div>
+        </label>
+      `).join('');
+
+      document.querySelectorAll('.unit-chk').forEach(chk => {
+        chk.addEventListener('change', (e) => {
+          const id = e.target.getAttribute('data-unit-id');
+          const unit = UNITS_DATA.find(x => x.id === id);
+          if (unit) unit.checked = e.target.checked;
+          renderUnitsList();
+          updateSideSummaryAndCertificate();
+        });
+      });
+    }
+
+    function renderGuidesList() {
+      const container = document.getElementById('guides-list-container');
+      container.innerHTML = GUIDES_DATA.map(g => `
+        <div class="p-3.5 rounded-xl border ${g.checked ? 'bg-[#f4f1f6]/70 border-[#745A84]' : 'bg-[#FFFFFF] border-[#E5E7EB]'} flex flex-wrap sm:flex-nowrap items-start justify-between gap-3 transition">
+          <label class="flex items-start gap-3 cursor-pointer flex-1">
+            <input type="checkbox" data-guide-id="${g.id}" class="guide-chk mt-1 w-4 h-4 rounded shrink-0" ${g.checked ? 'checked' : ''} />
+            <div class="space-y-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs sm:text-sm font-bold text-[#745A84]">${g.title}</span>
+                <span class="text-[11px] font-mono bg-[#F9FAFB] border border-[#E5E7EB] text-[#6B7280] px-2 py-0.5 rounded">${g.code}</span>
+              </div>
+              <p class="text-xs text-[#6B7280] leading-relaxed">${g.summary}</p>
+            </div>
+          </label>
+          <button type="button" data-preview-guide="${g.id}" class="btn-preview-guide px-3 py-1.5 rounded-lg bg-[#F9FAFB] hover:bg-[#f4f1f6] border border-[#E5E7EB] text-[#745A84] text-xs font-bold shrink-0 transition">
+            معاينة الدليل 👁
+          </button>
+        </div>
+      `).join('');
+
+      document.querySelectorAll('.guide-chk').forEach(chk => {
+        chk.addEventListener('change', (e) => {
+          const id = e.target.getAttribute('data-guide-id');
+          const guide = GUIDES_DATA.find(x => x.id === id);
+          if (guide) guide.checked = e.target.checked;
+          renderGuidesList();
+          updateSideSummaryAndCertificate();
+        });
+      });
+
+      document.querySelectorAll('.btn-preview-guide').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-preview-guide');
+          openGuideModal(id);
+        });
+      });
+    }
+
+    function openGuideModal(guideId) {
+      const g = GUIDES_DATA.find(x => x.id === guideId);
+      if (!g) return;
+      state.activeModalGuideId = guideId;
+      document.getElementById('modal-guide-title').textContent = g.title;
+      document.getElementById('modal-guide-code').textContent = `الرمز الوثائقي: ${g.code}`;
+      document.getElementById('modal-guide-pages').textContent = `الحجم: ${g.pages}`;
+      document.getElementById('modal-guide-desc').textContent = g.summary;
+      document.getElementById('modal-guide-bullets').innerHTML = g.bullets.map(b => `<li>${b}</li>`).join('');
+      const modal = document.getElementById('guide-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeGuideModal() {
+      const modal = document.getElementById('guide-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function syncInputsFromState() {
+      const f = state.faculty;
+      document.getElementById('inp-name').value = f.name;
+      document.getElementById('inp-empid').value = f.empid;
+      document.getElementById('inp-dept').value = f.dept;
+      document.getElementById('inp-rank').value = f.rank;
+      document.getElementById('inp-date').value = f.date;
+      document.getElementById('inp-email').value = f.email;
+      document.getElementById('chk-vision').checked = f.visionRead;
+      document.getElementById('chk-org').checked = f.orgRead;
+      document.getElementById('inp-notes').value = f.notes;
+      document.getElementById('chk-final-pledge').checked = f.pledgeChecked;
+      document.getElementById('inp-signature').value = f.signature;
+
+      document.querySelectorAll('input[name="q1"]').forEach(r => {
+        r.checked = (r.value === f.q1);
+      });
+      document.querySelectorAll('input[name="q2"]').forEach(r => {
+        r.checked = (r.value === f.q2);
+      });
+      renderRatingButtons();
+    }
+
+    function renderRatingButtons() {
+      const r = state.faculty.rating;
+      const labels = {
+        1: '1 / 5 (ضعيف)',
+        2: '2 / 5 (مقبول)',
+        3: '3 / 5 (جيد)',
+        4: '4 / 5 (جيد جداً)',
+        5: '5 / 5 (ممتاز)'
+      };
+      document.getElementById('rating-label').textContent = labels[r] || '5 / 5 (ممتاز)';
+      document.querySelectorAll('.rate-btn').forEach(btn => {
+        const val = parseInt(btn.getAttribute('data-rate'), 10);
+        if (val === r) {
+          btn.className = 'rate-btn flex-1 py-2 rounded-lg border text-xs font-bold transition bg-[#745A84] text-white border-[#745A84]';
+        } else {
+          btn.className = 'rate-btn flex-1 py-2 rounded-lg border border-[#E5E7EB] bg-[#FFFFFF] text-[#111827] text-xs font-bold transition hover:bg-[#F9FAFB]';
+        }
+      });
+    }
+
+    function updateSideSummaryAndCertificate() {
+      const f = state.faculty;
+
+      // Side Panel updates
+      document.getElementById('side-name').textContent = f.name.trim() || 'لم يُدخل بعد';
+      document.getElementById('side-dept').textContent = f.dept || '--';
+      document.getElementById('side-rank-date').textContent = (f.rank || '--') + (f.date ? ` (${f.date})` : '');
+      document.getElementById('pledge-preview-name').textContent = f.name.trim() || 'عضو هيئة التدريس';
+
+      // Side Badges
+      const setBadge = (id, done, textDone, textPending) => {
+        const el = document.getElementById(id);
+        if (done) {
+          el.textContent = textDone;
+          el.className = 'px-2 py-0.5 rounded-full text-[11px] bg-[#f4f1f6] text-[#745A84] border border-[#745A84]/30 font-bold';
+        } else {
+          el.textContent = textPending;
+          el.className = 'px-2 py-0.5 rounded-full text-[11px] bg-[#F9FAFB] text-[#6B7280] font-bold';
+        }
+      };
+
+      const s2Count = (f.visionRead ? 1 : 0) + (f.orgRead ? 1 : 0);
+      const unitsChecked = UNITS_DATA.filter(u => u.checked).length;
+      const guidesChecked = GUIDES_DATA.filter(g => g.checked).length;
+
+      setBadge('badge-s1', isStepComplete(1), 'مكتمل ✓', 'قيد الإدخال');
+      setBadge('badge-s2', isStepComplete(2), 'مكتمل (2/2) ✓', `${s2Count} / 2`);
+      setBadge('badge-s3', isStepComplete(3), 'مكتمل (5/5) ✓', `${unitsChecked} / 5 وحدات`);
+      setBadge('badge-s4', isStepComplete(4), 'مكتمل (5/5) ✓', `${guidesChecked} / 5 أدلة`);
+      setBadge('badge-s5', isStepComplete(5), `مكتمل (${f.rating}/5) ✓`, 'قيد الإكمال');
+      setBadge('badge-s6', isStepComplete(6), 'تم الاعتماد ✓', 'بانتظار الاعتماد');
+
+      // Certificate View Updates
+      document.getElementById('cert-ref-id').textContent = f.refId;
+      document.getElementById('cert-issue-date').textContent = f.issueDate;
+      document.getElementById('cert-name').textContent = f.name.trim() || 'د. عبدالمجيد بن صالح العتيبي (نموذج معاينة)';
+      document.getElementById('cert-empid').textContent = f.empid.trim() || '4410982';
+      document.getElementById('cert-dept').textContent = f.dept || 'قسم علوم الحاسب';
+      document.getElementById('cert-rank').textContent = f.rank || 'أستاذ مساعد';
+      document.getElementById('cert-date').textContent = f.date || '2026-10-16';
+      document.getElementById('cert-email').textContent = f.email.trim() || 'a.alotaibi@university.edu.sa';
+
+      const selectedUnitsNames = UNITS_DATA.filter(u => u.checked).map(u => u.name).join('، ') || 'جميع الوحدات المساندة بالكلية (5 وحدات)';
+      const checklistRows = [
+        {
+          axis: 'الهوية المؤسسية والهيكل التنظيمي',
+          details: 'رؤية الكلية ورسالتها، الهيكل التنظيمي، وصلاحيات الأقسام العلمية والوكالات',
+          done: isStepComplete(2)
+        },
+        {
+          axis: 'الوحدات واللجان المساندة',
+          details: selectedUnitsNames,
+          done: isStepComplete(3)
+        },
+        ...GUIDES_DATA.map(g => ({
+          axis: `استلام واطلاع: ${g.title}`,
+          details: `الرمز الوثائقي (${g.code}) - ${g.pages}`,
+          done: g.checked
+        }))
+      ];
+
+      document.getElementById('cert-checklist-tbody').innerHTML = checklistRows.map(row => `
+        <tr>
+          <td class="border border-[#E5E7EB] px-3 py-2 font-bold text-[#111827]">${row.axis}</td>
+          <td class="border border-[#E5E7EB] px-3 py-2 text-[#6B7280]">${row.details}</td>
+          <td class="border border-[#E5E7EB] px-3 py-2 text-center">
+            <span class="inline-block px-2 py-0.5 rounded text-[11px] font-bold ${row.done ? 'bg-[#f4f1f6] text-[#745A84]' : 'bg-[#F9FAFB] text-[#6B7280]'}">
+              ${row.done ? 'تم الاطلاع والاستلام ✓' : 'قيد الاستكمال'}
+            </span>
+          </td>
+        </tr>
+      `).join('');
+
+      document.getElementById('cert-quiz-score').textContent = isStepComplete(5) ? 'مكتمل بنجاح (100%)' : 'تم الاستعراض المبدئي';
+      document.getElementById('cert-rating-val').textContent = `${f.rating} / 5`;
+      document.getElementById('cert-sig-name').textContent = f.signature.trim() || f.name.trim() || 'د. عبدالمجيد بن صالح العتيبي (توقيع إلكتروني)';
+
+      renderStepper();
+    }
+
+    function renderAdminDashboard() {
+      const q = (document.getElementById('inp-search-records').value || '').trim().toLowerCase();
+      const filtered = state.records.filter(r =>
+        r.name.toLowerCase().includes(q) ||
+        r.dept.toLowerCase().includes(q) ||
+        r.refId.toLowerCase().includes(q)
+      );
+
+      document.getElementById('admin-count-badge').textContent = state.records.length;
+      document.getElementById('kpi-total').textContent = state.records.length;
+      const avg = (state.records.reduce((acc, r) => acc + r.rating, 0) / state.records.length).toFixed(1);
+      document.getElementById('kpi-satisfaction').textContent = `${avg} / 5`;
+
+      document.getElementById('admin-records-tbody').innerHTML = filtered.map((rec, idx) => `
+        <tr class="hover:bg-[#F9FAFB] transition">
+          <td class="px-4 py-3 font-mono font-bold text-[#745A84]">${rec.refId}</td>
+          <td class="px-4 py-3 font-bold text-[#111827]">${rec.name}</td>
+          <td class="px-4 py-3 text-[#6B7280]">${rec.dept}</td>
+          <td class="px-4 py-3 text-[#6B7280]">${rec.rank}</td>
+          <td class="px-4 py-3 text-[#6B7280]">${rec.date}</td>
+          <td class="px-4 py-3">
+            <span class="px-2 py-0.5 rounded-full bg-[#f4f1f6] text-[#745A84] font-bold text-[11px]">${rec.guidesCount} مكتمل</span>
+          </td>
+          <td class="px-4 py-3 font-bold text-[#745A84]"><span class="text-[#B7BB34]">★</span> ${rec.rating} / 5</td>
+          <td class="px-4 py-3 text-center">
+            <button type="button" data-view-rec="${idx}" class="btn-view-rec px-3 py-1 rounded-lg bg-[#745A84] hover:bg-[#5e476b] text-white text-[11px] font-bold transition">
+              استعراض الشاهد (A4)
+            </button>
+          </td>
+        </tr>
+      `).join('');
+
+      document.querySelectorAll('.btn-view-rec').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = parseInt(btn.getAttribute('data-view-rec'), 10);
+          const rec = filtered[idx];
+          if (!rec) return;
+          // Load record into certificate preview
+          state.faculty.name = rec.name;
+          state.faculty.empid = rec.empid;
+          state.faculty.dept = rec.dept;
+          state.faculty.rank = rec.rank;
+          state.faculty.date = rec.date;
+          state.faculty.email = rec.email;
+          state.faculty.rating = rec.rating;
+          state.faculty.signature = rec.name;
+          state.faculty.refId = rec.refId;
+          state.faculty.visionRead = true;
+          state.faculty.orgRead = true;
+          UNITS_DATA.forEach(u => u.checked = true);
+          GUIDES_DATA.forEach(g => g.checked = true);
+          syncInputsFromState();
+          renderUnitsList();
+          renderGuidesList();
+          updateSideSummaryAndCertificate();
+          switchMainTab('certificate');
+          showToast(`تم فتح وثيقة الشاهد الخاصة بـ: ${rec.name}`);
+        });
+      });
+    }
+
+    // ==================== NAVIGATION & WORKFLOW LOGIC ====================
+    function goToStep(stepNum) {
+      if (!state.freeNav && stepNum > state.currentStep) {
+        if (!isStepComplete(state.currentStep)) {
+          showToast('يرجى استكمال متطلبات المحطة الحالية أولاً قبل الانتقال للمحطة التالية (أو تفعيل التنقل الحر من الأعلى).', 'warn');
+          return;
+        }
+      }
+      state.currentStep = Math.max(1, Math.min(6, stepNum));
+      for (let i = 1; i <= 6; i++) {
+        const panel = document.getElementById(`step-panel-${i}`);
+        if (i === state.currentStep) {
+          panel.classList.remove('hidden');
+        } else {
+          panel.classList.add('hidden');
+        }
+      }
+
+      document.getElementById('btn-prev-step').disabled = (state.currentStep === 1);
+      const nextBtn = document.getElementById('btn-next-step');
+      if (state.currentStep === 6) {
+        nextBtn.textContent = 'معاينة وثيقة الشاهد (A4) ←';
+      } else {
+        nextBtn.textContent = 'المحطة التالية ←';
+      }
+      document.getElementById('step-footer-indicator').textContent = `المحطة ${state.currentStep} من 6`;
+      renderStepper();
+    }
+
+    function switchMainTab(tabName) {
+      const views = {
+        workflow: document.getElementById('view-workflow'),
+        certificate: document.getElementById('view-certificate'),
+        admin: document.getElementById('view-admin')
+      };
+      const tabs = {
+        workflow: document.getElementById('tab-workflow'),
+        certificate: document.getElementById('tab-certificate'),
+        admin: document.getElementById('tab-admin')
+      };
+
+      Object.keys(views).forEach(k => {
+        if (k === tabName) {
+          views[k].classList.remove('hidden');
+          tabs[k].className = 'px-3.5 py-1.5 rounded-lg font-bold bg-white text-[#745A84] shadow-xs transition flex items-center gap-1.5';
+        } else {
+          views[k].classList.add('hidden');
+          tabs[k].className = 'px-3.5 py-1.5 rounded-lg font-medium text-white/85 hover:text-white transition flex items-center gap-1.5';
+        }
+      });
+
+      if (tabName === 'admin') {
+        renderAdminDashboard();
+      }
+    }
+
+    function autoFillAllDemoData() {
+      state.faculty = {
+        name: 'د. عبدالمجيد بن صالح العتيبي',
+        empid: '4410982',
+        dept: 'قسم علوم الحاسب',
+        rank: 'أستاذ مساعد',
+        date: '2026-10-16',
+        email: 'a.alotaibi@university.edu.sa',
+        visionRead: true,
+        orgRead: true,
+        q1: 'correct',
+        q2: 'correct',
+        rating: 5,
+        notes: 'برنامج التهيئة واضح ومنظم ويوفر جميع الأدلة في مكان واحد.',
+        pledgeChecked: true,
+        signature: 'د. عبدالمجيد بن صالح العتيبي',
+        refId: 'ONB-2026-8841',
+        issueDate: '2026-10-16'
+      };
+      UNITS_DATA.forEach(u => u.checked = true);
+      GUIDES_DATA.forEach(g => g.checked = true);
+      syncInputsFromState();
+      renderUnitsList();
+      renderGuidesList();
+      updateSideSummaryAndCertificate();
+      goToStep(6);
+      showToast('تمت تعبئة جميع المحطات ببيانات تجريبية والانتقال لمحطة الإقرار النهائي!');
+    }
+
+    // ==================== EVENT LISTENERS ====================
+    window.addEventListener('DOMContentLoaded', () => {
+      renderUnitsList();
+      renderGuidesList();
+      syncInputsFromState();
+      updateSideSummaryAndCertificate();
+      renderAdminDashboard();
+      goToStep(1);
+
+      // Top view tabs
+      document.getElementById('tab-workflow').addEventListener('click', () => switchMainTab('workflow'));
+      document.getElementById('tab-certificate').addEventListener('click', () => {
+        updateSideSummaryAndCertificate();
+        switchMainTab('certificate');
+      });
+      document.getElementById('tab-admin').addEventListener('click', () => switchMainTab('admin'));
+
+      // Demo toolbar controls
+      document.getElementById('btn-autofill-all').addEventListener('click', autoFillAllDemoData);
+      document.getElementById('btn-toggle-free-nav').addEventListener('click', () => {
+        state.freeNav = !state.freeNav;
+        const statusEl = document.getElementById('free-nav-status');
+        if (state.freeNav) {
+          statusEl.textContent = 'مفعّل للمعاينة';
+          statusEl.className = 'font-bold text-[#745A84]';
+          showToast('تم تفعيل التنقل الحر بين المحطات لمعاينة التصميم.');
+        } else {
+          statusEl.textContent = 'مغلق (إلزامي بالتسلسل)';
+          statusEl.className = 'font-bold text-[#6B7280]';
+          showToast('تم تفعيل الوضع الإلزامي: لا ينتقل العضو للمحطة التالية إلا بعد إتمام الحالية.', 'warn');
+        }
+      });
+
+      document.getElementById('btn-reset-demo').addEventListener('click', () => {
+        state.faculty = {
+          name: '',
+          empid: '',
+          dept: '',
+          rank: '',
+          date: '2026-10-16',
+          email: '',
+          visionRead: false,
+          orgRead: false,
+          q1: '',
+          q2: '',
+          rating: 5,
+          notes: '',
+          pledgeChecked: false,
+          signature: '',
+          refId: 'ONB-2026-' + Math.floor(1000 + Math.random() * 9000),
+          issueDate: '2026-10-16'
+        };
+        UNITS_DATA.forEach(u => u.checked = false);
+        GUIDES_DATA.forEach(g => g.checked = false);
+        syncInputsFromState();
+        renderUnitsList();
+        renderGuidesList();
+        updateSideSummaryAndCertificate();
+        switchMainTab('workflow');
+        goToStep(1);
+        showToast('تمت إعادة ضبط النموذج للبدء من جديد.');
+      });
+
+      // Step 1 Quick Fill
+      document.getElementById('btn-fill-step1').addEventListener('click', () => {
+        state.faculty.name = 'د. عبدالمجيد بن صالح العتيبي';
+        state.faculty.empid = '4410982';
+        state.faculty.dept = 'قسم علوم الحاسب';
+        state.faculty.rank = 'أستاذ مساعد';
+        state.faculty.date = '2026-10-16';
+        state.faculty.email = 'a.alotaibi@university.edu.sa';
+        syncInputsFromState();
+        updateSideSummaryAndCertificate();
+        showToast('تم ملء بيانات المحطة الأولى افتراضياً.');
+      });
+
+      // Step 1 Inputs binding
+      ['inp-name', 'inp-empid', 'inp-dept', 'inp-rank', 'inp-date', 'inp-email'].forEach(id => {
+        document.getElementById(id).addEventListener('input', () => {
+          state.faculty.name = document.getElementById('inp-name').value;
+          state.faculty.empid = document.getElementById('inp-empid').value;
+          state.faculty.dept = document.getElementById('inp-dept').value;
+          state.faculty.rank = document.getElementById('inp-rank').value;
+          state.faculty.date = document.getElementById('inp-date').value;
+          state.faculty.email = document.getElementById('inp-email').value;
+          updateSideSummaryAndCertificate();
+        });
+      });
+
+      // Step 2 Org chart nodes & checkboxes
+      document.querySelectorAll('.org-node-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const key = btn.getAttribute('data-org');
+          document.getElementById('org-detail-box').innerHTML = ORG_DETAILS[key] || '';
+        });
+      });
+      document.getElementById('chk-vision').addEventListener('change', (e) => {
+        state.faculty.visionRead = e.target.checked;
+        updateSideSummaryAndCertificate();
+      });
+      document.getElementById('chk-org').addEventListener('change', (e) => {
+        state.faculty.orgRead = e.target.checked;
+        updateSideSummaryAndCertificate();
+      });
+
+      // Step 3 Check all units
+      document.getElementById('btn-check-all-units').addEventListener('click', () => {
+        UNITS_DATA.forEach(u => u.checked = true);
+        renderUnitsList();
+        updateSideSummaryAndCertificate();
+        showToast('تم تأكيد التعرف على جميع الوحدات المساندة.');
+      });
+
+      // Step 4 Check all guides & Modal controls
+      document.getElementById('btn-check-all-guides').addEventListener('click', () => {
+        GUIDES_DATA.forEach(g => g.checked = true);
+        renderGuidesList();
+        updateSideSummaryAndCertificate();
+        showToast('تم تأكيد الاطلاع على جميع الأدلة المرجعية.');
+      });
+      document.getElementById('btn-close-modal').addEventListener('click', closeGuideModal);
+      document.getElementById('btn-modal-confirm-read').addEventListener('click', () => {
+        if (state.activeModalGuideId) {
+          const g = GUIDES_DATA.find(x => x.id === state.activeModalGuideId);
+          if (g) g.checked = true;
+          renderGuidesList();
+          updateSideSummaryAndCertificate();
+          showToast(`تم توثيق الاطلاع على: ${g ? g.title : 'الدليل'}`);
+        }
+        closeGuideModal();
+      });
+
+      // Step 5 Quiz & Rating
+      document.querySelectorAll('input[name="q1"]').forEach(r => {
+        r.addEventListener('change', (e) => {
+          state.faculty.q1 = e.target.value;
+          updateSideSummaryAndCertificate();
+        });
+      });
+      document.querySelectorAll('input[name="q2"]').forEach(r => {
+        r.addEventListener('change', (e) => {
+          state.faculty.q2 = e.target.value;
+          updateSideSummaryAndCertificate();
+        });
+      });
+      document.querySelectorAll('.rate-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.faculty.rating = parseInt(btn.getAttribute('data-rate'), 10);
+          renderRatingButtons();
+          updateSideSummaryAndCertificate();
+        });
+      });
+      document.getElementById('inp-notes').addEventListener('input', (e) => {
+        state.faculty.notes = e.target.value;
+      });
+
+      // Step 6 Pledge & Generate Certificate
+      document.getElementById('chk-final-pledge').addEventListener('change', (e) => {
+        state.faculty.pledgeChecked = e.target.checked;
+        updateSideSummaryAndCertificate();
+      });
+      document.getElementById('inp-signature').addEventListener('input', (e) => {
+        state.faculty.signature = e.target.value;
+        updateSideSummaryAndCertificate();
+      });
+
+      document.getElementById('btn-generate-evidence').addEventListener('click', () => {
+        if (!state.faculty.name.trim()) {
+          autoFillAllDemoData();
+        }
+        // Add to admin records if not already added
+        const exists = state.records.some(r => r.refId === state.faculty.refId);
+        if (!exists) {
+          state.records.unshift({
+            refId: state.faculty.refId,
+            name: state.faculty.name || 'د. عبدالمجيد بن صالح العتيبي',
+            empid: state.faculty.empid || '4410982',
+            dept: state.faculty.dept || 'قسم علوم الحاسب',
+            rank: state.faculty.rank || 'أستاذ مساعد',
+            date: state.faculty.date || '2026-10-16',
+            email: state.faculty.email || 'a.alotaibi@university.edu.sa',
+            guidesCount: `${GUIDES_DATA.filter(g => g.checked).length || 5} / 5`,
+            rating: state.faculty.rating || 5
+          });
+        }
+        updateSideSummaryAndCertificate();
+        renderAdminDashboard();
+        switchMainTab('certificate');
+        showToast('تم اعتماد الإقرار وإصدار وثيقة الشاهد الرسمية وإضافتها لسجل الجودة!');
+      });
+
+      // Next / Prev Footer Buttons
+      document.getElementById('btn-prev-step').addEventListener('click', () => {
+        if (state.currentStep > 1) goToStep(state.currentStep - 1);
+      });
+      document.getElementById('btn-next-step').addEventListener('click', () => {
+        if (state.currentStep < 6) {
+          goToStep(state.currentStep + 1);
+        } else {
+          switchMainTab('certificate');
+        }
+      });
+
+      // Side & Certificate buttons
+      document.getElementById('btn-jump-certificate').addEventListener('click', () => {
+        updateSideSummaryAndCertificate();
+        switchMainTab('certificate');
+      });
+      document.getElementById('btn-back-to-workflow').addEventListener('click', () => {
+        switchMainTab('workflow');
+      });
+      document.getElementById('btn-print-doc').addEventListener('click', () => {
+        window.print();
+      });
+
+      // Admin search & CSV export
+      document.getElementById('inp-search-records').addEventListener('input', renderAdminDashboard);
+      document.getElementById('btn-export-csv').addEventListener('click', () => {
+        const headers = ['رقم الشاهد', 'اسم عضو هيئة التدريس', 'الرقم الوظيفي', 'القسم العلمي', 'الرتبة', 'تاريخ المباشرة', 'الأدلة المستلمة', 'تقييم الرضا'];
+        const rows = state.records.map(r => [
+          r.refId, r.name, r.empid, r.dept, r.rank, r.date, r.guidesCount, r.rating
+        ]);
+        const csvContent = '\uFEFF' + [headers, ...rows].map(e => e.join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'faculty_onboarding_evidence_log.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showToast('تم تصدير سجل شواهد التهيئة بصيغة CSV قابلة للفتح في Excel.');
+      });
+    });
+  </script>
+</body>
+</html>
