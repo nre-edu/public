@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nursing Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a clinical chart sheet on grid paper — experiment tabs like chart dividers, steps on one side, the live bench on the other */
+:root{
+  --paper:#E9EFEE; --sheet:#FBFCFB; --ink:#1B2A3A; --muted:#566673; --grid:#D3DEDD;
+  --accent:#0E6E6A; --accent-soft:#D6ECE9; --band:#C98A12; --stamp:#B3261E; --ok:#2E7D4F;
+  --f-display:"Reem Kufi","IBM Plex Sans Arabic",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans Arabic",system-ui,"Segoe UI",Tahoma,sans-serif;
+  --f-data:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E161B; --sheet:#15212A; --ink:#E2EAEE; --muted:#93A4AF; --grid:#22333D;
+  --accent:#45BCB2; --accent-soft:#163A3A; --band:#E3AA3E; --stamp:#F0675B; --ok:#5CC488; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E161B; --sheet:#15212A; --ink:#E2EAEE; --muted:#93A4AF; --grid:#22333D;
+  --accent:#45BCB2; --accent-soft:#163A3A; --band:#E3AA3E; --stamp:#F0675B; --ok:#5CC488; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.7 var(--f-body);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;padding-block:28px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1120px;margin:0 auto;display:grid;gap:22px}
+header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px}
+h1{font:700 clamp(28px,4.4vw,42px)/1.2 var(--f-display);margin:0;text-wrap:balance}
+.lede{margin:4px 0 0;color:var(--muted);max-width:62ch}
+.progress{font:500 13px var(--f-data);color:var(--muted);letter-spacing:.04em}
+.tabs{display:flex;flex-wrap:wrap;gap:10px}
+.tab{flex:1 1 220px;min-width:0;text-align:start;cursor:pointer;background:var(--sheet);color:var(--ink);
+  border:1px solid var(--grid);border-top:5px solid var(--grid);border-radius:4px 4px 8px 8px;padding:10px 14px;font:inherit;position:relative}
+.tab small{display:block;color:var(--muted);font-size:12.5px;letter-spacing:.03em}
+.tab b{font:600 17px/1.4 var(--f-body)}
+.tab[aria-selected="true"]{border-top-color:var(--accent);box-shadow:0 6px 18px -12px var(--ink)}
+.tab:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--band);outline-offset:2px}
+.tab .mini{position:absolute;inset-inline-end:10px;top:8px;font:700 11px var(--f-display);color:var(--stamp);
+  border:2px solid var(--stamp);border-radius:4px;padding:0 6px;transform:rotate(-8deg)}
+.sheet{background:var(--sheet);border:1px solid var(--grid);border-radius:8px;padding:clamp(16px,3vw,28px);
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:28px;position:relative}
+@media (max-width:820px){.sheet{grid-template-columns:minmax(0,1fr)}}
+.id-band{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;border-bottom:1px dashed var(--grid);padding-bottom:14px}
+.id-band h2{font:700 24px/1.3 var(--f-display);margin:0;flex:1 1 260px;text-wrap:balance}
+.chip{font:500 12.5px var(--f-body);background:var(--accent-soft);color:var(--accent);padding:2px 10px;border-radius:999px}
+.objective{grid-column:1/-1;margin:-6px 0 0;color:var(--muted)}
+.steps{display:grid;gap:22px;align-content:start;min-width:0}
+.step h3{display:flex;gap:10px;align-items:center;margin:0 0 8px;font:600 17px var(--f-body)}
+.step h3 .n{font:500 13px var(--f-data);width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+  border:1.5px solid var(--accent);color:var(--accent)}
+.step p{margin:0 0 10px}
+.opts{display:grid;gap:8px}
+.opt{text-align:start;font:inherit;color:var(--ink);background:transparent;border:1px solid var(--grid);border-radius:6px;padding:8px 12px;cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.note{font-size:14px;color:var(--muted)}
+.ctrl{display:grid;gap:4px;margin-bottom:12px}
+.ctrl label{display:flex;justify-content:space-between;gap:10px;font-size:14.5px}
+.ctrl output{font:500 14px var(--f-data);color:var(--accent);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:500 13.5px var(--f-data);padding:4px 10px;border-radius:6px;border:1px solid var(--grid);background:transparent;color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--sheet)}
+.proof{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.proof input{font:500 16px var(--f-data);width:9em;padding:6px 10px;border:1px solid var(--grid);border-radius:6px;background:var(--paper);color:var(--ink)}
+.btn{font:600 14.5px var(--f-body);padding:7px 16px;border-radius:6px;border:0;background:var(--ink);color:var(--sheet);cursor:pointer}
+.fb{font-size:14.5px;min-height:1.6em;margin-top:6px}
+.fb.good{color:var(--ok)} .fb.bad{color:var(--stamp)}
+.flap{border:1px solid var(--grid);border-radius:6px;overflow:hidden}
+.flap>button{width:100%;text-align:start;font:600 14.5px var(--f-body);color:var(--ink);background:repeating-linear-gradient(-45deg,var(--paper) 0 8px,var(--sheet) 8px 16px);
+  border:0;padding:10px 14px;cursor:pointer}
+.flap .inner{padding:12px 14px;display:grid;gap:8px;font-size:15px}
+.formula{font:500 14.5px/1.9 var(--f-data);background:var(--paper);padding:8px 12px;border-radius:6px;direction:ltr;text-align:left;overflow-x:auto}
+.bench{display:grid;gap:14px;align-content:start;min-width:0}
+.canvas-box{border:1px solid var(--grid);border-radius:8px;background:var(--paper);aspect-ratio:4/3;max-width:100%;position:relative}
+canvas{width:100%;height:100%;display:block}
+.readouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.ro{border-inline-start:3px solid var(--accent);padding:4px 12px}
+.ro .v{font:500 24px/1.3 var(--f-data);font-variant-numeric:tabular-nums}
+.ro .u{font-size:13px;color:var(--muted);margin-inline-start:4px}
+.ro .l{font-size:13px;color:var(--muted)}
+.ro.warn{border-color:var(--band)} .ro.crit{border-color:var(--stamp)}
+.status{font-size:14px;padding:6px 12px;border-radius:6px;background:var(--accent-soft);color:var(--ink)}
+.status.warn{background:color-mix(in srgb,var(--band) 22%,transparent)}
+.status.crit{background:color-mix(in srgb,var(--stamp) 20%,transparent)}
+.stamp{position:absolute;inset-inline-start:22px;top:18px;font:700 20px/1.2 var(--f-display);color:var(--stamp);border:3px double var(--stamp);
+  padding:4px 14px;border-radius:6px;transform:rotate(-10deg);opacity:.9;pointer-events:none;text-align:center}
+.stamp small{display:block;font:500 11px var(--f-data);letter-spacing:.06em}
+@media (prefers-reduced-motion:no-preference){.stamp.new{animation:thump .45s cubic-bezier(.2,1.6,.4,1)}}
+@keyframes thump{from{transform:rotate(-10deg) scale(1.8);opacity:0}to{transform:rotate(-10deg) scale(1);opacity:.9}}
+.teacher{grid-column:1/-1;border-top:1px dashed var(--grid);padding-top:14px;font-size:14.5px;color:var(--muted)}
+.teacher b{color:var(--ink)}
+.extend{background:var(--sheet);border:1px solid var(--grid);border-radius:8px;padding:clamp(16px,3vw,28px);display:grid;gap:12px}
+.extend h2{font:700 22px var(--f-display);margin:0}
+.extend p{margin:0;max-width:70ch}
+.extend pre{margin:0;font:500 13px/1.7 var(--f-data);background:var(--paper);padding:14px;border-radius:6px;overflow-x:auto;direction:ltr;text-align:left}
+.ideas{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
+.ideas li{font-size:14px;border:1px solid var(--grid);border-radius:999px;padding:3px 12px}
+footer{color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+
+<div class="wrap" dir="rtl" lang="ar">
+  <header>
+    <div>
+      <h1>دفتر مختبر التمريض</h1>
+      <p class="lede">قالب واحد يصلح لأي تجربة تمريضية: تتنبأ، ثم تجرّب بالمؤشرات، ثم تثبت بالحساب. ترفع الورقة لترى الحل، وتحصل على ختم.</p>
+    </div>
+    <div class="progress" id="progress"></div>
+  </header>
+
+  <nav class="tabs" role="tablist" id="tabs" aria-label="التجارب"></nav>
+
+  <main class="sheet" id="sheet" role="tabpanel"></main>
+
+  <section class="extend">
+    <h2>إضافة تجربة جديدة</h2>
+    <p>كل تجربة في هذه الصفحة وصفٌ واحد بالشكل التالي. لإضافة تجربة تكتب: المدخلات، والمعادلة، وسؤال التنبؤ، ومسألة الإثبات، ورسماً للمشهد. ولا يتغير شيء آخر في الصفحة.</p>
+<pre>{
+  id: "map", title: "متوسط الضغط الشرياني", tag: "العلامات الحيوية",
+  inputs:  [{ id:"sbp", label:"الانقباضي", unit:"mmHg", min:70, max:200, step:1, value:120 }, …],
+  compute: v =&gt; ({ outputs:[…], status:{…}, formula:"MAP = (SBP + 2×DBP) ÷ 3" }),
+  predict: { q:"…", options:[…], correct:1, why:"…" },
+  check:   { q:"…", answer:63.3, tolerance:0.5, unit:"mmHg", solution:"…" },
+  draw:    (ctx, w, h, v, out, t, colors) =&gt; { … }
+}</pre>
+    <p class="note">تجارب أخرى تصلح لهذا القالب:</p>
+    <ul class="ideas">
+      <li>توازن السوائل (المدخل والمخرج)</li><li>مؤشر كتلة الجسم</li><li>مقياس غلاسكو للغيبوبة</li>
+      <li>معدل تدفق الأكسجين وFiO₂</li><li>جرعات الإنسولين المنزلقة</li><li>حساب مساحة الحروق (قاعدة التسعات)</li>
+    </ul>
+  </section>
+
+  <footer>للتدريب فقط. الأرقام أمثلة تعليمية وليست مرجعاً دوائياً أو سريرياً.</footer>
+</div>
+
+<script>
+const fmt=(n,d=1)=>Number(n).toLocaleString("en",{maximumFractionDigits:d});
+const css=()=>{const s=getComputedStyle(document.documentElement);const g=k=>s.getPropertyValue(k).trim();
+  return{paper:g("--paper"),sheet:g("--sheet"),ink:g("--ink"),muted:g("--muted"),grid:g("--grid"),accent:g("--accent"),band:g("--band"),stamp:g("--stamp")}};
+
+const EXPS=[
+{
+  id:"drip", title:"معدل التنقيط الوريدي", tag:"المحاليل الوريدية",
+  objective:"احسب عدد النقاط في الدقيقة لتسريب محلول بحجم وزمن محددين، وشاهد كيف يغيّر كل متغير سرعة التنقيط.",
+  inputs:[
+    {id:"vol",label:"حجم المحلول",unit:"mL",min:100,max:2000,step:50,value:1000},
+    {id:"hrs",label:"زمن التسريب",unit:"ساعة",min:1,max:24,step:1,value:8},
+    {id:"df",label:"معامل التنقيط للجهاز",unit:"نقطة/mL",choices:[10,15,20,60],value:20}
+  ],
+  compute(v){const gtt=v.vol*v.df/(v.hrs*60), mlh=v.vol/v.hrs;
+    return{outputs:[{l:"معدل التنقيط",v:fmt(gtt,0),u:"نقطة/دقيقة"},{l:"معدل التدفق",v:fmt(mlh,0),u:"mL/ساعة"}],
+      status:gtt>100?{c:"warn",t:"المعدل مرتفع جداً لعدّه يدوياً. يُفضَّل استخدام مضخة تسريب."}:{c:"",t:"يمكن ضبط هذا المعدل يدوياً بعدّ النقاط لمدة دقيقة."},
+      formula:`gtt/min = (Volume × Drop factor) ÷ (Time in min)\n        = (${v.vol} × ${v.df}) ÷ (${v.hrs} × 60) = ${fmt(gtt,1)}`,gtt}},
+  predict:{q:"إذا ضاعفت زمن التسريب من 4 إلى 8 ساعات مع بقاء الحجم كما هو، ماذا يحدث لمعدل التنقيط؟",
+    options:["يتضاعف","ينخفض إلى النصف","لا يتغير"],correct:1,
+    why:"الزمن في مقام المعادلة، فمضاعفته تقسم معدل التنقيط على اثنين."},
+  check:{q:"طبيب طلب 500 mL محلول ملحي خلال 4 ساعات بجهاز معامله 20 نقطة/mL. كم نقطة في الدقيقة؟",
+    answer:41.7,tolerance:1,unit:"نقطة/دقيقة",
+    solution:"(500 × 20) ÷ (4 × 60) = 10000 ÷ 240 = 41.7، وتُقرَّب إلى 42 نقطة في الدقيقة."},
+  teacher:"اطلب من الطلاب تجربة معامل 60 (جهاز الأطفال الدقيق) ليلاحظوا أن عدد النقاط في الدقيقة يساوي عدد mL في الساعة.",
+  draw(ctx,w,h,v,out,t,c){
+    const cx=w/2, top=h*.1, cw=Math.min(w*.22,90), ch=h*.42;
+    ctx.fillStyle=c.sheet;ctx.strokeStyle=c.ink;ctx.lineWidth=2;
+    ctx.beginPath();ctx.roundRect(cx-cw*.6,top-h*.06,cw*1.2,h*.06,4);ctx.fill();ctx.stroke();
+    ctx.beginPath();ctx.roundRect(cx-cw/2,top,cw,ch,10);ctx.fill();ctx.stroke();
+    const lvl=top+ch*.72;ctx.fillStyle=c.accent;ctx.globalAlpha=.25;ctx.fillRect(cx-cw/2+2,lvl,cw-4,top+ch-lvl-2);ctx.globalAlpha=1;
+    ctx.beginPath();ctx.moveTo(cx-6,top);ctx.lineTo(cx-4,top+14);ctx.lineTo(cx+4,top+14);ctx.lineTo(cx+6,top);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx,top+ch);ctx.lineTo(cx,h*.95);ctx.lineWidth=5;ctx.strokeStyle=c.grid;ctx.stroke();
+    ctx.lineWidth=2;ctx.strokeStyle=c.ink;
+    const period=Math.max(60000/out.gtt,250), p=(t%period)/period, fall=lvl-(top+16);
+    const y=top+16+fall*Math.min(1,p*p*2.2), r=Math.max(3,cw*.06);
+    ctx.fillStyle=c.accent;ctx.beginPath();ctx.arc(cx,y,r,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle=c.muted;ctx.font=`500 ${Math.max(12,w*.026)}px "IBM Plex Mono",monospace`;ctx.textAlign="center";
+    ctx.fillText(`1 drop / ${fmt(60/out.gtt,2)} s`,cx,h*.97-4);
+    if(60000/out.gtt<250){ctx.fillStyle=c.band;ctx.fillText("animation slowed",cx,top-h*.08);}
+  }
+},
+{
+  id:"dose", title:"الجرعة حسب الوزن", tag:"حساب الأدوية",
+  objective:"حوّل الجرعة الموصوفة بالـ mg لكل كجم إلى حجم سائل بالـ mL تسحبه في المحقنة.",
+  inputs:[
+    {id:"wt",label:"وزن الطفل",unit:"كجم",min:3,max:60,step:0.5,value:18},
+    {id:"mgkg",label:"الجرعة الموصوفة",unit:"mg/كجم",min:1,max:30,step:1,value:15},
+    {id:"conc",label:"تركيز الشراب",unit:"mg/mL",choices:[24,50],labels:["120mg/5mL","250mg/5mL"],value:24}
+  ],
+  compute(v){const mg=v.wt*v.mgkg, ml=mg/v.conc;
+    return{outputs:[{l:"الجرعة",v:fmt(mg,0),u:"mg"},{l:"الحجم المسحوب",v:fmt(ml,2),u:"mL"}],
+      status:ml>20?{c:"warn",t:"حجم كبير لجرعة فموية واحدة. راجع التركيز أو الوصفة."}:{c:"",t:"اسحب الحجم في محقنة فموية واقرأ التدريج عند مستوى العين."},
+      formula:`Dose (mg) = ${v.wt} kg × ${v.mgkg} mg/kg = ${fmt(mg,1)} mg\nVolume (mL) = ${fmt(mg,1)} ÷ ${v.conc} mg/mL = ${fmt(ml,2)} mL`,ml}},
+  predict:{q:"طفلان يأخذان الجرعة نفسها لكل كجم. وزن الأول 20 كجم ويحتاج 12.5 mL. كم يحتاج الثاني ووزنه 10 كجم؟",
+    options:["25 mL","12.5 mL","6.25 mL"],correct:2,
+    why:"الحجم يتناسب طردياً مع الوزن عند ثبات الجرعة والتركيز، فنصف الوزن يعني نصف الحجم."},
+  check:{q:"طفل وزنه 18 كجم، الجرعة 15 mg/كجم، والشراب تركيزه 120mg/5mL (أي 24 mg/mL). كم mL تسحب؟",
+    answer:11.25,tolerance:0.1,unit:"mL",
+    solution:"18 × 15 = 270 mg، ثم 270 ÷ 24 = 11.25 mL."},
+  teacher:"غيّر التركيز بين الخيارين أثناء الشرح ليلاحظ الطلاب أن الجرعة بالـ mg لا تتغير بينما يتغير الحجم. هذا مصدر شائع لأخطاء الأدوية.",
+  draw(ctx,w,h,v,out,t,c){
+    const cap=[5,10,20,30,60].find(x=>x>=out.ml)||60, x0=w*.1, x1=w*.78, y=h*.42, bh=h*.2;
+    const step=cap<=10?1:cap<=30?2:5;
+    ctx.strokeStyle=c.ink;ctx.lineWidth=2;ctx.fillStyle=c.sheet;
+    ctx.beginPath();ctx.roundRect(x0,y,x1-x0,bh,6);ctx.fill();ctx.stroke();
+    const fx=x0+(x1-x0)*Math.min(out.ml/cap,1);
+    ctx.fillStyle=c.accent;ctx.globalAlpha=.35;ctx.fillRect(x0+2,y+2,fx-x0-2,bh-4);ctx.globalAlpha=1;
+    ctx.fillStyle=c.ink;ctx.fillRect(fx-3,y+2,6,bh-4);
+    ctx.fillRect(fx,y+bh/2-3,w*.9-fx,6);ctx.fillRect(w*.9,y-bh*.15,6,bh*1.3);
+    ctx.beginPath();ctx.moveTo(x0,y+bh*.35);ctx.lineTo(x0-w*.05,y+bh*.42);ctx.lineTo(x0-w*.05,y+bh*.58);ctx.lineTo(x0,y+bh*.65);ctx.stroke();
+    ctx.font=`500 ${Math.max(11,w*.022)}px "IBM Plex Mono",monospace`;ctx.textAlign="center";ctx.fillStyle=c.muted;
+    for(let m=0;m<=cap;m+=step){const tx=x0+(x1-x0)*m/cap;ctx.fillRect(tx,y-8,1.5,8);ctx.fillText(m,tx,y-12);}
+    ctx.fillStyle=c.ink;ctx.font=`500 ${Math.max(13,w*.03)}px "IBM Plex Mono",monospace`;
+    ctx.fillText(`${fmt(out.ml,2)} mL  ·  ${cap} mL syringe`,w/2,y+bh+h*.14);
+  }
+},
+{
+  id:"map", title:"متوسط الضغط الشرياني", tag:"العلامات الحيوية",
+  objective:"افهم لماذا يعطي الضغط الانبساطي وزناً أكبر في حساب MAP، ومتى يصبح الضغط غير كافٍ لتروية الأعضاء.",
+  inputs:[
+    {id:"sbp",label:"الضغط الانقباضي",unit:"mmHg",min:70,max:200,step:1,value:120},
+    {id:"dbp",label:"الضغط الانبساطي",unit:"mmHg",min:30,max:130,step:1,value:80}
+  ],
+  compute(v){const d=Math.min(v.dbp,v.sbp-10), map=(v.sbp+2*d)/3;
+    const st=map<65?{c:"crit",t:"أقل من 65 mmHg: تروية الأعضاء قد تكون غير كافية. أبلغ فوراً."}
+      :map<70?{c:"warn",t:"على الحد الأدنى. راقب المريض عن قرب."}
+      :map>100?{c:"warn",t:"أعلى من 100 mmHg: ضغط مرتفع على جدران الشرايين."}
+      :{c:"",t:"ضمن المدى المعتاد (70 إلى 100 mmHg)."};
+    return{outputs:[{l:"MAP",v:fmt(map,1),u:"mmHg",c:st.c},{l:"ضغط النبض",v:fmt(v.sbp-d,0),u:"mmHg"}],status:st,
+      formula:`MAP = (SBP + 2 × DBP) ÷ 3\n    = (${v.sbp} + 2 × ${d}) ÷ 3 = ${fmt(map,1)} mmHg`+(d!==v.dbp?`\n(DBP capped at SBP − 10)`:""),map,sbp:v.sbp,dbp:d}},
+  predict:{q:"أيهما يرفع MAP أكثر: زيادة الانقباضي 10 mmHg أم زيادة الانبساطي 10 mmHg؟",
+    options:["الانقباضي","الانبساطي","التأثير متساوٍ"],correct:1,
+    why:"القلب يقضي نحو ثلثي الدورة في الانبساط، لذلك يُضرب الانبساطي في 2. زيادته 10 ترفع MAP بنحو 6.7، وزيادة الانقباضي 10 ترفعه بنحو 3.3 فقط."},
+  check:{q:"مريض ضغطه 90/50 mmHg. احسب MAP.",answer:63.3,tolerance:0.5,unit:"mmHg",
+    solution:"(90 + 2 × 50) ÷ 3 = 190 ÷ 3 = 63.3 mmHg، وهي أقل من 65، فتستدعي إبلاغاً فورياً."},
+  teacher:"اطلب ضبط ضغطين مختلفين يعطيان MAP نفسه، مثل 120/60 و100/70، ثم ناقش الفرق السريري بينهما.",
+  draw(ctx,w,h,v,out,t,c){
+    const L=w*.12,R=w*.97,T=h*.08,B=h*.9,lo=30,hi=210,Y=p=>B-(p-lo)/(hi-lo)*(B-T);
+    ctx.font=`500 ${Math.max(11,w*.022)}px "IBM Plex Mono",monospace`;ctx.textAlign="right";
+    for(let p=40;p<=200;p+=40){ctx.strokeStyle=c.grid;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(L,Y(p));ctx.lineTo(R,Y(p));ctx.stroke();
+      ctx.fillStyle=c.muted;ctx.fillText(p,L-6,Y(p)+4);}
+    ctx.fillStyle=c.stamp;ctx.globalAlpha=.08;ctx.fillRect(L,Y(65),R-L,B-Y(65));ctx.globalAlpha=1;
+    // one beat: fast upstroke, decline, dicrotic notch, diastolic run-off back to DBP
+    const beat=900, shape=ph=>ph<.12?Math.sin(ph/.12*Math.PI/2):ph<.3?1-(ph-.12)/.18*.4:ph<.36?.6+.08*Math.sin((ph-.3)/.06*Math.PI):.6*Math.exp(-(ph-.36)*4);
+    ctx.strokeStyle=c.accent;ctx.lineWidth=2.5;ctx.beginPath();
+    for(let x=L;x<=R;x+=2){const ms=t-(R-x)/(R-L)*2600, ph=((ms%beat)+beat)%beat/beat;
+      const p=out.dbp+(out.sbp-out.dbp)*shape(ph); x===L?ctx.moveTo(x,Y(p)):ctx.lineTo(x,Y(p));}
+    ctx.stroke();
+    ctx.setLineDash([6,5]);ctx.strokeStyle=c.band;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(L,Y(out.map));ctx.lineTo(R,Y(out.map));ctx.stroke();ctx.setLineDash([]);
+    ctx.textAlign="left";ctx.fillStyle=c.band;ctx.fillText(`MAP ${fmt(out.map,1)}`,L+6,Y(out.map)-6);
+    ctx.fillStyle=c.stamp;ctx.fillText("< 65",L+6,Y(65)+14);
+  }
+}];
+
+let stamps={}, preds={}, fresh=null;
+try{stamps=JSON.parse(localStorage.getItem("nl-stamps")||"{}")}catch(e){}
+const save=()=>{try{localStorage.setItem("nl-stamps",JSON.stringify(stamps))}catch(e){}};
+let cur=EXPS.find(e=>e.id===location.hash.slice(1))||EXPS[0];
+const vals={}; EXPS.forEach(e=>vals[e.id]=Object.fromEntries(e.inputs.map(i=>[i.id,i.value])));
+
+function renderTabs(){
+  document.getElementById("tabs").innerHTML=EXPS.map((e,i)=>`<button class="tab" role="tab" id="tab-${e.id}" aria-selected="${e===cur}" data-id="${e.id}">
+    <small>تجربة ${i+1} · ${e.tag}</small><b>${e.title}</b>${stamps[e.id]?'<span class="mini">مُنجَز</span>':""}</button>`).join("");
+  const n=Object.keys(stamps).filter(k=>EXPS.some(e=>e.id===k)).length;
+  document.getElementById("progress").textContent=`الأختام: ${n} / ${EXPS.length}`;
+}
+function ctrlHTML(e,i){const v=vals[e.id][i.id];
+  if(i.choices) return `<div class="ctrl"><label><span>${i.label}</span><output>${i.unit}</output></label><div class="seg" role="group" aria-label="${i.label}">
+    ${i.choices.map((ch,k)=>`<button data-in="${i.id}" data-val="${ch}" aria-pressed="${ch===v}">${i.labels?i.labels[k]:ch}</button>`).join("")}</div></div>`;
+  return `<div class="ctrl"><label for="in-${e.id}-${i.id}"><span>${i.label}</span><output id="o-${i.id}">${fmt(v)} ${i.unit}</output></label>
+    <input type="range" id="in-${e.id}-${i.id}" data-in="${i.id}" min="${i.min}" max="${i.max}" step="${i.step}" value="${v}"></div>`;}
+function renderSheet(){
+  const e=cur, p=preds[e.id];
+  document.getElementById("sheet").innerHTML=`
+    ${stamps[e.id]?`<div class="stamp ${fresh===e.id?"new":""}">أثبتَّها<small>${stamps[e.id]}</small></div>`:""}
+    <div class="id-band"><h2>${e.title}</h2><span class="chip">${e.tag}</span></div>
+    <p class="objective">${e.objective}</p>
+    <div class="steps">
+      <section class="step"><h3><span class="n">1</span>تنبّأ</h3><p>${e.predict.q}</p>
+        <div class="opts">${e.predict.options.map((o,k)=>`<button class="opt" data-pred="${k}" aria-pressed="${p===k}">${o}</button>`).join("")}</div>
+        <p class="note" style="margin-top:8px">${p==null?"اختر توقعك قبل تحريك المؤشرات.":"سُجّل توقعك. ستعرف النتيجة عند رفع الورقة."}</p></section>
+      <section class="step"><h3><span class="n">2</span>جرّب</h3>${e.inputs.map(i=>ctrlHTML(e,i)).join("")}</section>
+      <section class="step"><h3><span class="n">3</span>أثبت</h3><p>${e.check.q}</p>
+        <form class="proof" id="proof"><input id="ans-${e.id}" inputmode="decimal" placeholder="إجابتك" aria-label="إجابتك">
+          <span class="note">${e.check.unit}</span><button class="btn">تحقّق</button></form><div class="fb" id="fb" aria-live="polite"></div>
+        <div class="flap"><button id="flapBtn" aria-expanded="false">ارفع الورقة لترى الحل</button>
+          <div class="inner" id="flap" hidden>
+            <div><b>التنبؤ:</b> الإجابة الصحيحة «${e.predict.options[e.predict.correct]}». ${p==null?"":p===e.predict.correct?"توقعك صحيح.":"توقعك كان مختلفاً."} ${e.predict.why}</div>
+            <div><b>الإثبات:</b> ${e.check.solution}</div></div></div></section>
+    </div>
+    <div class="bench">
+      <div class="canvas-box"><canvas id="cv" aria-label="محاكاة ${e.title}"></canvas></div>
+      <div class="readouts" id="ro"></div>
+      <div class="status" id="st"></div>
+      <div class="formula" id="fm"></div>
+    </div>
+    <p class="teacher"><b>ملاحظة للمعلم:</b> ${e.teacher}</p>`;
+  bind(); update(); sizeCanvas();
+}
+let out;
+function update(){
+  out=cur.compute(vals[cur.id]);
+  document.getElementById("ro").innerHTML=out.outputs.map(o=>`<div class="ro ${o.c||""}"><div class="l">${o.l}</div><span class="v">${o.v}</span><span class="u">${o.u}</span></div>`).join("");
+  const st=document.getElementById("st");st.className="status "+(out.status.c||"");st.textContent=out.status.t;
+  document.getElementById("fm").textContent=out.formula;
+}
+function bind(){
+  const sh=document.getElementById("sheet");
+  sh.querySelectorAll("input[type=range]").forEach(r=>r.addEventListener("input",()=>{
+    const i=cur.inputs.find(x=>x.id===r.dataset.in);vals[cur.id][i.id]=+r.value;
+    document.getElementById("o-"+i.id).textContent=`${fmt(r.value)} ${i.unit}`;update();}));
+  sh.querySelectorAll(".seg button").forEach(b=>b.addEventListener("click",()=>{
+    vals[cur.id][b.dataset.in]=+b.dataset.val;
+    b.parentElement.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));update();}));
+  sh.querySelectorAll("[data-pred]").forEach(b=>b.addEventListener("click",()=>{preds[cur.id]=+b.dataset.pred;fresh=null;renderSheet();}));
+  document.getElementById("flapBtn").addEventListener("click",ev=>{const f=document.getElementById("flap");f.hidden=!f.hidden;
+    ev.currentTarget.setAttribute("aria-expanded",!f.hidden);ev.currentTarget.textContent=f.hidden?"ارفع الورقة لترى الحل":"أنزل الورقة";});
+  document.getElementById("proof").addEventListener("submit",ev=>{ev.preventDefault();
+    const raw=document.getElementById("ans-"+cur.id).value.replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace("٫",".").replace(",",".");
+    const n=parseFloat(raw), fb=document.getElementById("fb");
+    if(isNaN(n)){fb.className="fb bad";fb.textContent="اكتب رقماً، مثل 42 أو 11.25.";return;}
+    if(Math.abs(n-cur.check.answer)<=cur.check.tolerance){
+      if(!stamps[cur.id]){stamps[cur.id]=new Date().toLocaleDateString("en-GB");save();fresh=cur.id;renderTabs();renderSheet();
+        const f2=document.getElementById("fb");f2.className="fb good";f2.textContent="إجابة صحيحة. حصلت على الختم.";return;}
+      fb.className="fb good";fb.textContent="إجابة صحيحة.";
+    }else{fb.className="fb bad";fb.textContent="ليست صحيحة بعد. راجع المعادلة تحت المحاكاة وأعد الحساب.";}
+  });
+}
+document.getElementById("tabs").addEventListener("click",ev=>{const b=ev.target.closest(".tab");if(!b)return;
+  cur=EXPS.find(e=>e.id===b.dataset.id);fresh=null;history.replaceState(null,"","#"+cur.id);renderTabs();renderSheet();});
+
+let cv,ctx,W,H;
+function sizeCanvas(){cv=document.getElementById("cv");const r=cv.getBoundingClientRect(),d=devicePixelRatio||1;
+  W=r.width;H=r.height;cv.width=W*d;cv.height=H*d;ctx=cv.getContext("2d");ctx.setTransform(d,0,0,d,0,0);}
+addEventListener("resize",()=>cv&&sizeCanvas());
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function frame(t){if(ctx&&W){ctx.clearRect(0,0,W,H);cur.draw(ctx,W,H,vals[cur.id],out,reduce?0:t,css());}requestAnimationFrame(frame);}
+renderTabs();renderSheet();requestAnimationFrame(frame);
+</script>
+</body>
+</html>
