@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IV Drip Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Noto+Naskh+Arabic:wght@400;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: an open book on the desk. The text page holds the doctor's order and the three steps; the facing page holds a live 3D bedside drawn in ink. */
+:root{
+  --desk:#DCE3E1; --page:#FAFBF8; --ink:#1D2733; --muted:#5A6672; --rule:#CBD5D3;
+  --fluid:#1A8FA6; --fluid-soft:#D8EEF2; --clamp:#C8871A; --stamp:#B3261E; --ok:#2E7D4F; --skin:#E8D6C3;
+  --f-display:"Reem Kufi","Noto Naskh Arabic",system-ui,sans-serif;
+  --f-body:"Noto Naskh Arabic","Segoe UI",Tahoma,serif;
+  --f-data:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --desk:#0C1216; --page:#141D24; --ink:#E4EAED; --muted:#95A3AD; --rule:#25333C;
+  --fluid:#4CC3D9; --fluid-soft:#173842; --clamp:#E5A944; --stamp:#F06A5E; --ok:#5EC68A; --skin:#4A3B30; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --desk:#0C1216; --page:#141D24; --ink:#E4EAED; --muted:#95A3AD; --rule:#25333C;
+  --fluid:#4CC3D9; --fluid-soft:#173842; --clamp:#E5A944; --stamp:#F06A5E; --ok:#5EC68A; --skin:#4A3B30; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--ink);font:17px/1.85 var(--f-body);padding-block:24px 40px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.book{max-width:1240px;margin:0 auto;background:var(--page);border-radius:6px;position:relative;
+  display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.2fr);
+  box-shadow:0 1px 0 var(--rule),0 24px 50px -30px var(--ink)}
+.book::after{content:"";position:absolute;top:0;bottom:0;inset-inline-start:44.2%;width:36px;transform:translateX(50%);pointer-events:none;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--ink) 9%,transparent) 50%,transparent)}
+.text{padding:clamp(18px,3.2vw,40px);display:grid;gap:22px;align-content:start;min-width:0}
+.kicker{font:500 12.5px var(--f-data);letter-spacing:.08em;color:var(--muted)}
+h1{font:700 clamp(30px,4vw,44px)/1.15 var(--f-display);margin:2px 0 0;text-wrap:balance}
+.lede{margin:0;color:var(--muted);max-width:52ch}
+.order{border:1.5px solid var(--ink);border-radius:4px;padding:12px 16px;display:grid;gap:6px;position:relative;background:var(--page)}
+.order h2{margin:0;font:600 13px var(--f-data);letter-spacing:.08em;color:var(--muted)}
+.order p{margin:0;font-size:18px}
+.order .rx{font:500 15px/1.8 var(--f-data);direction:ltr;text-align:left;font-variant-numeric:tabular-nums}
+.order .row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px}
+.link{font:600 14px var(--f-body);color:var(--fluid);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.step{display:grid;gap:8px;padding-top:16px;border-top:1px solid var(--rule)}
+.step h3{display:flex;align-items:center;gap:10px;margin:0;font:700 19px var(--f-display)}
+.step h3 .n{font:500 13px var(--f-data);width:28px;height:28px;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--ink)}
+.step.done h3 .n{background:var(--ok);border-color:var(--ok);color:var(--page)}
+.step p{margin:0}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{font:500 15px var(--f-data);padding:6px 14px;border-radius:4px;border:1px solid var(--rule);background:transparent;color:var(--ink);cursor:pointer}
+.opt[aria-pressed="true"]{border-color:var(--ink);background:var(--fluid-soft)}
+.row-in{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+input[type=text]{font:500 17px var(--f-data);width:7.5em;padding:6px 10px;border:1px solid var(--rule);border-radius:4px;background:var(--desk);color:var(--ink);direction:ltr}
+.btn{font:600 15px var(--f-body);padding:6px 16px;border-radius:4px;border:0;background:var(--ink);color:var(--page);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.fb{font-size:15px;min-height:1.7em}
+.fb.good{color:var(--ok)} .fb.bad{color:var(--stamp)}
+.flap{border:1px dashed var(--rule);border-radius:4px}
+.flap>button{width:100%;text-align:start;font:600 14.5px var(--f-body);color:var(--ink);background:transparent;border:0;padding:8px 12px;cursor:pointer}
+.flap .inner{padding:0 12px 12px;display:grid;gap:6px;font-size:15.5px}
+.eq{font:500 14px/1.9 var(--f-data);direction:ltr;text-align:left;background:var(--desk);border-radius:4px;padding:6px 10px;overflow-x:auto}
+.clamp-ctl{display:grid;gap:4px}
+.clamp-ctl label{font-size:15px;display:flex;justify-content:space-between}
+input[type=range]{width:100%;accent-color:var(--clamp)}
+.counter{display:grid;gap:8px;border:1px solid var(--rule);border-radius:4px;padding:10px 12px}
+.seg{display:inline-flex;gap:4px}
+.seg button{font:500 13px var(--f-data);padding:3px 10px;border-radius:4px;border:1px solid var(--rule);background:transparent;color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--page);border-color:var(--ink)}
+.tap{font:700 18px var(--f-display);padding:14px;border-radius:6px;border:2px solid var(--fluid);background:var(--fluid-soft);color:var(--ink);cursor:pointer;touch-action:manipulation}
+.tap:disabled{opacity:.45;cursor:not-allowed}
+.tally{font:500 14px var(--f-data);color:var(--muted);direction:ltr;text-align:left}
+.teacher{font-size:15px;color:var(--muted);border-top:1px solid var(--rule);padding-top:14px;margin:0}
+.teacher b{color:var(--ink)}
+.stamp{position:absolute;inset-inline-end:18px;top:-14px;font:700 17px/1.2 var(--f-display);color:var(--stamp);border:3px double var(--stamp);
+  padding:4px 12px;border-radius:4px;transform:rotate(8deg);background:var(--page);text-align:center;pointer-events:none}
+.stamp small{display:block;font:500 10.5px var(--f-data);letter-spacing:.05em}
+@media (prefers-reduced-motion:no-preference){.stamp.new{animation:thump .5s cubic-bezier(.2,1.6,.4,1)}}
+@keyframes thump{from{transform:rotate(8deg) scale(2);opacity:0}to{transform:rotate(8deg) scale(1);opacity:1}}
+
+[hidden]{display:none!important}
+.stage{position:sticky;top:12px;align-self:start;height:clamp(560px,calc(100vh - 48px),820px);min-width:0;overflow:hidden;border-start-end-radius:6px;border-end-end-radius:6px;
+  background:radial-gradient(ellipse at 50% 35%,var(--page),color-mix(in srgb,var(--desk) 55%,var(--page)))}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab}
+.hud{position:absolute;top:12px;inset-inline:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;pointer-events:none}
+.hud .card{pointer-events:auto;background:color-mix(in srgb,var(--page) 88%,transparent);border:1px solid var(--rule);border-radius:4px;padding:6px 10px;
+  font:500 13px var(--f-data);display:grid;gap:2px;min-width:0}
+.hud .k{color:var(--muted);font:500 11.5px var(--f-body)}
+.hud .v{font-size:17px;direction:ltr;text-align:start;font-variant-numeric:tabular-nums}
+.hud .actual{color:var(--clamp)}
+.tools{position:absolute;bottom:12px;inset-inline:12px;display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between;align-items:center}
+.tools .grp{display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:color-mix(in srgb,var(--page) 88%,transparent);border:1px solid var(--rule);border-radius:4px;padding:4px 6px}
+.tools .k{font-size:12.5px;color:var(--muted)}
+.lbl{position:absolute;left:0;top:0;font:600 13px var(--f-body);color:var(--ink);white-space:nowrap;pointer-events:none;
+  padding-inline-start:10px;border-inline-start:1.5px solid var(--ink);line-height:1.3}
+.lbl small{display:block;font:500 11px var(--f-data);color:var(--muted)}
+.empty-msg{position:absolute;inset:auto 0 70px;text-align:center;font:700 18px var(--f-display);color:var(--stamp)}
+.nogl{position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;color:var(--muted)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--clamp);outline-offset:2px}
+footer{max-width:1240px;margin:14px auto 0;font-size:13px;color:var(--muted)}
+@media (max-width:900px){
+  .book{grid-template-columns:minmax(0,1fr)}
+  .book::after{display:none}
+  .stage{order:-1;position:relative;top:auto;height:min(520px,72vh);border-radius:6px 6px 0 0}
+  .lbl{font-size:11.5px}
+}
+</style>
+</head>
+<body>
+
+<div class="book" dir="rtl" lang="ar">
+  <article class="text" id="text">
+    <div>
+      <div class="kicker">الفصل الأول · المحاليل الوريدية</div>
+      <h1>رحلة النقطة</h1>
+      <p class="lede">احسب معدل التنقيط من الأمر الطبي، ثم اضبط المنظم الدوار وعُدّ النقاط في حجرة التنقيط كما تفعل بجانب سرير المريض.</p>
+    </div>
+
+    <section class="order" aria-labelledby="ord-h">
+      <div id="stampSlot"></div>
+      <h2 id="ord-h">أمر طبي</h2>
+      <p id="ordText"></p>
+      <div class="rx" id="ordRx"></div>
+      <div class="row"><span class="kicker" id="ordSet"></span><button class="link" id="newOrder">أمر طبي جديد</button></div>
+    </section>
+
+    <section class="step" id="s1">
+      <h3><span class="n">1</span>تنبّأ</h3>
+      <p>قبل أي حساب: كم نقطة في الدقيقة تتوقع أن يحتاجها هذا الأمر تقريباً؟</p>
+      <div class="opts" id="predOpts"></div>
+      <div class="fb" id="predFb"></div>
+    </section>
+
+    <section class="step" id="s2">
+      <h3><span class="n">2</span>احسب</h3>
+      <p>استخدم الحجم والزمن ومعامل التنقيط المكتوب على غلاف جهاز التسريب.</p>
+      <form class="row-in" id="calcForm">
+        <input type="text" id="calcIn" inputmode="decimal" placeholder="gtt/min" aria-label="معدل التنقيط المحسوب">
+        <span class="kicker">نقطة/دقيقة</span>
+        <button class="btn">تحقّق</button>
+      </form>
+      <div class="fb" id="calcFb" aria-live="polite"></div>
+      <div class="flap"><button id="flapBtn" aria-expanded="false">ارفع الورقة لترى الحل</button>
+        <div class="inner" id="flap" hidden></div></div>
+    </section>
+
+    <section class="step" id="s3">
+      <h3><span class="n">3</span>اضبط وعُدّ</h3>
+      <p>حرّك المنظم الدوار، ثم عُدّ النقاط التي تسقط في حجرة التنقيط. اضغط زر «نقطة» مع كل نقطة تراها، أو اضغط مفتاح المسافة.</p>
+      <div class="clamp-ctl">
+        <label for="clamp"><span>المنظم الدوار</span><span class="kicker" id="clampTxt"></span></label>
+        <input type="range" id="clamp" min="0" max="1000" step="1" value="300">
+      </div>
+      <div class="counter">
+        <div class="row-in" style="justify-content:space-between">
+          <span class="kicker">مدة العدّ</span>
+          <span class="seg" id="durSeg" role="group" aria-label="مدة العد">
+            <button data-d="15" aria-pressed="true">15 ث</button><button data-d="30" aria-pressed="false">30 ث</button><button data-d="60" aria-pressed="false">60 ث</button>
+          </span>
+        </div>
+        <div class="row-in">
+          <button class="btn ghost" id="countStart">ابدأ العدّ</button>
+          <span class="tally" id="tally">—</span>
+        </div>
+        <button class="tap" id="tap" disabled>نقطة</button>
+      </div>
+      <div class="fb" id="countFb" aria-live="polite"></div>
+    </section>
+
+    <p class="teacher"><b>ملاحظة للمعلم:</b> اطلب من الطلاب العدّ 15 ثانية ثم 60 ثانية لنفس الضبط، وناقش لماذا العدّ لدقيقة كاملة أدق. ثم سرّع الزمن ×600 ليروا أن خطأً صغيراً في الضبط يغيّر وقت انتهاء المحلول بساعات.</p>
+  </article>
+
+  <div class="stage" id="stage" aria-label="مشهد ثلاثي الأبعاد لجهاز التسريب الوريدي. اسحب لتدوير المشهد.">
+    <div class="hud">
+      <div class="card"><span class="k">الساعة</span><span class="v" id="hClock">08:00</span></div>
+      <div class="card"><span class="k">المتبقي في الكيس</span><span class="v" id="hLeft">—</span></div>
+      <div class="card"><span class="k">ينتهي تقريباً</span><span class="v" id="hEnd">—</span></div>
+      <div class="card" id="hActualCard" hidden><span class="k">المعدل الفعلي</span><span class="v actual" id="hActual">—</span></div>
+    </div>
+    <div id="labels"></div>
+    <div class="empty-msg" id="emptyMsg" hidden>انتهى المحلول</div>
+    <div class="tools">
+      <div class="grp" role="group" aria-label="الكاميرا">
+        <button class="opt" id="camAll" aria-pressed="true">المشهد كاملاً</button>
+        <button class="opt" id="camDrip" aria-pressed="false">حجرة التنقيط</button>
+      </div>
+      <div class="grp">
+        <span class="k">سرعة الزمن</span>
+        <span class="seg" id="speedSeg" role="group" aria-label="سرعة الزمن">
+          <button data-s="1" aria-pressed="true">×1</button><button data-s="60" aria-pressed="false">×60</button><button data-s="600" aria-pressed="false">×600</button>
+        </span>
+        <button class="opt" id="soundBtn" aria-pressed="false">الصوت</button>
+        <button class="opt" id="teachBtn" aria-pressed="false">وضع المعلم</button>
+      </div>
+    </div>
+  </div>
+</div>
+<footer dir="rtl" lang="ar">للتدريب فقط. الأوامر الطبية في هذه الصفحة أمثلة تعليمية. تسريع الزمن يغيّر الساعة وكيس المحلول فقط، أما سقوط النقاط فيبقى بسرعته الحقيقية لتتمكن من العدّ.</footer>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from "three";
+import {OrbitControls} from "three/addons/controls/OrbitControls.js";
+import {RoundedBoxGeometry} from "three/addons/geometries/RoundedBoxGeometry.js";
+
+const $=id=>document.getElementById(id);
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const fmt=(n,d=0)=>Number(n).toLocaleString("en",{maximumFractionDigits:d,minimumFractionDigits:d});
+const tok=()=>{const s=getComputedStyle(document.documentElement),g=k=>s.getPropertyValue(k).trim();
+  return{page:g("--page"),ink:g("--ink"),muted:g("--muted"),rule:g("--rule"),fluid:g("--fluid"),clamp:g("--clamp"),stamp:g("--stamp"),skin:g("--skin")}};
+
+/* ---------- simulation state ---------- */
+const ORDERS=[
+  {fluid:"محلول ملحي 0.9%",code:"NaCl 0.9%",vol:1000,hrs:8,df:20},
+  {fluid:"محلول رينجر لاكتات",code:"Ringer's Lactate",vol:500,hrs:4,df:15},
+  {fluid:"جلوكوز 5%",code:"D5W",vol:1000,hrs:12,df:15},
+  {fluid:"محلول ملحي 0.9%",code:"NaCl 0.9%",vol:500,hrs:6,df:20},
+  {fluid:"جلوكوز 5% للأطفال",code:"D5W (micro-drip)",vol:250,hrs:6,df:60},
+  {fluid:"محلول ملحي 0.45%",code:"NaCl 0.45%",vol:1000,hrs:10,df:10},
+  {fluid:"مضاد حيوي مخفف",code:"Antibiotic in 100 mL",vol:100,hrs:1,df:20}
+];
+const S={oi:0,order:ORDERS[0],left:0,simMin:0,speed:1,clamp:.3,phase:0,pred:null,calcOK:false,done:false,
+  counting:false,countDur:15,countEnd:0,taps:0,sound:false,teacher:false};
+const target=()=>S.order.vol*S.order.df/(S.order.hrs*60);
+const rateFromClamp=c=>c<.02?0:150*Math.pow(c,1.6);          // gtt/min the roller clamp lets through
+const actual=()=>S.left<=0?0:rateFromClamp(S.clamp);
+let stamps={};try{stamps=JSON.parse(localStorage.getItem("ivdrip-stamps")||"{}")}catch(e){}
+
+/* ---------- page text ---------- */
+function setOrder(i){
+  S.oi=i;S.order=ORDERS[i];S.left=S.order.vol;S.simMin=0;S.pred=null;S.calcOK=false;S.done=false;S.phase=0;
+  S.clamp=.18+Math.random()*.5;$("clamp").value=Math.round(S.clamp*1000);
+  const o=S.order;
+  $("ordText").textContent=`${o.fluid}، ${o.vol} مل، يُعطى وريدياً خلال ${o.hrs} ${o.hrs===1?"ساعة":o.hrs<=10?"ساعات":"ساعة"}.`;
+  $("ordRx").textContent=`${o.code}  ${o.vol} mL  IV  over ${o.hrs} h`;
+  $("ordSet").textContent=`جهاز التسريب: ${o.df} نقطة/مل${o.df===60?" (تنقيط دقيق)":""}`;
+  const t=target(), opts=[t/2,t,t*2].map(x=>Math.max(1,Math.round(x/5)*5||Math.round(x)));
+  $("predOpts").innerHTML=opts.map((v,k)=>`<button class="opt" data-k="${k}" aria-pressed="false">≈ ${v}</button>`).join("");
+  $("predFb").textContent="";$("calcIn").value="";$("calcFb").textContent="";$("calcFb").className="fb";
+  $("countFb").textContent="";$("countFb").className="fb";$("tally").textContent="—";
+  $("flap").hidden=true;$("flapBtn").textContent="ارفع الورقة لترى الحل";$("flapBtn").setAttribute("aria-expanded","false");
+  $("flap").innerHTML=`<div>gtt/min = (الحجم بالمل × معامل التنقيط) ÷ الزمن بالدقائق</div>
+    <div class="eq">(${o.vol} × ${o.df}) ÷ (${o.hrs} × 60) = ${o.vol*o.df} ÷ ${o.hrs*60} = ${fmt(t,1)} ≈ ${Math.round(t)} gtt/min</div>
+    <div>التنبؤ الأقرب كان «≈ ${opts[1]}». ${o.df===60?"لاحظ أن جهاز التنقيط الدقيق (60) يجعل عدد النقاط في الدقيقة يساوي عدد المل في الساعة.":"إذا ضاعفت الزمن ينخفض المعدل إلى النصف، لأن الزمن في المقام."}</div>`;
+  ["s1","s2","s3"].forEach(id=>$(id).classList.remove("done"));
+  renderStamp(false);updateClampText();window.drawBagLabel&&window.drawBagLabel();
+}
+function renderStamp(isNew){
+  const k=`${S.oi}`;$("stampSlot").innerHTML=stamps[k]?`<div class="stamp ${isNew?"new":""}">ضُبط التسريب<small>${stamps[k]}</small></div>`:"";
+}
+function updateClampText(){
+  const c=S.clamp;$("clampTxt").textContent=c<.02?"مغلق":c<.35?"مفتوح قليلاً":c<.7?"مفتوح جزئياً":"مفتوح كثيراً";
+}
+$("predOpts").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+  S.pred=+b.dataset.k;[...$("predOpts").children].forEach(x=>x.setAttribute("aria-pressed",x===b));
+  $("predFb").textContent="سُجّل توقعك. احسب الآن لتعرف مدى قربه.";$("s1").classList.add("done");});
+$("calcForm").addEventListener("submit",e=>{e.preventDefault();
+  const raw=$("calcIn").value.replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace("٫",".").replace(",",".");
+  const n=parseFloat(raw),fb=$("calcFb"),t=target();
+  if(isNaN(n)){fb.className="fb bad";fb.textContent="اكتب رقماً، مثل 42.";return;}
+  if(Math.abs(n-t)<=1){S.calcOK=true;$("s2").classList.add("done");fb.className="fb good";
+    fb.textContent=`صحيح: ${Math.round(t)} نقطة في الدقيقة.${S.pred===1?" وتوقعك كان في المكان الصحيح.":S.pred!=null?" قارن ذلك بتوقعك.":""} الآن اضبط المنظم حتى يصل التنقيط إلى هذا المعدل.`;}
+  else{fb.className="fb bad";fb.textContent=n>t*1.5||n<t/1.5?"بعيد عن الناتج. هل حوّلت الساعات إلى دقائق؟":"قريب، لكن ليس بعد. راجع الضرب والقسمة.";}});
+$("flapBtn").addEventListener("click",e=>{const f=$("flap");f.hidden=!f.hidden;e.currentTarget.setAttribute("aria-expanded",!f.hidden);
+  e.currentTarget.textContent=f.hidden?"ارفع الورقة لترى الحل":"أنزل الورقة";});
+$("newOrder").addEventListener("click",()=>{let i;do{i=Math.floor(Math.random()*ORDERS.length)}while(i===S.oi);setOrder(i);});
+$("clamp").addEventListener("input",e=>{S.clamp=e.target.value/1000;updateClampText();});
+
+/* counting */
+$("durSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b||S.counting)return;S.countDur=+b.dataset.d;
+  [...$("durSeg").children].forEach(x=>x.setAttribute("aria-pressed",x===b));});
+$("countStart").addEventListener("click",()=>{if(S.counting)return;S.counting=true;S.taps=0;S.countEnd=performance.now()+S.countDur*1000;
+  $("tap").disabled=false;$("countStart").disabled=true;$("countFb").textContent="";$("tap").focus();window.setCam&&window.setCam("drip");});
+function tap(){if(!S.counting)return;S.taps++;click(880,.03);}
+$("tap").addEventListener("click",tap);
+// Space counts a drop from anywhere; on the focused tap button the browser's own click already counts it
+addEventListener("keydown",e=>{if(S.counting&&e.code==="Space"&&e.target!==$("tap")){e.preventDefault();if(!e.repeat)tap();}});
+function finishCount(){
+  S.counting=false;$("tap").disabled=true;$("countStart").disabled=false;
+  const est=S.taps*60/S.countDur, a=actual(), t=target(), fb=$("countFb");
+  $("tally").textContent=`${S.taps} drops / ${S.countDur} s × ${60/S.countDur} = ${fmt(est)} gtt/min`;
+  const tol=Math.max(3,t*.06), countTol=Math.max(5,60/S.countDur*1.6);
+  if(Math.abs(est-a)>countTol){fb.className="fb bad";fb.textContent="عدّك بعيد عن عدد النقاط الذي سقط فعلاً. ركّز على حجرة التنقيط وأعد العدّ.";return;}
+  if(!S.calcOK){fb.className="fb bad";fb.textContent=`عددت ${fmt(est)} نقطة في الدقيقة. أكمل خطوة الحساب أولاً لتعرف المعدل المطلوب.`;return;}
+  if(Math.abs(a-t)<=tol){fb.className="fb good";fb.textContent=`ممتاز. التنقيط مضبوط على ${fmt(est)} نقطة في الدقيقة، والمطلوب ${Math.round(t)}.`;
+    $("s3").classList.add("done");
+    if(!stamps[S.oi]){stamps[S.oi]=new Date().toLocaleDateString("en-GB");try{localStorage.setItem("ivdrip-stamps",JSON.stringify(stamps))}catch(e){}renderStamp(true);}
+  }else{fb.className="fb bad";fb.textContent=est>t?`عددت ${fmt(est)} والمطلوب ${Math.round(t)}. التنقيط أسرع من اللازم: أدر المنظم لإغلاقه قليلاً ثم أعد العدّ.`
+    :`عددت ${fmt(est)} والمطلوب ${Math.round(t)}. التنقيط أبطأ من اللازم: افتح المنظم قليلاً ثم أعد العدّ.`;}
+}
+
+/* stage tools */
+$("speedSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;S.speed=+b.dataset.s;
+  [...$("speedSeg").children].forEach(x=>x.setAttribute("aria-pressed",x===b));});
+$("soundBtn").addEventListener("click",e=>{S.sound=!S.sound;e.currentTarget.setAttribute("aria-pressed",S.sound);if(S.sound)audio();});
+$("teachBtn").addEventListener("click",e=>{S.teacher=!S.teacher;e.currentTarget.setAttribute("aria-pressed",S.teacher);$("hActualCard").hidden=!S.teacher;});
+
+/* sound */
+let AC=null;function audio(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}AC&&AC.resume&&AC.resume();}
+function click(f=1400,g=.05){if(!S.sound||!AC)return;const o=AC.createOscillator(),v=AC.createGain(),t=AC.currentTime;
+  o.type="sine";o.frequency.setValueAtTime(f,t);o.frequency.exponentialRampToValueAtTime(f*.45,t+.08);
+  v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.0001,t+.12);o.connect(v).connect(AC.destination);o.start(t);o.stop(t+.13);}
+
+/* ---------- 3D bedside, drawn in ink ---------- */
+const stage=$("stage");
+let renderer;
+try{renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});}catch(e){
+  stage.insertAdjacentHTML("beforeend",'<div class="nogl">هذا المتصفح لا يدعم الرسم ثلاثي الأبعاد. خطوات الحساب والعدّ في الصفحة المقابلة ما زالت تعمل.</div>');}
+let bag;
+if(renderer){
+renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+stage.prepend(renderer.domElement);
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(32,1,.05,50);
+const controls=new OrbitControls(camera,renderer.domElement);
+controls.enableDamping=true;controls.enablePan=false;controls.minDistance=.6;controls.maxDistance=7;
+controls.minPolarAngle=.35;controls.maxPolarAngle=1.62;
+
+let T=tok();
+const M={
+  paper:new THREE.MeshBasicMaterial({color:T.page}),
+  glass:new THREE.MeshBasicMaterial({color:T.page,transparent:true,opacity:.42,depthWrite:false}),
+  fluid:new THREE.MeshBasicMaterial({color:T.fluid,transparent:true,opacity:.5,depthWrite:false}),
+  glow:new THREE.MeshBasicMaterial({color:T.fluid}),
+  clamp:new THREE.MeshBasicMaterial({color:T.clamp}),
+  skin:new THREE.MeshBasicMaterial({color:T.skin}),
+  line:new THREE.LineBasicMaterial({color:T.ink}),
+  faint:new THREE.LineBasicMaterial({color:T.rule}),
+};
+function inked(geom,mat,thr=28,lineMat=M.line){const g=new THREE.Group();g.add(new THREE.Mesh(geom,mat));
+  g.add(new THREE.LineSegments(new THREE.EdgesGeometry(geom,thr),lineMat));return g;}
+function at(o,x,y,z){o.position.set(x,y,z);scene.add(o);return o;}
+
+/* desk ellipse and hatch shadows give the drawing a ground */
+const ring=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints([...Array(96)].map((_,i)=>{const a=i/96*Math.PI*2;return new THREE.Vector3(Math.cos(a)*1.9+.55,0,Math.sin(a)*1.1+.1)})),M.faint);scene.add(ring);
+for(let i=0;i<14;i++){const l=new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-.18+i*.026,0,-.12),new THREE.Vector3(-.1+i*.026,0,.12)]),M.faint);scene.add(l);}
+
+/* pole */
+at(inked(new THREE.CylinderGeometry(.016,.016,3,16),M.paper),0,1.5,0);
+for(let i=0;i<5;i++){const a=i/5*Math.PI*2,leg=inked(new THREE.BoxGeometry(.36,.025,.04),M.paper);leg.rotation.y=-a;leg.position.set(Math.cos(a)*.18,.03,Math.sin(a)*.18);scene.add(leg);
+  at(inked(new THREE.CylinderGeometry(.025,.025,.03,12),M.paper),Math.cos(a)*.35,.015,Math.sin(a)*.35);}
+const arm=inked(new THREE.CylinderGeometry(.01,.01,.36,8),M.paper);arm.rotation.z=Math.PI/2;at(arm,.0,2.96,0);
+const hook=inked(new THREE.TorusGeometry(.04,.007,8,20,Math.PI*1.4),M.paper);hook.rotation.z=Math.PI*.8;at(hook,0,2.88,0);
+
+/* bag */
+const BAG_Y=2.48,BAG_H=.66;
+bag=inked(new RoundedBoxGeometry(.46,BAG_H,.1,4,.045),M.glass,20);at(bag,0,BAG_Y,0);
+const fluidGeo=new RoundedBoxGeometry(.4,.58,.07,2,.03);fluidGeo.translate(0,.29,0);
+const fluidMesh=new THREE.Mesh(fluidGeo,M.fluid);at(fluidMesh,0,BAG_Y-.3,0);
+const tab=inked(new THREE.BoxGeometry(.1,.06,.012),M.paper);at(tab,0,BAG_Y+BAG_H/2+.02,0);
+const labelCanvas=document.createElement("canvas");labelCanvas.width=256;labelCanvas.height=340;
+const labelTex=new THREE.CanvasTexture(labelCanvas);labelTex.colorSpace=THREE.SRGBColorSpace;
+const labelMat=new THREE.MeshBasicMaterial({map:labelTex,transparent:true,depthWrite:false});
+at(new THREE.Mesh(new THREE.PlaneGeometry(.36,.48),labelMat),0,BAG_Y+.02,.052);
+window.drawBagLabel=drawBagLabel;
+function drawBagLabel(){const c=labelCanvas.getContext("2d"),o=S.order;c.clearRect(0,0,256,340);
+  c.fillStyle=T.ink;c.strokeStyle=T.ink;c.textAlign="center";c.font='600 30px "IBM Plex Mono",monospace';c.fillText(o.code.split(" (")[0],128,48);
+  c.font='500 22px "IBM Plex Mono",monospace';c.fillText(`${o.vol} mL`,128,82);c.lineWidth=2;c.beginPath();c.moveTo(30,98);c.lineTo(226,98);c.stroke();
+  c.textAlign="left";c.font='500 15px "IBM Plex Mono",monospace';
+  const marks=o.vol>=500?5:4;for(let i=1;i<=marks;i++){const y=118+(i-1)*(200/marks),v=Math.round(o.vol*(i/(marks+1))/10)*10;
+    c.beginPath();c.moveTo(196,y);c.lineTo(226,y);c.stroke();c.fillText(`${o.vol-v}`,140,y+5);}
+  labelTex.needsUpdate=true;}
+drawBagLabel();
+/* neck, spike, drip chamber */
+at(inked(new THREE.CylinderGeometry(.018,.03,.12,14),M.paper),0,BAG_Y-BAG_H/2-.06,0);
+at(inked(new THREE.CylinderGeometry(.011,.011,.1,10),M.paper),0,1.98,0);
+const CH_TOP=1.92,CH_BOT=1.58;
+at(inked(new THREE.CylinderGeometry(.072,.072,.035,24),M.paper,20),0,CH_TOP,0);
+at(inked(new THREE.CylinderGeometry(.066,.066,CH_TOP-CH_BOT,28,1,true),M.glass,20),0,(CH_TOP+CH_BOT)/2,0);
+at(inked(new THREE.CylinderGeometry(.066,.03,.05,24),M.paper,20),0,CH_BOT-.02,0);
+const nozzle=inked(new THREE.CylinderGeometry(.006,.009,.035,10),M.paper);at(nozzle,0,CH_TOP-.035,0);
+const POOL_TOP=1.66;
+at(new THREE.Mesh(new THREE.CylinderGeometry(.062,.062,POOL_TOP-CH_BOT,24),M.fluid),0,(POOL_TOP+CH_BOT)/2,0);
+const poolRim=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints([...Array(32)].map((_,i)=>{const a=i/32*Math.PI*2;return new THREE.Vector3(Math.cos(a)*.062,0,Math.sin(a)*.062)})),M.line);at(poolRim,0,POOL_TOP,0);
+const drop=new THREE.Mesh(new THREE.SphereGeometry(.014,16,12),M.glow);drop.scale.set(1,1.25,1);at(drop,0,CH_TOP-.06,0);
+const splashMat=new THREE.MeshBasicMaterial({color:T.fluid,transparent:true,depthWrite:false});
+const splash=new THREE.Mesh(new THREE.TorusGeometry(.02,.0025,6,24),splashMat);splash.rotation.x=Math.PI/2;at(splash,0,POOL_TOP+.001,0);splash.visible=false;
+const NOZ_Y=CH_TOP-.058;
+
+/* tubing with moving fluid */
+const path=new THREE.CatmullRomCurve3([new THREE.Vector3(0,CH_BOT-.05,0),new THREE.Vector3(0,1.36,0),new THREE.Vector3(0,1.12,0),
+  new THREE.Vector3(.04,.86,.04),new THREE.Vector3(.3,.66,.14),new THREE.Vector3(.62,.6,.2),new THREE.Vector3(.86,.585,.2)]);
+scene.add(new THREE.Mesh(new THREE.TubeGeometry(path,160,.013,10),M.glass));
+const outline=new THREE.Line(new THREE.BufferGeometry().setFromPoints(path.getPoints(160).map(p=>p.clone().add(new THREE.Vector3(.0,0,.014)))),M.line);scene.add(outline);
+const sc=document.createElement("canvas");sc.width=64;sc.height=8;const sx=sc.getContext("2d");
+const flowTex=new THREE.CanvasTexture(sc);flowTex.wrapS=THREE.RepeatWrapping;flowTex.repeat.set(40,1);
+function paintFlow(){sx.clearRect(0,0,64,8);sx.fillStyle=T.fluid;sx.globalAlpha=.35;sx.fillRect(0,0,64,8);sx.globalAlpha=1;sx.fillRect(0,0,14,8);flowTex.needsUpdate=true;}
+paintFlow();
+const flowMat=new THREE.MeshBasicMaterial({map:flowTex,transparent:true,depthWrite:false});
+scene.add(new THREE.Mesh(new THREE.TubeGeometry(path,160,.007,8),flowMat));
+
+/* roller clamp */
+const CL_Y=1.24;
+at(inked(new RoundedBoxGeometry(.07,.24,.055,2,.01),M.paper,20),0,CL_Y,.0);
+const ramp=new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-.03,CL_Y+.1,.029),new THREE.Vector3(.01,CL_Y-.1,.029)]),M.line);scene.add(ramp);
+const wheel=inked(new THREE.CylinderGeometry(.034,.034,.03,24),M.clamp,20);wheel.rotation.z=Math.PI/2;at(wheel,0,CL_Y,.035);
+const tick=new THREE.Mesh(new THREE.BoxGeometry(.032,.004,.068),new THREE.MeshBasicMaterial({color:T.ink}));wheel.add(tick);
+
+/* forearm on the bed, cannula and tape */
+at(inked(new THREE.BoxGeometry(2.3,.06,.9),M.paper,20),1.02,.43,.2);
+const forearm=inked(new THREE.CapsuleGeometry(.075,.7,8,20),M.skin,35);forearm.rotation.z=Math.PI/2;at(forearm,1.22,.535,.22);
+const hand=inked(new THREE.SphereGeometry(.09,20,14),M.skin,40);hand.scale.set(1.25,.55,.95);at(hand,1.68,.53,.22);
+const hub=inked(new THREE.CylinderGeometry(.012,.012,.07,10),M.clamp,20);hub.rotation.z=Math.PI/2;at(hub,.9,.588,.2);
+const wings=inked(new THREE.BoxGeometry(.05,.004,.08),M.clamp);at(wings,.93,.6,.2);
+const tape=inked(new THREE.BoxGeometry(.12,.003,.15),M.glass);at(tape,.96,.612,.2);
+
+/* labels anchored to 3D points */
+const LBL=[
+  {p:new THREE.Vector3(.24,2.62,0),t:"كيس المحلول",s:()=>`${fmt(S.left)} mL`},
+  {p:new THREE.Vector3(.08,1.8,0),t:"حجرة التنقيط",s:()=>`${S.order.df} gtt/mL`},
+  {p:new THREE.Vector3(.06,CL_Y,.03),t:"المنظم الدوار",s:()=>$("clampTxt").textContent},
+  {p:new THREE.Vector3(.92,.63,.2),t:"القنية الوريدية",s:()=>"cannula"}
+].map(l=>{const el=document.createElement("div");el.className="lbl";$("labels").appendChild(el);return{...l,el};});
+
+/* camera presets */
+const CAMS={all:{pos:new THREE.Vector3(),tgt:new THREE.Vector3(.62,1.55,.1)},
+            drip:{pos:new THREE.Vector3(.42,1.86,.78),tgt:new THREE.Vector3(0,1.74,0)}};
+const ALL_DIR=new THREE.Vector3(1.85,.75,3.6).normalize();
+// back the overview camera off until the whole bedside (about 2.7 wide, 3.3 tall) fits this stage's shape
+function fitAll(){const h=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));
+  const d=1.12*Math.max(1.7/h,1.45/(h*camera.aspect));CAMS.all.pos.copy(CAMS.all.tgt).addScaledVector(ALL_DIR,d);}
+let tween=null,camKey="all",userMoved=false;
+function setCam(k){camKey=k;userMoved=false;$("camAll").setAttribute("aria-pressed",k==="all");$("camDrip").setAttribute("aria-pressed",k==="drip");
+  const c=CAMS[k];if(reduce){camera.position.copy(c.pos);controls.target.copy(c.tgt);return;}
+  tween={t:0,p0:camera.position.clone(),t0:controls.target.clone(),p1:c.pos,t1:c.tgt};}
+window.setCam=setCam;
+$("camAll").addEventListener("click",()=>setCam("all"));$("camDrip").addEventListener("click",()=>setCam("drip"));
+controls.addEventListener("start",()=>{tween=null;userMoved=true;});
+
+function resize(){const r=stage.getBoundingClientRect();renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;
+  camera.fov=r.width<520?40:32;camera.updateProjectionMatrix();fitAll();
+  if(camKey==="all"&&!userMoved&&!tween){camera.position.copy(CAMS.all.pos);controls.target.copy(CAMS.all.tgt);}
+  controls.maxDistance=CAMS.all.pos.distanceTo(CAMS.all.tgt)*1.4;}
+new ResizeObserver(resize).observe(stage);resize();
+
+function retheme(){T=tok();M.paper.color.set(T.page);M.glass.color.set(T.page);M.skin.color.set(T.skin);M.fluid.color.set(T.fluid);M.glow.color.set(T.fluid);
+  M.clamp.color.set(T.clamp);M.line.color.set(T.ink);M.faint.color.set(T.rule);tick.material.color.set(T.ink);splashMat.color.set(T.fluid);paintFlow();drawBagLabel();}
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",retheme);
+new MutationObserver(retheme).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+
+const v=new THREE.Vector3();const clockStart=8*60;
+let last=performance.now(),splashT=1;
+function frame(now){
+  const dt=Math.min(.05,(now-last)/1000);last=now;
+  const a=actual();
+  /* bag drains at simulated speed */
+  if(S.left>0){S.left=Math.max(0,S.left-(a/S.order.df)*(dt*S.speed/60));S.simMin+=dt*S.speed/60;}
+  else S.simMin+=dt*S.speed/60;
+  fluidMesh.scale.y=Math.max(.002,S.left/S.order.vol);
+  /* drop life: hang and swell at the nozzle, then fall into the pool, always in real time so it can be counted */
+  if(a>0){const period=60/a;S.phase+=dt/period;
+    if(S.phase>=1){S.phase-=Math.floor(S.phase);splashT=0;click();}
+    const fall=.19, growEnd=Math.max(.2,1-fall/period), p=S.phase;
+    drop.visible=true;
+    if(p<growEnd){const g=p/growEnd;drop.position.y=NOZ_Y-.01*g;drop.scale.setScalar(.35+.65*g);drop.scale.y*=1.25;}
+    else{const f=(p-growEnd)/(1-growEnd);drop.position.y=NOZ_Y-.01-(NOZ_Y-.01-POOL_TOP-.012)*f*f;drop.scale.set(.9,1.4,.9);}
+  }else drop.visible=false;
+  if(splashT<1){splashT+=dt*3.2;splash.visible=true;splash.scale.setScalar(1+splashT*2.2);splashMat.opacity=1-splashT;}else splash.visible=false;
+  flowTex.offset.x-=dt*a/60*.9;
+  wheel.position.y=CL_Y-.09+.18*S.clamp;wheel.rotation.x=S.clamp*9;
+  if(tween){tween.t=Math.min(1,tween.t+dt*1.6);const e=1-Math.pow(1-tween.t,3);
+    camera.position.lerpVectors(tween.p0,tween.p1,e);controls.target.lerpVectors(tween.t0,tween.t1,e);if(tween.t>=1)tween=null;}
+  controls.update();renderer.render(scene,camera);
+  /* labels */
+  const r=stage.getBoundingClientRect();
+  for(const l of LBL){v.copy(l.p).project(camera);const vis=v.z<1&&Math.abs(v.x)<1.05&&Math.abs(v.y)<1.05;l.el.hidden=!vis;
+    if(vis){l.el.style.transform=`translate(${(v.x+1)/2*r.width}px,${(1-v.y)/2*r.height-10}px)`;l.el.innerHTML=`${l.t}<small>${l.s()}</small>`;}}
+  /* HUD */
+  const m=clockStart+S.simMin,hh=Math.floor(m/60)%24,mm=Math.floor(m%60);
+  $("hClock").textContent=`${String(hh).padStart(2,"0")}:${String(mm).padStart(2,"0")}${S.speed>1?`  ×${S.speed}`:""}`;
+  $("hLeft").textContent=`${fmt(S.left)} mL`;
+  if(a>0&&S.left>0){const em=m+S.left/(a/S.order.df);$("hEnd").textContent=`${String(Math.floor(em/60)%24).padStart(2,"0")}:${String(Math.floor(em%60)).padStart(2,"0")}`;}
+  else $("hEnd").textContent="—";
+  $("hActual").textContent=`${fmt(a,1)} gtt/min`;
+  $("emptyMsg").hidden=S.left>0;
+  if(S.counting){const rem=Math.max(0,(S.countEnd-now)/1000);$("tally").textContent=`${S.taps} · ${fmt(rem,1)} s`;if(rem<=0)finishCount();}
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+}else{
+  window.setCam=()=>{};
+  (function tick(now){if(S.counting){const rem=Math.max(0,(S.countEnd-now)/1000);$("tally").textContent=`${S.taps} · ${fmt(rem,1)} s`;if(rem<=0)finishCount();}requestAnimationFrame(tick);})(performance.now());
+}
+setOrder(0);
+document.fonts&&document.fonts.ready.then(()=>window.drawBagLabel&&window.drawBagLabel());
+</script>
+</body>
+</html>
