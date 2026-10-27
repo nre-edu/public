@@ -97,6 +97,13 @@ input[type=range]{width:100%;accent-color:var(--clamp)}
 .nogl{position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;color:var(--muted)}
 button:focus-visible,input:focus-visible{outline:3px solid var(--clamp);outline-offset:2px}
 footer{max-width:1240px;margin:14px auto 0;font-size:13px;color:var(--muted)}
+.lens{position:absolute;pointer-events:none;border:1.5px solid var(--ink);border-radius:6px;box-shadow:0 8px 20px -14px var(--ink)}
+.lens span{position:absolute;bottom:100%;inset-inline-start:0;margin-bottom:3px;font:600 12px var(--f-body);color:var(--muted);white-space:nowrap}
+/* inside a tab of the Nursing Lab notebook (#embed): no desk around the book, the stage scrolls with the page */
+.embed body{padding:0;background:var(--page)}
+.embed .book{box-shadow:none;border-radius:0}
+.embed .stage{position:relative;top:auto;height:clamp(520px,62vw,720px)}
+.embed footer{padding:0 16px 12px}
 @media (max-width:900px){
   .book{grid-template-columns:minmax(0,1fr)}
   .book::after{display:none}
@@ -177,6 +184,7 @@ footer{max-width:1240px;margin:14px auto 0;font-size:13px;color:var(--muted)}
       <div class="card" id="hActualCard" hidden><span class="k">المعدل الفعلي</span><span class="v actual" id="hActual">—</span></div>
     </div>
     <div id="labels"></div>
+    <div class="lens" id="lens" hidden><span>عدسة مكبرة · حجرة التنقيط</span></div>
     <div class="empty-msg" id="emptyMsg" hidden>انتهى المحلول</div>
     <div class="tools">
       <div class="grp" role="group" aria-label="الكاميرا">
@@ -203,6 +211,13 @@ import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 import {RoundedBoxGeometry} from "three/addons/geometries/RoundedBoxGeometry.js";
 
 const $=id=>document.getElementById(id);
+const EMBED=location.hash==="#embed";
+if(EMBED)document.documentElement.classList.add("embed");
+function tellParent(msg){if(EMBED&&parent!==window)parent.postMessage(msg,"*");}
+// the notebook page hosting this tab passes its light/dark choice down
+addEventListener("message",e=>{const d=e.data;if(!d||d.type!=="nl-theme")return;
+  if(d.theme==="light"||d.theme==="dark")document.documentElement.dataset.theme=d.theme;else delete document.documentElement.dataset.theme;});
+if(EMBED)new ResizeObserver(()=>tellParent({type:"ivdrip-height",h:document.documentElement.scrollHeight})).observe(document.body);
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const fmt=(n,d=0)=>Number(n).toLocaleString("en",{maximumFractionDigits:d,minimumFractionDigits:d});
 const tok=()=>{const s=getComputedStyle(document.documentElement),g=k=>s.getPropertyValue(k).trim();
@@ -282,7 +297,7 @@ function finishCount(){
   if(Math.abs(est-a)>countTol){fb.className="fb bad";fb.textContent="عدّك بعيد عن عدد النقاط الذي سقط فعلاً. ركّز على حجرة التنقيط وأعد العدّ.";return;}
   if(!S.calcOK){fb.className="fb bad";fb.textContent=`عددت ${fmt(est)} نقطة في الدقيقة. أكمل خطوة الحساب أولاً لتعرف المعدل المطلوب.`;return;}
   if(Math.abs(a-t)<=tol){fb.className="fb good";fb.textContent=`ممتاز. التنقيط مضبوط على ${fmt(est)} نقطة في الدقيقة، والمطلوب ${Math.round(t)}.`;
-    $("s3").classList.add("done");
+    $("s3").classList.add("done");tellParent({type:"ivdrip-stamp"});
     if(!stamps[S.oi]){stamps[S.oi]=new Date().toLocaleDateString("en-GB");try{localStorage.setItem("ivdrip-stamps",JSON.stringify(stamps))}catch(e){}renderStamp(true);}
   }else{fb.className="fb bad";fb.textContent=est>t?`عددت ${fmt(est)} والمطلوب ${Math.round(t)}. التنقيط أسرع من اللازم: أدر المنظم لإغلاقه قليلاً ثم أعد العدّ.`
     :`عددت ${fmt(est)} والمطلوب ${Math.round(t)}. التنقيط أبطأ من اللازم: افتح المنظم قليلاً ثم أعد العدّ.`;}
@@ -314,6 +329,8 @@ const camera=new THREE.PerspectiveCamera(32,1,.05,50);
 const controls=new OrbitControls(camera,renderer.domElement);
 controls.enableDamping=true;controls.enablePan=false;controls.minDistance=.6;controls.maxDistance=7;
 controls.minPolarAngle=.35;controls.maxPolarAngle=1.62;
+const lensCam=new THREE.PerspectiveCamera(30,1,.02,10);lensCam.position.set(.14,1.8,.78);lensCam.lookAt(0,1.76,0);
+const lens=$("lens");
 
 let T=tok();
 const M={
@@ -367,11 +384,16 @@ const CH_TOP=1.92,CH_BOT=1.58;
 at(inked(new THREE.CylinderGeometry(.072,.072,.035,24),M.paper,20),0,CH_TOP,0);
 at(inked(new THREE.CylinderGeometry(.066,.066,CH_TOP-CH_BOT,28,1,true),M.glass,20),0,(CH_TOP+CH_BOT)/2,0);
 at(inked(new THREE.CylinderGeometry(.066,.03,.05,24),M.paper,20),0,CH_BOT-.02,0);
+// side walls drawn as ink lines, since an open glass cylinder has no hard edges of its own
+scene.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints([[-1,0],[1,0],[0,-1],[0,1]].flatMap(([x,z])=>
+  [new THREE.Vector3(x*.066,CH_BOT,z*.066),new THREE.Vector3(x*.066,CH_TOP,z*.066)])),M.line));
 const nozzle=inked(new THREE.CylinderGeometry(.006,.009,.035,10),M.paper);at(nozzle,0,CH_TOP-.035,0);
 const POOL_TOP=1.66;
 at(new THREE.Mesh(new THREE.CylinderGeometry(.062,.062,POOL_TOP-CH_BOT,24),M.fluid),0,(POOL_TOP+CH_BOT)/2,0);
 const poolRim=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints([...Array(32)].map((_,i)=>{const a=i/32*Math.PI*2;return new THREE.Vector3(Math.cos(a)*.062,0,Math.sin(a)*.062)})),M.line);at(poolRim,0,POOL_TOP,0);
-const drop=new THREE.Mesh(new THREE.SphereGeometry(.014,16,12),M.glow);drop.scale.set(1,1.25,1);at(drop,0,CH_TOP-.06,0);
+const drop=new THREE.Mesh(new THREE.SphereGeometry(.021,18,14),M.glow);drop.scale.set(1,1.25,1);at(drop,0,CH_TOP-.06,0);
+// an ink rim keeps the drop readable against the fluid-coloured pool behind it
+const dropRim=new THREE.Mesh(new THREE.SphereGeometry(.021,18,14),new THREE.MeshBasicMaterial({color:T.ink,side:THREE.BackSide}));dropRim.scale.setScalar(1.3);drop.add(dropRim);
 const splashMat=new THREE.MeshBasicMaterial({color:T.fluid,transparent:true,depthWrite:false});
 const splash=new THREE.Mesh(new THREE.TorusGeometry(.02,.0025,6,24),splashMat);splash.rotation.x=Math.PI/2;at(splash,0,POOL_TOP+.001,0);splash.visible=false;
 const NOZ_Y=CH_TOP-.058;
@@ -433,7 +455,7 @@ function resize(){const r=stage.getBoundingClientRect();renderer.setSize(r.width
 new ResizeObserver(resize).observe(stage);resize();
 
 function retheme(){T=tok();M.paper.color.set(T.page);M.glass.color.set(T.page);M.skin.color.set(T.skin);M.fluid.color.set(T.fluid);M.glow.color.set(T.fluid);
-  M.clamp.color.set(T.clamp);M.line.color.set(T.ink);M.faint.color.set(T.rule);tick.material.color.set(T.ink);splashMat.color.set(T.fluid);paintFlow();drawBagLabel();}
+  M.clamp.color.set(T.clamp);M.line.color.set(T.ink);M.faint.color.set(T.rule);tick.material.color.set(T.ink);dropRim.material.color.set(T.ink);splashMat.color.set(T.fluid);paintFlow();drawBagLabel();}
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change",retheme);
 new MutationObserver(retheme).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
 
@@ -449,10 +471,11 @@ function frame(now){
   /* drop life: hang and swell at the nozzle, then fall into the pool, always in real time so it can be counted */
   if(a>0){const period=60/a;S.phase+=dt/period;
     if(S.phase>=1){S.phase-=Math.floor(S.phase);splashT=0;click();}
-    const fall=.19, growEnd=Math.max(.2,1-fall/period), p=S.phase;
+    // the fall is slowed to stay visible (up to half a second) while the count per minute stays exact
+    const fall=Math.min(.5,period*.45), growEnd=1-fall/period, p=S.phase;
     drop.visible=true;
     if(p<growEnd){const g=p/growEnd;drop.position.y=NOZ_Y-.01*g;drop.scale.setScalar(.35+.65*g);drop.scale.y*=1.25;}
-    else{const f=(p-growEnd)/(1-growEnd);drop.position.y=NOZ_Y-.01-(NOZ_Y-.01-POOL_TOP-.012)*f*f;drop.scale.set(.9,1.4,.9);}
+    else{const f=(p-growEnd)/(1-growEnd);drop.position.y=NOZ_Y-.01-(NOZ_Y-.01-POOL_TOP-.02)*f*f;drop.scale.set(.9,1.4,.9);}
   }else drop.visible=false;
   if(splashT<1){splashT+=dt*3.2;splash.visible=true;splash.scale.setScalar(1+splashT*2.2);splashMat.opacity=1-splashT;}else splash.visible=false;
   flowTex.offset.x-=dt*a/60*.9;
@@ -460,8 +483,15 @@ function frame(now){
   if(tween){tween.t=Math.min(1,tween.t+dt*1.6);const e=1-Math.pow(1-tween.t,3);
     camera.position.lerpVectors(tween.p0,tween.p1,e);controls.target.lerpVectors(tween.t0,tween.t1,e);if(tween.t>=1)tween=null;}
   controls.update();renderer.render(scene,camera);
-  /* labels */
   const r=stage.getBoundingClientRect();
+  /* magnifier: a second camera keeps the drip chamber large in the corner while the whole bedside is in view */
+  if(camKey==="all"){const s=Math.round(Math.min(170,r.width*.3)),x=Math.round(r.width-s-12),y=84;
+    renderer.setScissorTest(true);renderer.setViewport(x,r.height-y-s,s,s);renderer.setScissor(x,r.height-y-s,s,s);
+    renderer.setClearColor(T.page,1);renderer.clear();renderer.render(scene,lensCam);
+    renderer.setScissorTest(false);renderer.setViewport(0,0,r.width,r.height);renderer.setClearColor(0x000000,0);
+    lens.hidden=false;lens.style.cssText=`left:${x}px;top:${y}px;width:${s}px;height:${s}px`;}
+  else lens.hidden=true;
+  /* labels */
   for(const l of LBL){v.copy(l.p).project(camera);const vis=v.z<1&&Math.abs(v.x)<1.05&&Math.abs(v.y)<1.05;l.el.hidden=!vis;
     if(vis){l.el.style.transform=`translate(${(v.x+1)/2*r.width}px,${(1-v.y)/2*r.height-10}px)`;l.el.innerHTML=`${l.t}<small>${l.s()}</small>`;}}
   /* HUD */

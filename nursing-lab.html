@@ -101,6 +101,8 @@ canvas{width:100%;height:100%;display:block}
 .ideas{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
 .ideas li{font-size:14px;border:1px solid var(--grid);border-radius:999px;padding:3px 12px}
 footer{color:var(--muted);font-size:13px}
+.sheet.embed{display:block;padding:0;overflow:hidden}
+.lab3d{display:block;width:100%;height:900px;border:0;background:var(--sheet)}
 </style>
 </head>
 <body>
@@ -254,17 +256,21 @@ const EXPS=[
   }
 }];
 
+// full experiments that live in their own page and open inside a tab here
+const LABS=[{id:"drip3d",title:"التنقيط الوريدي ثلاثي الأبعاد",tag:"تجربة مجسّمة",src:"iv-drip.html"}];
+const ALL=[...EXPS,...LABS];
+
 let stamps={}, preds={}, fresh=null;
 try{stamps=JSON.parse(localStorage.getItem("nl-stamps")||"{}")}catch(e){}
 const save=()=>{try{localStorage.setItem("nl-stamps",JSON.stringify(stamps))}catch(e){}};
-let cur=EXPS.find(e=>e.id===location.hash.slice(1))||EXPS[0];
+let cur=ALL.find(e=>e.id===location.hash.slice(1))||EXPS[0];
 const vals={}; EXPS.forEach(e=>vals[e.id]=Object.fromEntries(e.inputs.map(i=>[i.id,i.value])));
 
 function renderTabs(){
-  document.getElementById("tabs").innerHTML=EXPS.map((e,i)=>`<button class="tab" role="tab" id="tab-${e.id}" aria-selected="${e===cur}" data-id="${e.id}">
+  document.getElementById("tabs").innerHTML=ALL.map((e,i)=>`<button class="tab" role="tab" id="tab-${e.id}" aria-selected="${e===cur}" data-id="${e.id}">
     <small>تجربة ${i+1} · ${e.tag}</small><b>${e.title}</b>${stamps[e.id]?'<span class="mini">مُنجَز</span>':""}</button>`).join("");
-  const n=Object.keys(stamps).filter(k=>EXPS.some(e=>e.id===k)).length;
-  document.getElementById("progress").textContent=`الأختام: ${n} / ${EXPS.length}`;
+  const n=Object.keys(stamps).filter(k=>ALL.some(e=>e.id===k)).length;
+  document.getElementById("progress").textContent=`الأختام: ${n} / ${ALL.length}`;
 }
 function ctrlHTML(e,i){const v=vals[e.id][i.id];
   if(i.choices) return `<div class="ctrl"><label><span>${i.label}</span><output>${i.unit}</output></label><div class="seg" role="group" aria-label="${i.label}">
@@ -272,8 +278,12 @@ function ctrlHTML(e,i){const v=vals[e.id][i.id];
   return `<div class="ctrl"><label for="in-${e.id}-${i.id}"><span>${i.label}</span><output id="o-${i.id}">${fmt(v)} ${i.unit}</output></label>
     <input type="range" id="in-${e.id}-${i.id}" data-in="${i.id}" min="${i.min}" max="${i.max}" step="${i.step}" value="${v}"></div>`;}
 function renderSheet(){
-  const e=cur, p=preds[e.id];
-  document.getElementById("sheet").innerHTML=`
+  const e=cur, p=preds[e.id], sheet=document.getElementById("sheet");
+  if(e.src){sheet.className="sheet embed";cv=null;ctx=null;
+    sheet.innerHTML=`<iframe class="lab3d" id="lab3d" src="${e.src}#embed" title="${e.title}"></iframe>`;
+    document.getElementById("lab3d").addEventListener("load",sendTheme);return;}
+  sheet.className="sheet";
+  sheet.innerHTML=`
     ${stamps[e.id]?`<div class="stamp ${fresh===e.id?"new":""}">أثبتَّها<small>${stamps[e.id]}</small></div>`:""}
     <div class="id-band"><h2>${e.title}</h2><span class="chip">${e.tag}</span></div>
     <p class="objective">${e.objective}</p>
@@ -329,14 +339,22 @@ function bind(){
   });
 }
 document.getElementById("tabs").addEventListener("click",ev=>{const b=ev.target.closest(".tab");if(!b)return;
-  cur=EXPS.find(e=>e.id===b.dataset.id);fresh=null;history.replaceState(null,"","#"+cur.id);renderTabs();renderSheet();});
+  cur=ALL.find(e=>e.id===b.dataset.id);fresh=null;history.replaceState(null,"","#"+cur.id);renderTabs();renderSheet();});
+
+/* the embedded 3D lab reports its height and its stamp; this page passes down the viewer's theme */
+function sendTheme(){const f=document.getElementById("lab3d");
+  f&&f.contentWindow&&f.contentWindow.postMessage({type:"nl-theme",theme:document.documentElement.dataset.theme||""},"*");}
+new MutationObserver(sendTheme).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+addEventListener("message",ev=>{const f=document.getElementById("lab3d");if(!f||ev.source!==f.contentWindow)return;const d=ev.data||{};
+  if(d.type==="ivdrip-height"&&d.h>200)f.style.height=Math.ceil(d.h)+"px";
+  if(d.type==="ivdrip-stamp"&&!stamps.drip3d){stamps.drip3d=new Date().toLocaleDateString("en-GB");save();renderTabs();}});
 
 let cv,ctx,W,H;
 function sizeCanvas(){cv=document.getElementById("cv");const r=cv.getBoundingClientRect(),d=devicePixelRatio||1;
   W=r.width;H=r.height;cv.width=W*d;cv.height=H*d;ctx=cv.getContext("2d");ctx.setTransform(d,0,0,d,0,0);ctx.direction="ltr";}
 addEventListener("resize",()=>cv&&sizeCanvas());
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-function frame(t){if(ctx&&W){ctx.clearRect(0,0,W,H);cur.draw(ctx,W,H,vals[cur.id],out,reduce?0:t,css());}requestAnimationFrame(frame);}
+function frame(t){if(ctx&&W&&cur.draw){ctx.clearRect(0,0,W,H);cur.draw(ctx,W,H,vals[cur.id],out,reduce?0:t,css());}requestAnimationFrame(frame);}
 renderTabs();renderSheet();requestAnimationFrame(frame);
 </script>
 </body>
