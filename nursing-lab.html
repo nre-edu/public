@@ -333,7 +333,7 @@ document.getElementById("tabs").addEventListener("click",ev=>{const b=ev.target.
 
 let cv,ctx,W,H;
 function sizeCanvas(){cv=document.getElementById("cv");const r=cv.getBoundingClientRect(),d=devicePixelRatio||1;
-  W=r.width;H=r.height;cv.width=W*d;cv.height=H*d;ctx=cv.getContext("2d");ctx.setTransform(d,0,0,d,0,0);}
+  W=r.width;H=r.height;cv.width=W*d;cv.height=H*d;ctx=cv.getContext("2d");ctx.setTransform(d,0,0,d,0,0);ctx.direction="ltr";}
 addEventListener("resize",()=>cv&&sizeCanvas());
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 function frame(t){if(ctx&&W){ctx.clearRect(0,0,W,H);cur.draw(ctx,W,H,vals[cur.id],out,reduce?0:t,css());}requestAnimationFrame(frame);}
